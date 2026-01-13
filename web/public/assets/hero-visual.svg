@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="Документ превращается в структурированные данные">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="600" rx="36" fill="url(#g1)"/>
+  <circle cx="260" cy="170" r="120" fill="#e2e8f0" opacity="0.55"/>
+  <circle cx="930" cy="430" r="160" fill="#c7d2fe" opacity="0.45"/>
+
+  <!-- Document -->
+  <g filter="url(#shadow)">
+    <rect x="120" y="140" width="320" height="360" rx="24" fill="#ffffff" stroke="#e2e8f0"/>
+    <path d="M390 140v78c0 18 14 32 32 32h78" fill="#f8fafc" stroke="#e2e8f0"/>
+    <rect x="155" y="190" width="250" height="18" rx="9" fill="#0f172a" opacity="0.12"/>
+    <rect x="155" y="225" width="220" height="14" rx="7" fill="#0f172a" opacity="0.10"/>
+    <rect x="155" y="255" width="260" height="14" rx="7" fill="#0f172a" opacity="0.10"/>
+    <rect x="155" y="300" width="70" height="14" rx="7" fill="#0f172a" opacity="0.10"/>
+    <rect x="235" y="300" width="80" height="14" rx="7" fill="#0f172a" opacity="0.10"/>
+    <rect x="325" y="300" width="90" height="14" rx="7" fill="#0f172a" opacity="0.10"/>
+
+    <rect x="155" y="340" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="155" y="370" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="155" y="400" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="155" y="430" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="155" y="340" width="2" height="120" fill="#e2e8f0"/>
+    <rect x="250" y="340" width="2" height="120" fill="#e2e8f0"/>
+    <rect x="330" y="340" width="2" height="120" fill="#e2e8f0"/>
+    <rect x="405" y="340" width="2" height="120" fill="#e2e8f0"/>
+
+    <text x="155" y="520" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="16" fill="#64748b">Накладная (фото/скан/PDF)</text>
+  </g>
+
+  <!-- Arrow -->
+  <g>
+    <path d="M470 320h120" stroke="#94a3b8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M590 320l-24-18v36z" fill="#94a3b8"/>
+  </g>
+
+  <!-- AI chip -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="220" width="180" height="200" rx="28" fill="url(#g2)"/>
+    <rect x="650" y="260" width="100" height="120" rx="18" fill="#ffffff" opacity="0.10" stroke="#ffffff" stroke-opacity="0.18"/>
+    <circle cx="700" cy="320" r="28" fill="#ffffff" opacity="0.18"/>
+    <path d="M680 320h40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+    <path d="M700 300v40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+    <rect x="630" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="648" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="666" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="684" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="702" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="720" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="738" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="756" y="206" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="630" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="648" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="666" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="684" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="702" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="720" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="738" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="756" y="420" width="10" height="18" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="244" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="268" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="292" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="316" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="340" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="364" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="592" y="388" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="244" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="268" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="292" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="316" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="340" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="364" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/> <rect x="790" y="388" width="18" height="10" rx="5" fill="#0f172a" opacity="0.25"/>
+    <text x="668" y="460" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="16" fill="#cbd5e1">AI-анализ</text>
+  </g>
+
+  <!-- Arrow -->
+  <g>
+    <path d="M800 320h120" stroke="#94a3b8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M920 320l-24-18v36z" fill="#94a3b8"/>
+  </g>
+
+  <!-- Data -->
+  <g filter="url(#shadow)">
+    <rect x="940" y="140" width="320" height="360" rx="24" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="975" y="185" width="250" height="18" rx="9" fill="#0f172a" opacity="0.12"/>
+
+    <rect x="975" y="230" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="975" y="270" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="975" y="310" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="975" y="350" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="975" y="390" width="250" height="2" fill="#e2e8f0"/>
+    <rect x="975" y="430" width="250" height="2" fill="#e2e8f0"/>
+
+    <rect x="975" y="230" width="2" height="200" fill="#e2e8f0"/>
+    <rect x="1055" y="230" width="2" height="200" fill="#e2e8f0"/>
+    <rect x="1150" y="230" width="2" height="200" fill="#e2e8f0"/>
+    <rect x="1225" y="230" width="2" height="200" fill="#e2e8f0"/>
+
+    <g>
+      <rect x="975" y="460" width="88" height="34" rx="17" fill="#0f172a" opacity="0.08"/>
+      <text x="1019" y="482" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="14" fill="#334155">CRM</text>
+
+      <rect x="1070" y="460" width="88" height="34" rx="17" fill="#0f172a" opacity="0.08"/>
+      <text x="1114" y="482" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="14" fill="#334155">Excel</text>
+
+      <rect x="1165" y="460" width="60" height="34" rx="17" fill="#0f172a" opacity="0.08"/>
+      <text x="1195" y="482" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="14" fill="#334155">API</text>
+    </g>
+
+    <text x="975" y="520" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto" font-size="16" fill="#64748b">Готовые структурированные данные</text>
+  </g>
+</svg>

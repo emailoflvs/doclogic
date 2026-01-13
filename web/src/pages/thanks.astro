@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Запрос получен — DocLogic</title>
+    <meta name="description" content="Спасибо! Мы получили запрос и свяжемся с вами в ближайшее время." />
+    <link rel="icon" href="/assets/favicon.svg" />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <a href="/" class="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-white font-semibold">DL</span>
+        <span>DocLogic</span>
+      </a>
+
+      <div class="mt-10 rounded-3xl border border-slate-200/60 bg-white/70 p-8 shadow-sm">
+        <h1 class="text-3xl font-semibold tracking-tight">Запрос получен</h1>
+        <p class="mt-3 text-slate-600">
+          Спасибо! Мы получили ваши данные и свяжемся по указанному контакту.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="/" class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-white font-semibold shadow-sm hover:bg-slate-800">
+            Вернуться на сайт
+          </a>
+        </div>
+
+        <p class="mt-6 text-xs text-slate-500">© {year} DocLogic</p>
+      </div>
+    </div>
+  </body>
+</html>

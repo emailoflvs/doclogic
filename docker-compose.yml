@@ -1,0 +1,24 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - "8085:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+    container_name: doclogic_gpt5_web
+    networks:
+      - doclogic_network
+
+  api:
+    build: ./api
+    env_file:
+      - ./api/.env
+    restart: unless-stopped
+    container_name: doclogic_gpt5_api
+    networks:
+      - doclogic_network
+
+networks:
+  doclogic_network:
+    external: false
