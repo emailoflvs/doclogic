@@ -408,6 +408,13 @@ app.post("/api/lead", upload.array("samples", 5), async (req, res) => {
         ipOrDash: lead.ip || "-",
       };
 
+      // Get site URL from env - NO HARDCODED FALLBACK
+      const siteUrl = process.env.SITE_URL || process.env.WEBSITE_URL;
+      if (!siteUrl) {
+        console.error(`[EMAIL ORDER] ❌ SITE_URL or WEBSITE_URL not set in .env - siteUrl placeholder will remain as {siteUrl}`);
+      } else {
+        console.log(`[EMAIL ORDER] ✅ Site URL loaded from .env: ${siteUrl}`);
+      }
       const varsHtml = {
         nameHtml: escapeHtml(lead.name),
         companyHtml: escapeHtml(lead.company || "-"),
@@ -416,6 +423,7 @@ app.post("/api/lead", upload.array("samples", 5), async (req, res) => {
         messageHtml: escapeHtml(lead.message || "-").replace(/\n/g, "<br/>"),
         createdAtHtml: escapeHtml(lead.createdAt),
         ipHtml: escapeHtml(String(lead.ip || "-")),
+        siteUrl: siteUrl || "" // Empty string if not set - NO HARDCODED FALLBACK
       };
 
       const text = renderTemplate(orderConfig.textTemplate, varsText);
