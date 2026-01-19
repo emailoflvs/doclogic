@@ -4,6 +4,8 @@ import rateLimit from "express-rate-limit";
 import nodemailer from "nodemailer";
 import multer from "multer";
 import dotenv from "dotenv";
+import { readFileSync, existsSync } from "fs";
+import { resolve } from "path";
 
 dotenv.config();
 
@@ -70,6 +72,136 @@ function normalizeArray(v) {
   return [String(v).trim()].filter(Boolean);
 }
 
+// Load Python config file and extract string variable values
+function loadPythonConfig(filePath) {
+  try {
+    // Try multiple path resolutions
+    let resolvedPath = resolve(process.cwd(), filePath);
+    if (!existsSync(resolvedPath)) {
+      // Try from parent directory (in case server runs from root)
+      const parentResolved = resolve(process.cwd(), '..', filePath.replace(/^\.\.\//, ''));
+      if (existsSync(parentResolved)) {
+        resolvedPath = parentResolved;
+      } else {
+        console.error(`[CONFIG] File not found: ${resolvedPath} or ${parentResolved}`);
+        return null;
+      }
+    }
+
+    const content = readFileSync(resolvedPath, "utf-8");
+    const config = {};
+
+    // Match Python string assignments: VARIABLE_NAME = "value" or VARIABLE_NAME = """value"""
+    // Handle triple quotes separately for multiline strings
+    const tripleQuoteRegex = /^([A-Z_][A-Z0-9_]*)\s*=\s*"""(.*?)"""/gms;
+    let match;
+
+    // First, match triple-quoted strings
+    while ((match = tripleQuoteRegex.exec(content)) !== null) {
+      const varName = match[1];
+      let varValue = match[2];
+
+      // Unescape Python escape sequences
+      varValue = varValue
+        .replace(/\\n/g, "\n")
+        .replace(/\\t/g, "\t")
+        .replace(/\\"/g, '"')
+        .replace(/\\'/g, "'")
+        .replace(/\\\\/g, "\\");
+
+      config[varName] = varValue;
+    }
+
+    // Then match single/double-quoted strings (but not already matched ones)
+    const singleQuoteRegex = /^([A-Z_][A-Z0-9_]*)\s*=\s*("|')(.*?)\2/gm;
+    while ((match = singleQuoteRegex.exec(content)) !== null) {
+      const varName = match[1];
+      // Skip if already found in triple quotes
+      if (config[varName]) continue;
+
+      let varValue = match[3];
+
+      // Unescape Python escape sequences
+      varValue = varValue
+        .replace(/\\n/g, "\n")
+        .replace(/\\t/g, "\t")
+        .replace(/\\"/g, '"')
+        .replace(/\\'/g, "'")
+        .replace(/\\\\/g, "\\");
+
+      config[varName] = varValue;
+    }
+
+    return config;
+  } catch (e) {
+    console.error(`[CONFIG] Error loading Python config:`, e.message);
+    return null;
+  }
+}
+
+// Get email-to-client config from Python file
+// Returns null if file not found or not configured - NO HARDCODE
+function getEmailToClientConfig() {
+  const configPath = process.env.EMAIL_TO_CLIENT;
+  if (!configPath) {
+    console.error(`[CONFIG] EMAIL_TO_CLIENT not set in .env`);
+    return null;
+  }
+
+  const config = loadPythonConfig(configPath);
+  if (!config) {
+    console.error(`[CONFIG] Failed to load config from ${configPath}`);
+    return null;
+  }
+
+  // All required templates must be present
+  if (!config.SUBJECT_TEMPLATE || !config.TEXT_TEMPLATE || !config.HTML_TEMPLATE) {
+    console.error(`[CONFIG] Missing required templates in ${configPath}. Found: ${Object.keys(config).join(', ')}`);
+    return null;
+  }
+
+  console.log(`[CONFIG] ✅ Loaded email-to-client config from ${configPath}`);
+  console.log(`[CONFIG] Subject: ${config.SUBJECT_TEMPLATE.substring(0, 50)}...`);
+  return {
+    subject: config.SUBJECT_TEMPLATE,
+    textTemplate: config.TEXT_TEMPLATE,
+    htmlTemplate: config.HTML_TEMPLATE,
+    fromTemplate: config.FROM_TEMPLATE || null,
+  };
+}
+
+// Get email-order config from Python file (for emails to company about orders)
+// Returns null if file not found or not configured - NO HARDCODE
+function getEmailOrderConfig() {
+  const configPath = process.env.EMAIL_ORDER;
+  if (!configPath) {
+    console.error(`[CONFIG] EMAIL_ORDER not set in .env`);
+    return null;
+  }
+
+  const config = loadPythonConfig(configPath);
+  if (!config) {
+    console.error(`[CONFIG] Failed to load config from ${configPath}`);
+    return null;
+  }
+
+  // All required templates must be present
+  if (!config.SUBJECT_TEMPLATE || !config.TEXT_TEMPLATE || !config.HTML_TEMPLATE) {
+    console.error(`[CONFIG] Missing required templates in ${configPath}. Found: ${Object.keys(config).join(', ')}`);
+    return null;
+  }
+
+  console.log(`[CONFIG] ✅ Loaded email-order config from ${configPath}`);
+  console.log(`[CONFIG] Subject: ${config.SUBJECT_TEMPLATE.substring(0, 50)}...`);
+  return {
+    subject: config.SUBJECT_TEMPLATE,
+    textTemplate: config.TEXT_TEMPLATE,
+    htmlTemplate: config.HTML_TEMPLATE,
+    fromMode: config.FROM_MODE || null,
+    fromTemplate: config.FROM_TEMPLATE || null,
+  };
+}
+
 function buildTransporter() {
   const host = process.env.SMTP_HOST;
   if (!host) return null;
@@ -81,16 +213,22 @@ function buildTransporter() {
   });
 }
 
-async function sendEmail({ subject, text, html, attachments, replyTo, lead }) {
+async function sendEmail({ subject, text, html, attachments, replyTo, lead, fromMode, fromTemplate }) {
   const transporter = buildTransporter();
   if (!transporter) return { skipped: true, reason: "SMTP_HOST not set" };
 
   try {
     const to = required("EMAIL_TO");
-    const systemFrom = envOr("EMAIL_FROM", process.env.SMTP_USER || "no-reply@doclogic");
+    // Get EMAIL_FROM from env - NO HARDCODED FALLBACK
+    const systemFrom = process.env.EMAIL_FROM || process.env.SMTP_USER;
+    if (!systemFrom) {
+      console.error(`[EMAIL ORDER] ❌ EMAIL_FROM and SMTP_USER not set - cannot determine sender email`);
+      return { skipped: true, reason: "EMAIL_FROM or SMTP_USER must be set in .env" };
+    }
 
-    const fromMode = envOr("LEAD_EMAIL_FROM_MODE", "client").toLowerCase(); // client | system
-    const fromTemplate = envOr("LEAD_EMAIL_FROM_TEMPLATE", "{name} ({company}) <{email}>");
+    // Use fromMode and fromTemplate from config file if provided, otherwise from .env, otherwise default
+    const emailFromMode = fromMode || envOr("LEAD_EMAIL_FROM_MODE", "client").toLowerCase(); // client | system
+    const emailFromTemplate = fromTemplate || envOr("LEAD_EMAIL_FROM_TEMPLATE", "{name} ({company}) <{email}>");
 
     const safeLead = lead || {};
     const clientEmail = (safeLead.email || "").trim();
@@ -99,7 +237,7 @@ async function sendEmail({ subject, text, html, attachments, replyTo, lead }) {
     const clientNameCompany = `${clientName} ${clientCompany}`.trim();
 
     // Render template with actual values
-    let fromRendered = renderTemplate(fromTemplate, {
+    let fromRendered = renderTemplate(emailFromTemplate, {
       name: clientName,
       company: clientCompany,
       email: clientEmail,
@@ -115,7 +253,7 @@ async function sendEmail({ subject, text, html, attachments, replyTo, lead }) {
     let from;
     let replyToFormatted;
 
-    if (fromMode === "client" && clientEmail) {
+    if (emailFromMode === "client" && clientEmail) {
       // Extract name part (before <email>) for proper formatting
       if (fromRendered.includes("<") && fromRendered.includes(">")) {
         const emailMatch = fromRendered.match(/<([^>]+)>/);
@@ -168,12 +306,17 @@ async function sendEmail({ subject, text, html, attachments, replyTo, lead }) {
   }
 }
 
-async function sendEmailToLead({ toEmail, subject, text, html }) {
+async function sendEmailToLead({ toEmail, subject, text, html, from }) {
   const transporter = buildTransporter();
   if (!transporter) return { skipped: true, reason: "SMTP_HOST not set" };
 
   try {
-    const from = process.env.AUTOREPLY_FROM || process.env.EMAIL_FROM || process.env.SMTP_USER || "no-reply@doclogic";
+    // Use provided 'from' header - NO HARDCODED FALLBACK
+    if (!from) {
+      console.error(`[AUTOREPLY] ❌ From header not provided - email will not be sent`);
+      return { skipped: true, reason: "From header not provided" };
+    }
+
     await transporter.sendMail({ from, to: toEmail, subject, text, html });
     return { ok: true };
   } catch (e) {
@@ -237,68 +380,66 @@ app.post("/api/lead", upload.array("samples", 5), async (req, res) => {
       ? req.files.map((f) => ({ filename: f.originalname, content: f.buffer, contentType: f.mimetype }))
       : [];
 
-    const subjectTemplate = envOr("LEAD_EMAIL_SUBJECT_TEMPLATE", "DocLogic: новый запрос от {name} {company}");
-    const subject = renderTemplate(subjectTemplate, { name: lead.name, company: lead.company }).trim();
+    // Get email order templates from file - NO HARDCODED FALLBACK
+    const orderConfig = getEmailOrderConfig();
+    const results = {};
 
-    const textTemplate = envOr(
-      "LEAD_EMAIL_TEXT_TEMPLATE",
-      [
-        "Новый запрос DocLogic",
-        "",
-        "Имя: {name}",
-        "Компания: {company}",
-        "Email: {emailOrDash}",
-        "Телефон: {phoneOrDash}",
-        "",
-        "Комментарий:",
-        "{messageOrDash}",
-        "",
-        "Дата: {createdAt}",
-        "IP: {ipOrDash}",
-      ].join("\n")
-    );
+    // If templates not found in file, skip sending email
+    if (!orderConfig) {
+      console.error(`[EMAIL ORDER] ❌ Templates not loaded from file. Email will not be sent.`);
+      results.email = { skipped: true, reason: "Email order templates file not found or invalid" };
+    } else {
+      console.log(`[EMAIL ORDER] ✅ Using templates from file`);
+      const subject = renderTemplate(orderConfig.subject, { name: lead.name, company: lead.company }).trim();
 
-    const htmlTemplate = envOr(
-      "LEAD_EMAIL_HTML_TEMPLATE",
-      [
-        "<h2>Новый запрос DocLogic</h2>",
-        "<ul>",
-        "  <li><b>Имя:</b> {nameHtml}</li>",
-        "  <li><b>Компания:</b> {companyHtml}</li>",
-        "  <li><b>Email:</b> {emailHtml}</li>",
-        "  <li><b>Телефон:</b> {phoneHtml}</li>",
-        "</ul>",
-        "<p><b>Комментарий:</b><br/>{messageHtml}</p>",
-        "<p style=\"color:#64748b;font-size:12px;\">IP: {ipHtml} • {createdAtHtml}</p>",
-      ].join("\n")
-    );
+      const varsText = {
+        name: lead.name,
+        company: lead.company,
+        email: lead.email,
+        phone: lead.phone,
+        message: lead.message,
+        createdAt: lead.createdAt,
+        ip: lead.ip,
+        emailOrDash: lead.email || "-",
+        phoneOrDash: lead.phone || "-",
+        messageOrDash: lead.message || "-",
+        ipOrDash: lead.ip || "-",
+      };
 
-    const varsText = {
-      name: lead.name,
-      company: lead.company,
-      email: lead.email,
-      phone: lead.phone,
-      message: lead.message,
-      createdAt: lead.createdAt,
-      ip: lead.ip,
-      emailOrDash: lead.email || "-",
-      phoneOrDash: lead.phone || "-",
-      messageOrDash: lead.message || "-",
-      ipOrDash: lead.ip || "-",
-    };
+      const varsHtml = {
+        nameHtml: escapeHtml(lead.name),
+        companyHtml: escapeHtml(lead.company || "-"),
+        emailHtml: escapeHtml(lead.email || "-"),
+        phoneHtml: escapeHtml(lead.phone || "-"),
+        messageHtml: escapeHtml(lead.message || "-").replace(/\n/g, "<br/>"),
+        createdAtHtml: escapeHtml(lead.createdAt),
+        ipHtml: escapeHtml(String(lead.ip || "-")),
+      };
 
-    const varsHtml = {
-      nameHtml: escapeHtml(lead.name),
-      companyHtml: escapeHtml(lead.company || "-"),
-      emailHtml: escapeHtml(lead.email || "-"),
-      phoneHtml: escapeHtml(lead.phone || "-"),
-      messageHtml: escapeHtml(lead.message || "-").replace(/\n/g, "<br/>"),
-      createdAtHtml: escapeHtml(lead.createdAt),
-      ipHtml: escapeHtml(String(lead.ip || "-")),
-    };
+      const text = renderTemplate(orderConfig.textTemplate, varsText);
+      const html = renderTemplate(orderConfig.htmlTemplate, varsHtml);
 
-    const text = renderTemplate(textTemplate, varsText);
-    const html = renderTemplate(htmlTemplate, varsHtml);
+      // Send email only if templates are loaded
+      try {
+        results.email = await sendEmail({
+          subject,
+          text,
+          html,
+          attachments,
+          lead,
+          fromMode: orderConfig.fromMode,
+          fromTemplate: orderConfig.fromTemplate
+        });
+        if (results.email.ok) {
+          console.log(`[EMAIL] ✅ Отправлено на ${process.env.EMAIL_TO}`);
+        } else {
+          console.log(`[EMAIL] ⚠️ Пропущено: ${results.email.reason || "unknown"}`);
+        }
+      } catch (e) {
+        results.email = { error: String(e) };
+        console.error(`[EMAIL] ❌ Ошибка:`, e);
+      }
+    }
 
     const tg =
 `🆕 DocLogic — новый запрос
@@ -307,28 +448,6 @@ app.post("/api/lead", upload.array("samples", 5), async (req, res) => {
 Email: ${lead.email || "-"}
 Телефон: ${lead.phone || "-"}
 Комментарий: ${lead.message || "-"}`;
-
-    const results = {};
-
-    // Send email
-    try {
-      results.email = await sendEmail({
-        subject,
-        text,
-        html,
-        attachments,
-        lead
-        // replyTo is automatically set from LEAD_EMAIL_FROM_TEMPLATE in sendEmail function
-      });
-      if (results.email.ok) {
-        console.log(`[EMAIL] ✅ Отправлено на ${process.env.EMAIL_TO}`);
-      } else {
-        console.log(`[EMAIL] ⚠️ Пропущено: ${results.email.reason || "unknown"}`);
-      }
-    } catch (e) {
-      results.email = { error: String(e) };
-      console.error(`[EMAIL] ❌ Ошибка:`, e);
-    }
 
     // Send Telegram
     try {
@@ -357,31 +476,80 @@ Email: ${lead.email || "-"}
     // }
     results.whatsapp = { skipped: true, reason: "WhatsApp disabled" };
 
-    // Autoreply only if email provided
+    // Autoreply only if email provided and config file exists
     if (lead.email) {
       try {
-        const subj = "DocLogic: запрос получен";
-        const t =
-`Здравствуйте, ${lead.name}!
+        const clientConfig = getEmailToClientConfig();
 
-Мы получили ваш запрос по DocLogic.
-Дальше мы уточним, какие поля и в каком формате вам нужны на выходе (CRM/1C/Excel/учёт), и предложим вариант подключения.
-
-Если удобно — ответьте на это письмо и приложите 1–3 примера накладных.
-
-— DocLogic`;
-        const h = `
-          <p>Здравствуйте, <b>${escapeHtml(lead.name)}</b>!</p>
-          <p>Мы получили ваш запрос по DocLogic.</p>
-          <p>Дальше мы уточним, <b>какие поля и в каком формате</b> вам нужны на выходе (CRM/1C/Excel/учёт), и предложим вариант подключения.</p>
-          <p style="color:#64748b;font-size:12px;">Если удобно — ответьте на это письмо и приложите 1–3 примера накладных.</p>
-          <p>— DocLogic</p>
-        `;
-        results.autoreply = await sendEmailToLead({ toEmail: lead.email, subject: subj, text: t, html: h });
-        if (results.autoreply.ok) {
-          console.log(`[AUTOREPLY] ✅ Отправлено на ${lead.email}`);
+        // NO HARDCODED FALLBACK - if config not found, skip sending
+        if (!clientConfig) {
+          console.error(`[AUTOREPLY] ❌ Config not loaded - skipping email send`);
+          results.autoreply = { skipped: true, reason: "EMAIL_TO_CLIENT config file not found or invalid" };
         } else {
-          console.log(`[AUTOREPLY] ⚠️ Пропущено: ${results.autoreply.reason || "unknown"}`);
+          // Render templates from config file ONLY - NO HARDCODE
+          console.log(`[AUTOREPLY] ✅ Using templates from config file`);
+          console.log(`[AUTOREPLY] Subject template: ${clientConfig.subject}`);
+          console.log(`[AUTOREPLY] Text template length: ${clientConfig.textTemplate.length} chars`);
+          console.log(`[AUTOREPLY] HTML template length: ${clientConfig.htmlTemplate.length} chars`);
+
+          const subj = renderTemplate(clientConfig.subject, { name: lead.name }).trim();
+          const varsText = { name: lead.name };
+          const varsHtml = {
+            nameHtml: escapeHtml(lead.name)
+          };
+          const t = renderTemplate(clientConfig.textTemplate, varsText);
+          const h = renderTemplate(clientConfig.htmlTemplate, varsHtml);
+
+          console.log(`[AUTOREPLY] Rendered subject: ${subj}`);
+          console.log(`[AUTOREPLY] Rendered text (first 100 chars): ${t.substring(0, 100)}`);
+
+          // Handle FROM_TEMPLATE - NO HARDCODED FALLBACK
+          let fromHeader = null;
+          if (clientConfig.fromTemplate) {
+            // Get email from AUTOREPLY_FROM or EMAIL_FROM - NO HARDCODE
+            let systemEmail = process.env.AUTOREPLY_FROM || process.env.EMAIL_FROM;
+            if (!systemEmail) {
+              console.error(`[AUTOREPLY] ❌ AUTOREPLY_FROM or EMAIL_FROM not set in .env - cannot determine sender email`);
+              results.autoreply = { skipped: true, reason: "AUTOREPLY_FROM or EMAIL_FROM not configured in .env" };
+            } else {
+              // Remove quotes if present
+              systemEmail = systemEmail.replace(/^["']|["']$/g, '');
+              // Extract email if format is "Name <email>"
+              const emailMatch = systemEmail.match(/<([^>]+)>/);
+              if (emailMatch) {
+                systemEmail = emailMatch[1];
+              }
+              // Render FROM_TEMPLATE with email placeholder
+              fromHeader = renderTemplate(clientConfig.fromTemplate, { email: systemEmail });
+              console.log(`[AUTOREPLY] From header: ${fromHeader}`);
+            }
+          } else {
+            // If no FROM_TEMPLATE, require AUTOREPLY_FROM or EMAIL_FROM - NO HARDCODE
+            let systemFrom = process.env.AUTOREPLY_FROM || process.env.EMAIL_FROM;
+            if (!systemFrom) {
+              console.error(`[AUTOREPLY] ❌ FROM_TEMPLATE not in config and AUTOREPLY_FROM/EMAIL_FROM not set - cannot send email`);
+              results.autoreply = { skipped: true, reason: "FROM_TEMPLATE not in config and AUTOREPLY_FROM/EMAIL_FROM not configured" };
+            } else {
+              systemFrom = systemFrom.replace(/^["']|["']$/g, '');
+              fromHeader = systemFrom;
+            }
+          }
+
+          // Send email only if fromHeader is set
+          if (fromHeader) {
+            results.autoreply = await sendEmailToLead({
+              toEmail: lead.email,
+              subject: subj,
+              text: t,
+              html: h,
+              from: fromHeader
+            });
+            if (results.autoreply.ok) {
+              console.log(`[AUTOREPLY] ✅ Отправлено на ${lead.email}`);
+            } else {
+              console.log(`[AUTOREPLY] ⚠️ Пропущено: ${results.autoreply.reason || "unknown"}`);
+            }
+          }
         }
       } catch (e) {
         results.autoreply = { error: String(e) };
