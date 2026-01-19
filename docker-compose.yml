@@ -11,7 +11,9 @@ services:
       - doclogic_network
 
   api:
-    build: ./api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
     env_file:
       - ./api/.env
     restart: unless-stopped
