@@ -88,9 +88,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <!-- Footer with site link -->
     <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0;">
-      <a href="{siteUrl}" style="color: #333333; text-decoration: none; font-size: 13px; display: inline-flex; align-items: center;">
-        <span style="margin-right: 6px;">→</span>
-        <span>doclogic.eu</span>
+      <a href="{siteUrl}" style="color: #0066cc; text-decoration: underline; font-size: 14px; display: inline-flex; align-items: center;">
+        <span style="margin-right: 6px; font-size: 16px; color: #333333; text-decoration: none;">→</span>
+        <span>DocLogic.eu</span>
       </a>
     </div>
   </div>
