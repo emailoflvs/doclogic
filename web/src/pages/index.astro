@@ -338,7 +338,7 @@ const year = new Date().getFullYear();
                   <textarea id="message" name="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" placeholder="Какая система учёта/CRM, сколько накладных в месяц, какие поставщики…"></textarea>
                 </div>
 
-                <button class="btn btn-primary w-full mt-6" type="submit">Отправить запрос</button>
+                <button id="submitBtn" class="btn btn-primary w-full mt-6" type="submit">Отправить запрос</button>
                 <div id="formMsg" class="small mt-3"></div>
 
                 <!--
@@ -363,6 +363,7 @@ const year = new Date().getFullYear();
     <script>
       const form = document.getElementById('leadForm');
       const msg = document.getElementById('formMsg');
+      const submitBtn = document.getElementById('submitBtn');
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -375,6 +376,13 @@ const year = new Date().getFullYear();
           msg.className = 'small mt-3 text-red-600';
           return;
         }
+
+        // Disable button and show loading state
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Отправка...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
 
         const fd = new FormData(form);
 
@@ -410,10 +418,20 @@ const year = new Date().getFullYear();
             console.error('Ошибки при отправке в критичные каналы:', data.results);
             msg.textContent = 'Запрос отправлен, но возникли ошибки при уведомлении. Проверьте логи сервера.';
             msg.className = 'small mt-3 text-yellow-600';
+            // Re-enable button on error
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
           } else if (criticalAllSkipped) {
             console.warn('Критичные уведомления не настроены:', data.results);
             msg.textContent = 'Запрос отправлен. Уведомления не настроены.';
             msg.className = 'small mt-3 text-yellow-600';
+            // Re-enable button on warning
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
           } else if (criticalHasSuccess) {
             // At least one critical channel succeeded - redirect to thanks page
             window.location.href = '/thanks/';
@@ -429,6 +447,11 @@ const year = new Date().getFullYear();
           msg.textContent = 'Не удалось отправить. Проверьте соединение и попробуйте ещё раз.';
           msg.className = 'small mt-3 text-red-600';
           console.error('Ошибка отправки:', err);
+          // Re-enable button on error
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          submitBtn.style.opacity = '1';
+          submitBtn.style.cursor = 'pointer';
         }
       });
     </script>

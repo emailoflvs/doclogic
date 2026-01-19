@@ -48,7 +48,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <title>DocLogic: новый запрос</title>
 </head>
 <body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; line-height: 1.5; color: #333333; font-size: 14px;">
-  <div style="max-width: 600px; margin: 0 auto;">
+  <div style="max-width: 600px; padding-left: 20px;">
     <!-- Header with Logo -->
     <div style="padding: 16px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: 20px;">
       <a href="{siteUrl}" style="text-decoration: none; color: #333333; display: inline-flex; align-items: center;">
@@ -88,9 +88,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <!-- Footer with site link -->
     <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0;">
-      <p style="margin: 0; font-size: 12px; color: #999999;">
-        <a href="{siteUrl}" style="color: #0066cc; text-decoration: none;">{siteUrl}</a>
-      </p>
+      <a href="{siteUrl}" style="color: #333333; text-decoration: none; font-size: 13px; display: inline-flex; align-items: center;">
+        <span style="margin-right: 6px;">→</span>
+        <span>doclogic.eu</span>
+      </a>
     </div>
   </div>
 </body>
