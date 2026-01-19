@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
+// Load .env file (for local development)
+// In Docker, variables from env_file in docker-compose.yml are already in process.env
 dotenv.config();
 
 const app = express();
@@ -494,14 +496,37 @@ Email: ${lead.email || "-"}
 
           const subj = renderTemplate(clientConfig.subject, { name: lead.name }).trim();
           const varsText = { name: lead.name };
+          // Get site URL from env - NO HARDCODED FALLBACK
+          const siteUrl = process.env.SITE_URL || process.env.WEBSITE_URL;
+          if (!siteUrl) {
+            console.error(`[AUTOREPLY] ❌ SITE_URL or WEBSITE_URL not set in .env - siteUrl placeholder will remain as {siteUrl}`);
+            console.error(`[AUTOREPLY] Debug: process.env keys containing 'SITE' or 'WEBSITE':`, Object.keys(process.env).filter(k => /SITE|WEBSITE/i.test(k)));
+          } else {
+            console.log(`[AUTOREPLY] ✅ Site URL loaded from .env: ${siteUrl}`);
+          }
           const varsHtml = {
-            nameHtml: escapeHtml(lead.name)
+            nameHtml: escapeHtml(lead.name),
+            siteUrl: siteUrl || "" // Empty string if not set - NO HARDCODED FALLBACK
           };
           const t = renderTemplate(clientConfig.textTemplate, varsText);
           const h = renderTemplate(clientConfig.htmlTemplate, varsHtml);
 
           console.log(`[AUTOREPLY] Rendered subject: ${subj}`);
           console.log(`[AUTOREPLY] Rendered text (first 100 chars): ${t.substring(0, 100)}`);
+          console.log(`[AUTOREPLY] SiteUrl value: "${siteUrl}"`);
+          console.log(`[AUTOREPLY] HTML contains siteUrl:`, h.includes(siteUrl || "{siteUrl}"));
+          // Check button and footer links
+          const buttonMatch = h.match(/<a[^>]*href="([^"]+)"[^>]*>[\s\S]*?Посетить сайт DocLogic<\/a>/);
+          if (buttonMatch) {
+            console.log(`[AUTOREPLY] ✅ Кнопка href: ${buttonMatch[1]}`);
+          } else {
+            console.log(`[AUTOREPLY] ⚠️ Кнопка не найдена или href пустой`);
+          }
+          const footerMatches = [...h.matchAll(/<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)];
+          if (footerMatches.length > 0) {
+            const footerLink = footerMatches[footerMatches.length - 1];
+            console.log(`[AUTOREPLY] ✅ Футер href: ${footerLink[1]}, текст: ${footerLink[2].trim()}`);
+          }
 
           // Handle FROM_TEMPLATE - NO HARDCODED FALLBACK
           let fromHeader = null;
