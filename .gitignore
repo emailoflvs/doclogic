@@ -45,6 +45,10 @@ logs/
 *.pid
 *.seed
 *.pid.lock
+# Production docker-compose.yml - должен быть уникальным для каждого сервера
+docker-compose.yml
+docker-compose.yml.bak
+docker-compose.yml.*.backup
 
 # Temporary files
 tmp/
