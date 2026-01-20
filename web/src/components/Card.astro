@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  padding?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'feature' | 'highlight' | 'dark';
+}
+
+const { class: className = '', padding = 'md', variant = 'default' } = Astro.props;
+
+const paddingClasses = {
+  sm: 'p-4',
+  md: 'p-5 md:p-6',
+  lg: 'p-8 md:p-10'
+};
+
+const variantClasses = {
+  default: 'card',
+  feature: 'card flex flex-col',
+  highlight: 'card bg-slate-50',
+  dark: 'rounded-3xl bg-slate-900 text-white shadow-soft'
+};
+---
+
+<div class={`${variantClasses[variant]} ${paddingClasses[padding]} ${className}`}>
+  <slot />
+</div>
+

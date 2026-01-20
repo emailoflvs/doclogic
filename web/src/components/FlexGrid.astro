@@ -1,0 +1,40 @@
+---
+interface Props {
+  cols?: 1 | 2 | 3 | 4;
+  gap?: 'sm' | 'md' | 'lg';
+  class?: string;
+  type?: 'grid' | 'flex';
+  items?: 'start' | 'center' | 'end' | 'stretch';
+}
+
+const { cols = 2, gap = 'md', class: className = '', type = 'grid', items = 'stretch' } = Astro.props;
+
+const gapClasses = {
+  sm: 'gap-3',
+  md: 'gap-5',
+  lg: 'gap-8'
+};
+
+const gridCols = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 md:grid-cols-2',
+  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+};
+
+const itemsClasses = {
+  start: 'items-start',
+  center: 'items-center',
+  end: 'items-end',
+  stretch: 'items-stretch'
+};
+
+const baseClass = type === 'grid'
+  ? `grid ${gridCols[cols]} ${gapClasses[gap]} ${itemsClasses[items]} ${className}`
+  : `flex flex-wrap ${gapClasses[gap]} ${itemsClasses[items]} ${className}`;
+---
+
+<div class={baseClass}>
+  <slot />
+</div>
+
