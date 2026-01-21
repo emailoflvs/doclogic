@@ -116,7 +116,7 @@ const year = new Date().getFullYear();
               <div class="badge">Шаг 4</div>
               <div class="mt-3 text-lg font-semibold">Данные уходят в Вашу систему</div>
               <div class="p mt-2 text-sm">В зависимости от ваших требований, необходимые данные будут
-              отправляться в любое место (CRM / ERP/ складской и бух. учёт / 1C / Google Sheets и любые другие программы). </div>
+              отправляться в любое место: CRM / ERP/ складской и бух. учёт / 1C и любые другие программы. </div>
             </Card>
           </FlexGrid>
         </Container>
@@ -149,27 +149,6 @@ const year = new Date().getFullYear();
         </Container>
       </Section>
 
-      <!-- Integrations -->
-      <Section id="integrations">
-        <Container>
-          <h2 class="h2">Интеграции</h2>
-          <p class="p mt-2"><b>Передаём данные туда, где вы работаете — без "ручных мостиков".</b></p>
-
-          <FlexGrid cols={1} gap="md" class="mt-8">
-            <Card>
-              <div class="text-base font-semibold">Куда выгружаем</div>
-              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>CRM / ERP</b></div></div>
-                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Бухгалтерские/учётные системы  / 1C</b></div></div>
-                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Excel / Google Sheets</b></div></div>
-                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Любая другая программа</b></div></div>
-              </div>
-              <p class="p mt-4 text-sm">При необходимости подключаем API и делаем кастомные интеграции под вашу инфраструктуру.</p>
-              <div class="small mt-2">Интеграции настраиваются под ваш контур (в т.ч. Docker/on‑prem).</div>
-            </Card>
-          </FlexGrid>
-        </Container>
-      </Section>
 
       <!-- Examples of documents -->
       <Section id="examples">
@@ -198,6 +177,28 @@ const year = new Date().getFullYear();
         </Container>
       </Section>
 
+
+      <!-- Integrations -->
+      <Section id="integrations">
+        <Container>
+          <h2 class="h2">Интеграции</h2>
+          <p class="p mt-2"><b>Передаём данные туда, где вы работаете — без "ручных мостиков".</b></p>
+
+          <FlexGrid cols={1} gap="md" class="mt-8">
+            <Card>
+              <div class="text-base font-semibold">Куда выгружаем</div>
+              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>CRM / ERP</b></div></div>
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Бухгалтерские/учётные системы  / 1C</b></div></div>
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Excel / Google Sheets</b></div></div>
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div><b>Любая другая программа</b></div></div>
+              </div>
+
+            </Card>
+          </FlexGrid>
+        </Container>
+      </Section>
+
       <!-- Customization / key advantage -->
       <Section id="custom">
         <Container>
@@ -208,9 +209,11 @@ const year = new Date().getFullYear();
             <Card>
               <div class="text-base font-semibold">Главное преимущество</div>
               <p class="p mt-2 text-sm">
-                Мы не «подгоняем вас под шаблон».
-                <br>DocLogic настраивается под ваш документооборот: какие поля извлекать, как нормализовать номенклатуру, необходимость переводов,
-                единицы измерения, НДС/валюты, правила округления и в каком виде сохранять результат.
+                <b><b>DocLogic настраивается под ваш документооборот</b>: <br>
+                какие поля извлекать,
+                нормализация номенклатуры,
+                необходимость переводов,
+                правила округления/НДС/единицы измерения и в каком виде отправлять результат.
               </p>
 
               <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
