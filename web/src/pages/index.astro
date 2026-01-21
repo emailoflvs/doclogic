@@ -45,36 +45,35 @@ const year = new Date().getFullYear();
         <Container>
           <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-2">
             <div>
-              <div class="badge">AI для складского документооборота</div>
-              <h1 class="mt-4 text-4xl md:text-5xl font-bold tracking-tight">
-                Перестаньте платить за<br />ручной ввод накладных
-              </h1>
-              <p class="p mt-4 max-w-xl">
-                DocLogic превращает фото/скан/PDF накладной в готовые данные для <b>CRM / 1C / Excel / бух. учёта</b> и любых других систем — за минуты.
+              <div class="badge badge-lg">AI для складского документооборота</div>
+              <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">
+                Перестаньте платить за<br />ручной ввод данных
+              </h2>
+              <p class="p mt-4 max-w-xl text-lg text-slate-700">
+                DocLogic автоматически переносит данные с фото/PDF документа на компьютер для передачи в <b>CRM / 1C / бух. учёт</b> и любые другие программы.
               </p>
 
-              <ul class="mt-6 space-y-3 text-sm text-slate-700">
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> Экономия человеко‑часов и бюджета на перепечатке строк</li>
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> Быстрее закрытие поступлений и актуальные данные в системе</li>
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> Меньше ручных ошибок — меньше расхождений</li>
+              <ul class="mt-6 space-y-3 text-lg text-slate-700">
+                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span> Экономия человеко‑часов и бюджета на перепечатке строк</li>
+                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span> Быстрее закрытие поступлений и актуальные данные в системе</li>
+                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span> Отсутствие ручных ошибок — меньше расхождений</li>
               </ul>
 
               <div class="mt-8 flex flex-wrap gap-3">
                 <a class="btn btn-primary" href="#request">Запросить предложение</a>
                 <a class="btn btn-secondary" href="#how">Как работает</a>
               </div>
-              <div class="small mt-2">Запрос на ваших документах. Без обязательств.</div>
+
             </div>
 
             <Card>
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <div class="flex items-center gap-2">
-                    <h3 class="text-lg font-semibold">Из накладной → в данные</h3>
-                    <span class="badge">B2B</span>
+                    <h3 class="text-lg font-semibold">Из печатной накладной → в компьютерные данные</h3>
                   </div>
                   <div class="mt-1 text-sm text-slate-600">
-                    Фото/файл документа → AI‑анализ → подтверждение → CRM / 1C / Excel / бух. учёт и другое
+                    Фото/pdf документа → AI‑анализ → CRM / 1C / бух. учёт и любые другие программы
                   </div>
                 </div>
               </div>
@@ -97,7 +96,7 @@ const year = new Date().getFullYear();
             <Card variant="feature">
               <div class="badge">Шаг 1</div>
               <div class="mt-3 text-lg font-semibold">Загружаете документ</div>
-              <div class="p mt-2 text-sm">Через Telegram или загрузку на сайте.</div>
+              <div class="p mt-2 text-sm">через Telegram или на сайте</div>
             </Card>
             <Card variant="feature">
               <div class="badge">Шаг 2</div>
@@ -112,7 +111,7 @@ const year = new Date().getFullYear();
             <Card variant="feature">
               <div class="badge">Шаг 4</div>
               <div class="mt-3 text-lg font-semibold">Сохраняем в вашу систему</div>
-              <div class="p mt-2 text-sm">Данные уходят в CRM / 1C / Excel / бух. учёт и любое другое — или через API.</div>
+              <div class="p mt-2 text-sm">В зависимости от ваших требований, необходимые данные будут отправляться в любое место (CRM / бух. учёт и пр.). По необходимости, можно переводить на другие языки и совершать любые действия, которые Вам нужны.</div>
             </Card>
           </FlexGrid>
         </Container>
@@ -122,20 +121,24 @@ const year = new Date().getFullYear();
       <Section id="benefits">
         <Container>
           <h2 class="h2">Выгоды для бизнеса</h2>
-          <p class="p mt-2">Основной эффект — сокращение затрат на ручной ввод документов.</p>
+          <p class="p mt-2"><b>Основной эффект — сокращение затрат на ручной ввод документов.</b></p>
 
-          <FlexGrid cols={3} gap="md" class="mt-8">
+          <FlexGrid cols={4} gap="md" class="mt-8">
             <Card variant="feature">
-              <div class="text-base font-semibold">Экономия ФОТ и человеко‑часов</div>
+              <div class="text-base font-semibold">Экономия человеко-часов и бюджета</div>
               <p class="p mt-2 text-sm">Рутинный ввод уходит: меньше операторов — или те же люди делают более ценную работу.</p>
+            </Card>
+            <Card variant="feature">
+              <div class="text-base font-semibold">Отсутствие ошибок</div>
+              <p class="p mt-2 text-sm">Программа создана настолько качественно, что все данные вносит правильно. Человеческий фактор всегда допускает ошибки.</p>
             </Card>
             <Card variant="feature">
               <div class="text-base font-semibold">Скорость обработки поступлений</div>
               <p class="p mt-2 text-sm">Данные быстрее попадают в систему — склад и бухгалтерия работают синхронно.</p>
             </Card>
             <Card variant="feature">
-              <div class="text-base font-semibold">Единая структура данных</div>
-              <p class="p mt-2 text-sm">Разные поставщики и форматы → один понятный результат для вашей учётной модели.</p>
+              <div class="text-base font-semibold">Специальная детальная настройка</div>
+              <p class="p mt-2 text-sm">Программа будет настроена согласно всем вашим требованиям</p>
             </Card>
           </FlexGrid>
         </Container>
@@ -147,7 +150,7 @@ const year = new Date().getFullYear();
           <h2 class="h2">Интеграции</h2>
           <p class="p mt-2">Передаём данные туда, где вы работаете — без "ручных мостиков".</p>
 
-          <FlexGrid cols={2} gap="md" class="mt-8">
+          <FlexGrid cols={1} gap="md" class="mt-8">
             <Card>
               <div class="text-base font-semibold">Куда выгружаем</div>
               <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
@@ -159,30 +162,6 @@ const year = new Date().getFullYear();
               <p class="p mt-4 text-sm">При необходимости подключаем API и делаем кастомные интеграции под вашу инфраструктуру.</p>
               <div class="small mt-2">Интеграции настраиваются под ваш контур (в т.ч. Docker/on‑prem).</div>
             </Card>
-
-            <Card>
-              <div class="text-base font-semibold">Как подключаем</div>
-              <p class="p mt-2 text-sm">Выбираем самый простой и надёжный путь доставки данных под ваши процессы.</p>
-
-              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <div class="font-semibold">API / Webhooks</div>
-                  <div class="mt-1 text-slate-600">Для прямой записи в CRM/1C/ERP.</div>
-                </div>
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <div class="font-semibold">XLSX / CSV</div>
-                  <div class="mt-1 text-slate-600">Если нужно быстро внедрить без разработки.</div>
-                </div>
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <div class="font-semibold">Форма подтверждения</div>
-                  <div class="mt-1 text-slate-600">Контроль исключений перед сохранением.</div>
-                </div>
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <div class="font-semibold">Размещение в вашем контуре</div>
-                  <div class="mt-1 text-slate-600">Docker на вашем сервере — данные остаются у вас.</div>
-                </div>
-              </div>
-            </Card>
           </FlexGrid>
         </Container>
       </Section>
@@ -191,7 +170,7 @@ const year = new Date().getFullYear();
       <Section id="examples">
         <Container>
           <h2 class="h2">Примеры документов</h2>
-          <p class="p mt-2">Накладные бывают любыми: разные языки, таблицы, форматы. DocLogic приводит их к одной структуре данных.</p>
+          <p class="p mt-2">Накладные бывают любыми: разные языки, таблицы, форматы. DocLogic работает со всеми и приводит их к одной структуре данных.</p>
 
           <FlexGrid cols={4} gap="md" class="mt-8">
             <Card class="overflow-hidden p-0">
@@ -211,8 +190,6 @@ const year = new Date().getFullYear();
               <div class="p-3 text-xs text-slate-600">Нестандартный шаблон</div>
             </Card>
           </FlexGrid>
-
-          <p class="small mt-4">Примечание: изображения — примеры. В реальном внедрении мы настраиваемся под ваши документы.</p>
         </Container>
       </Section>
 
@@ -222,30 +199,21 @@ const year = new Date().getFullYear();
           <h2 class="h2">Настройка под ваши требования</h2>
           <p class="p mt-2">Накладные бывают любыми: разные языки, таблицы, форматы. DocLogic приводит их к <b>той структуре данных, которая вам нужна</b>.</p>
 
-          <FlexGrid cols={3} gap="md" class="mt-8">
-            <Card class="lg:col-span-2">
+          <FlexGrid cols={1} gap="md" class="mt-8">
+            <Card>
               <div class="text-base font-semibold">Главное преимущество</div>
               <p class="p mt-2 text-sm">
-                Мы не «подгоняем вас под шаблон». Мы настраиваем DocLogic под ваш документопоток: какие поля извлекать, как нормализовать номенклатуру,
+                Мы не «подгоняем вас под шаблон». Мы настраиваем DocLogic под ваш документопоток: какие поля извлекать, как нормализовать номенклатуру, необходимость переводов,
                 единицы измерения, НДС/валюты, правила округления и в каком виде сохранять результат.
               </p>
               <p class="p mt-3 text-sm"><b>На выходе вы получаете данные в формате вашей системы</b> — и процесс становится стабильным даже при «зоопарке» накладных.</p>
 
               <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Поля и таблицы</b><div class="mt-1 text-slate-600">Позиции, количества, цены, суммы, реквизиты.</div></div>
+                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Поля и таблицы</b><div class="mt-1 text-slate-600">Позиции, количества, цены, суммы, реквизиты, и т.д.</div></div>
                 <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Правила обработки</b><div class="mt-1 text-slate-600">Сопоставления, нормализация, проверки.</div></div>
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Структура на выходе</b><div class="mt-1 text-slate-600">Под вашу CRM/1C/Excel/учёт.</div></div>
+                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Структура на выходе</b><div class="mt-1 text-slate-600">Любая, согласно вашим требованиям.</div></div>
                 <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4"><b>Интеграции</b><div class="mt-1 text-slate-600">API, файлы, web‑форма подтверждения.</div></div>
               </div>
-            </Card>
-
-            <Card variant="feature">
-              <div class="text-base font-semibold">Подходит, если</div>
-              <ul class="mt-4 space-y-3 text-sm text-slate-700">
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> много поступлений и много позиций в накладных</li>
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> поставщики присылают документы «как получится»</li>
-                <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-xs">✓</span> стоимость ручного ввода уже ощутима для бюджета</li>
-              </ul>
             </Card>
           </FlexGrid>
         </Container>
@@ -258,21 +226,44 @@ const year = new Date().getFullYear();
           <p class="p mt-2">Короткие ответы на типовые вопросы.</p>
 
           <div class="mt-8 space-y-3">
-            <details class="card p-6">
-              <summary class="cursor-pointer font-semibold">Это заменяет сотрудников?</summary>
-              <p class="p mt-3">Нет. DocLogic снимает рутину ручного ввода. Сотрудник контролирует исключения.</p>
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Это заменяет сотрудников?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100">
+                <p class="p text-sm">Нет — снимает рутину. Человек контролирует исключения и сложные случаи.</p>
+              </div>
             </details>
-            <details class="card p-6">
-              <summary class="cursor-pointer font-semibold">Если у поставщиков разные шаблоны?</summary>
-              <p class="p mt-3">Это нормально. Настраиваем DocLogic под ваш набор документов.</p>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Если у поставщиков разные шаблоны?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100">
+                <p class="p text-sm">Это нормально. DocLogic работает с любыми типами документов.</p>
+              </div>
             </details>
-            <details class="card p-6">
-              <summary class="cursor-pointer font-semibold">Можно без Telegram?</summary>
-              <p class="p mt-3">Да. Есть загрузка через сайт.</p>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Можно без Telegram?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100">
+                <p class="p text-sm">Да, есть загрузка через сайт и интеграции по API.</p>
+              </div>
             </details>
-            <details class="card p-6">
-              <summary class="cursor-pointer font-semibold">Когда показ?</summary>
-              <p class="p mt-3">Обычно согласуем слот примерно через неделю — чтобы успеть подготовить показ на ваших документах.</p>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Насколько быстро внедрение?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100">
+                <p class="p text-sm">Все зависит от только сложности внедрения программы в Вашу систему. </p>
+              </div>
             </details>
           </div>
         </Container>
@@ -282,18 +273,18 @@ const year = new Date().getFullYear();
       <Section id="pricing">
         <Container>
           <h2 class="h2">Внедрение и цена</h2>
-          <p class="p mt-2">Стоимость зависит от объёма, типов документов и интеграций — потому что продукт дорабатывается под ваш процесс.</p>
+          <p class="p mt-2">Стоимость зависит от сложности внедрения и поддержки программы, объёма и типов документов с.</p>
 
           <FlexGrid cols={3} gap="md" class="mt-8">
             <Card>
               <div class="text-sm font-semibold text-slate-600">Настройка</div>
               <div class="mt-2 text-3xl font-bold">от 400 €</div>
-              <p class="p mt-2 text-sm">Под ваши документы, правила и структуру данных.</p>
+              <p class="p mt-2 text-sm">Исходя из стоимости внедрения и доработки программы под ваши требования</p>
             </Card>
             <Card>
               <div class="text-sm font-semibold text-slate-600">Подписка</div>
               <div class="mt-2 text-3xl font-bold">от 100 €/мес</div>
-              <p class="p mt-2 text-sm">Зависит от объёма и сценариев обработки.</p>
+              <p class="p mt-2 text-sm">Зависит от сложности тех. поддержки, объёма и сценариев обработки.</p>
             </Card>
             <Card>
               <div class="text-sm font-semibold text-slate-600">Что входит</div>

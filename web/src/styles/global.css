@@ -39,7 +39,8 @@ body { @apply bg-slate-50 text-slate-900 antialiased; }
 .btn-secondary { @apply bg-white text-slate-900 ring-1 ring-slate-200 hover:bg-slate-50; }
 
 /* Badge */
-.badge { @apply inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700; }
+.badge { @apply inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-base font-semibold text-slate-700; }
+.badge-lg { @apply text-lg; }
 
 /* Card */
 .card { @apply rounded-2xl bg-white shadow-soft ring-1 ring-slate-200; }
@@ -85,10 +86,11 @@ details summary {
 details summary::-webkit-details-marker {
   display: none;
 }
-details summary span:first-child {
+details summary span:last-child {
   transition: transform 0.2s;
+  display: inline-block;
 }
-details[open] summary span:first-child {
+details[open] summary span:last-child {
   transform: rotate(90deg);
 }
 
