@@ -6,6 +6,8 @@ import FlexGrid from '../components/FlexGrid.astro';
 import Card from '../components/Card.astro';
 
 const year = new Date().getFullYear();
+const howVideoId = import.meta.env.YOUTUBE_VIDEO_ID ?? 'J7ey-rRqGoQ';
+const howVideoTitle = 'Видео: как работает DocLogic';
 ---
 <!doctype html>
 <html lang="ru">
@@ -119,6 +121,22 @@ const year = new Date().getFullYear();
               отправляться в любое место: CRM / ERP/ складской и бух. учёт / 1C и любые другие программы. </div>
             </Card>
           </FlexGrid>
+
+          {howVideoId && (
+          <div class="mt-8 max-w-4xl mx-auto">
+            <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft">
+              <div class="relative w-full" style="padding-bottom: 56.25%;">
+                <iframe
+                  class="absolute inset-0 w-full h-full"
+                  src={`https://www.youtube.com/embed/${howVideoId}?rel=0`}
+                  title={howVideoTitle}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                />
+              </div>
+            </div>
+          </div>
+          )}
         </Container>
       </Section>
 

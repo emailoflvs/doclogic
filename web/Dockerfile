@@ -1,4 +1,6 @@
 FROM node:20-alpine AS build
+ARG YOUTUBE_VIDEO_ID
+ENV YOUTUBE_VIDEO_ID=$YOUTUBE_VIDEO_ID
 WORKDIR /app
 COPY package.json ./
 COPY astro.config.mjs tailwind.config.mjs postcss.config.cjs ./
