@@ -3,6 +3,8 @@
 .env.local
 .env.*.local
 api/.env
+api/.env_*
+api/.env.b*
 
 # Dependencies
 node_modules/
