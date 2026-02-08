@@ -25,6 +25,18 @@ app.use(express.json({ limit: "1mb" }));
 // Trust only 1 hop (nginx) to avoid permissive trust proxy
 app.set("trust proxy", 1);
 
+function envOr(name, fallback) {
+  const v = process.env[name];
+  return v == null || String(v).trim() === "" ? fallback : String(v);
+}
+
+app.get("/health", (req, res) => res.json({ ok: true }));
+
+app.get("/api/config", (req, res) => {
+  const youtubeId = envOr("YOUTUBE_VIDEO_ID", envOr("YOUTUBE_VIDEO_URL", ""));
+  res.json({ youtubeVideoId: youtubeId || null });
+});
+
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 60,
@@ -33,17 +45,10 @@ const limiter = rateLimit({
 });
 app.use("/api/", limiter);
 
-app.get("/health", (req, res) => res.json({ ok: true }));
-
 function required(name) {
   const v = process.env[name];
   if (!v) throw new Error(`Missing env: ${name}`);
   return v;
-}
-
-function envOr(name, fallback) {
-  const v = process.env[name];
-  return v == null || String(v).trim() === "" ? fallback : String(v);
 }
 
 function decodeTemplate(s) {

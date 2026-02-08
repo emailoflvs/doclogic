@@ -6,8 +6,6 @@ import FlexGrid from '../components/FlexGrid.astro';
 import Card from '../components/Card.astro';
 
 const year = new Date().getFullYear();
-const howVideoId = import.meta.env.YOUTUBE_VIDEO_ID ?? 'J7ey-rRqGoQ';
-const howVideoTitle = 'Видео: как работает DocLogic';
 ---
 <!doctype html>
 <html lang="ru">
@@ -207,21 +205,37 @@ const howVideoTitle = 'Видео: как работает DocLogic';
             </Card>
           </FlexGrid>
 
-          {howVideoId && (
-          <div class="mt-8 max-w-4xl mx-auto">
-            <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft">
+          <div id="youtube-embed-wrapper" class="mt-8 max-w-4xl mx-auto" aria-hidden="true">
+            <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft youtube-embed-container" style="display: none;">
               <div class="relative w-full" style="padding-bottom: 56.25%;">
                 <iframe
                   class="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${howVideoId}?rel=0`}
-                  title={howVideoTitle}
+                  title="Видео: как работает DocLogic"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
                 />
               </div>
             </div>
           </div>
-          )}
+          <script is:inline>
+            (function() {
+              const wrap = document.getElementById('youtube-embed-wrapper');
+              const container = wrap?.querySelector('.youtube-embed-container');
+              const iframe = container?.querySelector('iframe');
+              if (!container || !iframe) return;
+              fetch('/api/config')
+                .then(r => r.json())
+                .then(data => {
+                  const id = data?.youtubeVideoId;
+                  if (id && typeof id === 'string' && id.trim()) {
+                    iframe.src = 'https://www.youtube.com/embed/' + id.trim() + '?rel=0';
+                    container.style.display = '';
+                    wrap.setAttribute('aria-hidden', 'false');
+                  }
+                })
+                .catch(() => {});
+            })();
+          </script>
         </Container>
       </Section>
 
