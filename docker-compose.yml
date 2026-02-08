@@ -1,0 +1,30 @@
+services:
+  web:
+    # Build with YOUTUBE_VIDEO_ID from env, e.g.: docker-compose --env-file api/.env up --build
+    build:
+      context: ./web
+      args:
+        YOUTUBE_VIDEO_ID: ${YOUTUBE_VIDEO_ID:-J7ey-rRqGoQ}
+    ports:
+      - "8087:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+    container_name: doclogic_v7_web
+    networks:
+      - doclogic_network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - ./api/.env
+    restart: unless-stopped
+    container_name: doclogic_v7_api
+    networks:
+      - doclogic_network
+
+networks:
+  doclogic_network:
+    external: false

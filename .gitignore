@@ -47,9 +47,15 @@ logs/
 *.pid
 *.seed
 *.pid.lock
-# Production docker-compose.yml - должен быть уникальным для каждого сервера
-docker-compose.yml
 docker-compose.yml.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
 docker-compose.yml.*.backup
 
 # Temporary files
