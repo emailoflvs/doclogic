@@ -242,6 +242,8 @@ const year = new Date().getFullYear();
             </Card>
           </FlexGrid>
 
+
+          <!-- Видео временно скрыто (не показывать чужие счета)
           <div id="youtube-embed-wrapper" class="mt-8 max-w-4xl mx-auto" aria-hidden="true">
             <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft youtube-embed-container" style="display: none;">
               <div class="relative w-full" style="padding-bottom: 56.25%;">
@@ -253,7 +255,8 @@ const year = new Date().getFullYear();
                 />
               </div>
             </div>
-          </div>
+          
+            </div>
           <script is:inline>
             (function() {
               const wrap = document.getElementById('youtube-embed-wrapper');
@@ -273,6 +276,7 @@ const year = new Date().getFullYear();
                 .catch(() => {});
             })();
           </script>
+          -->
         </Container>
       </Section>
 
@@ -338,7 +342,7 @@ const year = new Date().getFullYear();
             </div>
           </div>
         </div>
-<!--
+
         {/* Mini demo */}
         <div class="mt-5 rounded-2xl bg-white ring-1 ring-slate-200 p-4">
           <div class="text-sm font-semibold">Пример “как было → как стало”</div>
@@ -354,7 +358,7 @@ const year = new Date().getFullYear();
             Если правила не нужны — просто переносим как есть. Если нужны — приводим данные к вашему стандарту.
           </div>
         </div>
--->
+
         {/* Capabilities grid */}
         <div class="mt-5 grid gap-3 sm:grid-cols-2 text-sm">
           <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
