@@ -32,9 +32,11 @@ function envOr(name, fallback) {
 
 app.get("/health", (req, res) => res.json({ ok: true }));
 
+const DEFAULT_YOUTUBE_VIDEO_ID = "J7ey-rRqGoQ";
+
 app.get("/api/config", (req, res) => {
-  const youtubeId = envOr("YOUTUBE_VIDEO_ID", envOr("YOUTUBE_VIDEO_URL", ""));
-  res.json({ youtubeVideoId: youtubeId || null });
+  const youtubeId = envOr("YOUTUBE_VIDEO_ID", envOr("YOUTUBE_VIDEO_URL", DEFAULT_YOUTUBE_VIDEO_ID));
+  res.json({ youtubeVideoId: youtubeId || DEFAULT_YOUTUBE_VIDEO_ID });
 });
 
 const limiter = rateLimit({

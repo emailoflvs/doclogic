@@ -25,9 +25,11 @@ cp api/.env.example api/.env
 docker compose up -d --build
 ```
 
-Открыть сайт:
+Открыть сайт (обязательно **http**, не https):
 - `http://localhost:8087/` (напрямую)
 - `http://doclogic_v7:8087/` (через домен, после настройки /etc/hosts)
+
+**Если в браузере «This site can't provide a secure connection» (ERR_SSL_PROTOCOL_ERROR):** в адресной строке введите именно `http://localhost:8087` (с `http://` в начале). Сайт работает только по HTTP.
 
 Healthcheck: `http://localhost:8087/health` или `http://doclogic_v7:8087/health`
 

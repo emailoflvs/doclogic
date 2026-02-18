@@ -58,7 +58,7 @@ const year = new Date().getFullYear();
 
               </h2>
               <p class="p mt-4 max-w-xl text-lg text-slate-700">
-                DocLogic автоматически переносит все данные из фото/PDF 
+                Автоматический перенос данных из фото/PDF 
                 накладных на компьютер для передачи в <b>
                 CRM / ERP / складской и бух. учёт / любые другие программы</b>.
               </p>
@@ -165,48 +165,53 @@ const year = new Date().getFullYear();
 
           <FlexGrid cols={4} gap="md" class="mt-8">
             <Card class="overflow-hidden p-0">
-              <img src="/assets/invoice.jpg" alt="Пример накладной" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Классическая накладная</div>
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/invoice.jpg" alt="Пример накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
             </Card>
 
             <Card class="overflow-hidden p-0">
-              <img src="/assets/french_invoice.jpg" alt="Пример накладной на иностранном языке" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Другой язык и формат</div>
-            </Card>
-            
-            <Card class="overflow-hidden p-0">
-              <img src="/assets/rostov.jpeg" alt="Пример товарной накладной" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Много позиций и плохое качество</div>
-            </Card>
-            
-            <Card class="overflow-hidden p-0">
-              <img src="/assets/gastro.png" alt="Пример документа поставщика" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">
-              Нестандартный шаблон и очень плохое качество</div>
-            </Card>
-
-         <!--   
-            <Card class="overflow-hidden p-0">
-              <img src="/assets/lunys.png" alt="Пример документа поставщика" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Нестандартный шаблон</div>
-            </Card>
-            
-            <Card class="overflow-hidden p-0">
-              <img src="/assets/metro.png" alt="Пример документа поставщика" class="h-44 w-full object-cover" loading="lazy" />
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/ford.jpeg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
               <div class="p-3 text-xm text-slate-600"></div>
             </Card>
-            
+
             <Card class="overflow-hidden p-0">
-              <img src="/assets/ttn.jpeg" alt="Пример документа поставщика" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Нестандартный шаблон</div>
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/french.jpg" alt="Пример накладной на иностранном языке" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
             </Card>
-            
+
             <Card class="overflow-hidden p-0">
-              <img src="/assets/ttn2.jpeg" alt="П ример документа поставщика" class="h-44 w-full object-cover" loading="lazy" />
-              <div class="p-3 text-xm text-slate-600">Нестандартный шаблон</div>
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/gastro.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
             </Card>
-      -->
-          
+
+            <Card class="overflow-hidden p-0">
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/lunys.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
+            </Card>
+
+            <Card class="overflow-hidden p-0">
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/camozzi.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
+            </Card>
+
+            <Card class="overflow-hidden p-0">
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/metro.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
+            </Card>
+
+            <Card class="overflow-hidden p-0">
+              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
+                <img src="/assets/web/ttn.jpeg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+              </div>
+            </Card>
           </FlexGrid>
         </Container>
       </Section>
@@ -243,7 +248,7 @@ const year = new Date().getFullYear();
           </FlexGrid>
 
 
-          <!-- Видео временно скрыто (не показывать чужие счета)
+          
           <div id="youtube-embed-wrapper" class="mt-8 max-w-4xl mx-auto" aria-hidden="true">
             <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft youtube-embed-container" style="display: none;">
               <div class="relative w-full" style="padding-bottom: 56.25%;">
@@ -276,7 +281,8 @@ const year = new Date().getFullYear();
                 .catch(() => {});
             })();
           </script>
-          -->
+          
+
         </Container>
       </Section>
 
