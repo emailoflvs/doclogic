@@ -100,8 +100,12 @@ const year = new Date().getFullYear();
                     <h3 class="text-lg font-semibold">Из печатной накладной → в компьютерные данные</h3>
                   </div>
                   <div class="mt-1 text-sm text-slate-600">
-                    Фото/pdf документа → AI‑анализ → CRM / ERP/ складской и бух. учёт / Google Sheets 
-                    и любые другие программы
+                    Фото/скан/pdf документа → AI‑анализ → 
+                    CRM / ERP/ складской и бух. учёт / 
+                    
+                    <!--/ Google Sheets-->
+
+                    любые другие программы
                   </div>
                 </div>
               </div>
@@ -144,9 +148,11 @@ const year = new Date().getFullYear();
             <Card variant="feature">
               <div class="text-base font-semibold">Минимизация ошибок</div>
               <p class="p mt-2 text-sm">
-              DocLogic извлекает все данные из документа. 
-Вы видите готовую таблицу. 
-Если заметили неточность — исправляете прямо в таблице и сохраняете.
+              DocLogic извлекает все данные из документа и показывает их в 
+              обычной web-форме. 
+<!--Вы видите готовую таблицу. 
+-->
+Если заметили неточность — быстро правите и сохраняете.
 
               </p>
             </Card>
@@ -155,8 +161,15 @@ const year = new Date().getFullYear();
               <p class="p mt-2 text-sm">Данные быстрее попадают в систему — склад и бухгалтерия работают синхронно.</p>
             </Card>
             <Card variant="feature">
-              <div class="text-base font-semibold">Полная настройка программы для вас</div>
-              <p class="p mt-2 text-sm">DocLogic интегрируется в любую вашу программу. Мы можем разработать дополнительную программу для вас.</p>
+              <div class="text-base font-semibold">
+              Полная настройка программы для вас
+              
+              </div>
+              <p class="p mt-2 text-sm">
+              DocLogic интегрируется в любую вашу программу. 
+              Мы можем разработать дополнительную программу для вас.
+              
+              </p>
             </Card>
           </FlexGrid>
         </Container>
@@ -243,7 +256,7 @@ const year = new Date().getFullYear();
               Программа анализирует документ и собирает данные.
               <!-- AI извлекает все строки и реквизиты -->
               </div>
-              <div class="p mt-2 text-sm">Извлекаем <b>абсолютно все данные</b> из документа.</div>
+              <div class="p mt-2 text-sm">Извлекаем <b> все данные</b> из документа.</div>
             </Card>
             <Card variant="feature">
               <div class="badge">Шаг 3</div>
@@ -277,9 +290,9 @@ const year = new Date().getFullYear();
 
           <div id="youtube-embed-wrapper" class="mt-8 max-w-4xl mx-auto" aria-hidden="true">
             <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft youtube-embed-container" style="display: none;">
-              <div class="relative w-full" style="padding-bottom: 56.25%;">
+              <div class="relative w-full aspect-video bg-slate-100">
                 <iframe
-                  class="absolute inset-0 w-full h-full"
+                  class="absolute inset-0 w-full h-full block"
                   title="Видео: как работает DocLogic"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -334,12 +347,16 @@ const year = new Date().getFullYear();
           </div>
         </Container>
       </Section>
+      
       -->
+
+
       <!-- Integrations -->
       <Section id="integrations">
         <Container>
           <h2 class="h2">Куда отправляются данные</h2>
-          <p class="p mt-2"><b>Данные загружаются в любую вашу систему.</b></p>
+          <p class="p mt-2"><b>Данные загружаются в любую вашу систему
+          через API или файлом (Excel/CSV/JSON).</b></p>
 
           <FlexGrid cols={1} gap="md" class="mt-8">
             <Card>
@@ -370,7 +387,8 @@ const year = new Date().getFullYear();
       <p class="p mt-2">
         <b>Вы присылаете 5–10 ваших документов.</b> Мы настраиваем поля, правила и выгрузку.
         <br />
-        Дальше DocLogic стабильно обрабатывает новые формы поставщиков — вы контролируете только исключения.
+        Дальше DocLogic стабильно обрабатывает новые формы поставщиков. 
+        Вы проверяете результат и при необходимости правите (как в обычной форме).
       </p>
     </div>
 
@@ -442,7 +460,7 @@ const year = new Date().getFullYear();
           <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
             <b>Выгрузка и интеграция</b>
             <div class="mt-1 text-slate-600">
-              Excel/CSV/JSON/API + web-форма подтверждения исключений.
+              Excel/CSV/JSON/API + web-форма проверки результата перед отправкой.
             </div>
           </div>
         </div>
@@ -460,9 +478,38 @@ const year = new Date().getFullYear();
         </div>
       </Card>
     </FlexGrid>
-  </Container>
+      </Container>
 </Section>
 
+      <!-- Настройка согласно вашим правилам -->
+      <Section id="custom-rules">
+        <Container>
+          <h2 class="h2">Настройка согласно вашим правилам</h2>
+          <p class="p mt-2 text-slate-600"><b>Работа с поступившими данными перед выгрузкой (опционально)</b></p>
+          <p class="p mt-1">По запросу, в рамках внедрения, мы можем добавить проверки и действия перед отправкой в вашу систему:</p>
+
+          <FlexGrid cols={1} gap="md" class="mt-8">
+            <Card>
+              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span><div>
+                <b>Контроль сумм и цен</b> — пересчёт по строкам и сверка с итогом</div></div>
+
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
+                <div><b>Сверка сумм/цен с итогом документа</b></div></div>
+
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
+                <div><b>Сравнение с вашими справочниками/ценами</b> и сценарий: авто-загрузка / остановка / подтверждение</div></div>
+
+                <div class="flex items-start gap-3"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
+                <div><b>Дополнительная обработка</b> согласно данным вашего склада или бухгалтерии</div></div>
+
+                <div class="flex items-start gap-3 sm:col-span-2"><span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
+                <div><b>Любые другие настройки</b></div></div>
+              </div>
+            </Card>
+          </FlexGrid>
+        </Container>
+      </Section>
 
       <!-- Differences -->
       <Section id="differences">
