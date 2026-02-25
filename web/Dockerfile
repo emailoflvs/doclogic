@@ -6,6 +6,8 @@ COPY package.json ./
 COPY astro.config.mjs tailwind.config.mjs postcss.config.cjs ./
 COPY src ./src
 COPY public ./public
+# Проверка: какой index.astro попал в образ (видно в логе сборки)
+RUN sha256sum /app/src/pages/index.astro || true
 RUN npm install
 RUN npm run build
 

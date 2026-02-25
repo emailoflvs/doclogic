@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "clean": "rm -rf dist .astro node_modules/.cache node_modules/.vite",
+    "rebuild": "npm run clean && npm run build"
   },
   "dependencies": {
     "astro": "^4.16.0"
