@@ -165,7 +165,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
             <Card variant="feature">
               <div class="text-base font-semibold">Ускорение закрытия поступлений</div>
-              <p class="p mt-2 text-sm">Данные быстрее попадают в систему — склад и бухгалтерия работают синхронно.</p>
+              <p class="p mt-2 text-sm">Данные быстрее попадают в систему — 
+              отделы работают синхронно .</p>
             </Card>
 
             <Card variant="feature">
@@ -233,7 +234,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
             <input
               id="roi_errors"
               inputmode="numeric"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white 
+              px-4 py-3 text-sm"
               placeholder="например: 2 / 10 / 30"
             />
           </div>
@@ -269,11 +271,12 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         </details>
 
         <div class="mt-5 flex flex-wrap gap-3">
-          <a href="#request" class="btn btn-primary">Получить расчёт и демо на моих документах</a>
+          <a href="#request" class="btn btn-primary">
+          Получить расчёт в демо версии на ваших документах</a>
           <button id="roi_reset" type="button" class="btn">Сбросить</button>
         </div>
 
-        <div id="roi_hint" class="small mt-3 text-slate-500">
+        <div id="roi_hint" class="medium mt-2 text-slate-500">
           Подсказка: если документов мало — экономия часто появляется за счёт дорогих ошибок и сложных документов.
         </div>
       </Card>
@@ -1057,6 +1060,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
             сопровождение: новые форматы/поставщики, улучшение результата
           </li>
         </ul>
+<br>
 <a class="btn btn-primary" href="#request">Демо на ваших документах</a>
 
         <div class="mt-2 text-xs text-slate-500">
