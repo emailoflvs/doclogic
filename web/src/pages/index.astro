@@ -848,7 +848,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           <div>
             <div class="text-base font-semibold text-slate-900">Проверка результата перед выгрузкой</div>
             <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              Сотрудник быстро просматривает результат и подтверждает. При необходимости — правит как в Excel.
+              Сотрудник быстро просматривает результат и подтверждает. 
+              При необходимости — правит в web-форме.
             </p>
           </div>
         </div>
@@ -901,8 +902,9 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
     </FlexGrid>
 
     <div class="mt-6 flex flex-wrap items-center gap-3">
-      <a class="btn btn-primary" href="#request">Показать на моих документах</a>
-      <div class="text-sm text-slate-500">Достаточно 5–10 примеров — покажем результат и формат выгрузки под вас.</div>
+      <a class="btn btn-primary" href="#request">Демо на ваших документах</a>
+      <div class="text-sm text-slate-500">
+      </div>
     </div>
   </Container>
 </Section>
@@ -962,7 +964,10 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         </Container>
       </Section>
 
+
+
       <!-- Pricing -->
+<!--
       <Section id="pricing">
         <Container>
           <h2 class="h2">Подключение и цена</h2>
@@ -997,6 +1002,70 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           </FlexGrid>
         </Container>
       </Section>
+
+-->
+
+<!-- Pricing -->
+<Section id="pricing" padding="small">
+  <Container>
+    <h2 class="h2">Настройка и стоимость</h2>
+    <p class="p mt-2">
+      Цена зависит от объёма документов, сложности правил и способа выгрузки (API/файл).
+    </p>
+
+    <FlexGrid cols={3} gap="md" class="mt-8">
+      <Card>
+        <div class="text-sm font-semibold text-slate-600">Настройка и подключение</div>
+        <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 400 €</div>
+        <p class="p mt-2 text-sm text-slate-700">
+          Настраиваем поля, правила и формат выгрузки под вашу компанию.
+        </p>
+        <p class="mt-2 text-xs text-slate-500">
+          Результат: получаете данные «как нужно вашей системе».
+        </p>
+      </Card>
+
+      <Card>
+        <div class="text-sm font-semibold text-slate-600">Ежемесячное сопровождение</div>
+        <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 200 €/мес</div>
+        <p class="p mt-2 text-sm text-slate-700">
+          Стабильная обработка документов + адаптация под новые форматы и поставщиков.
+        </p>
+        <p class="mt-2 text-xs text-slate-500">
+          Чтобы система не «сломалась» при изменениях — мы держим качество на своей стороне.
+        </p>
+      </Card>
+
+      <Card>
+        <div class="text-sm font-semibold text-slate-600">Что входит</div>
+
+        <ul class="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
+          <li class="flex gap-2">
+            <span class="mt-1 text-slate-400">•</span>
+            настройка полей и структуры данных под вашу систему
+          </li>
+          <li class="flex gap-2">
+            <span class="mt-1 text-slate-400">•</span>
+            правила и проверки по вашему регламенту (опционально)
+          </li>
+          <li class="flex gap-2">
+            <span class="mt-1 text-slate-400">•</span>
+            выгрузка через API или файлом (Excel/CSV/JSON)
+          </li>
+          <li class="flex gap-2">
+            <span class="mt-1 text-slate-400">•</span>
+            сопровождение: новые форматы/поставщики, улучшение результата
+          </li>
+        </ul>
+
+        <a href="#request" class="btn btn-primary mt-5 w-full">Получить расчёт экономии</a>
+        <div class="mt-2 text-xs text-slate-500">
+          Достаточно 5–10 примеров документов.
+        </div>
+      </Card>
+    </FlexGrid>
+  </Container>
+</Section>
 
       <!-- Request -->
       <Section id="request">
