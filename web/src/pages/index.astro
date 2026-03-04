@@ -19,7 +19,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
     <title>DocLogic — автоматизация ввода данных и документооборота</title>
     <meta
       name="description"
-      content="DocLogic переносит данные из фото/сканов/PDF накладных в структурированные данные и выгружает в вашу систему (ERP/1C/CRM/учёт) через API или файлом."
+      content="DocLogic переносит данные из фото/сканов/PDF накладных в структурированные данные и выгружает в вашу систему (CRM/ERP/учёт) через API или файлом."
     />
     <link rel="icon" href="/assets/favicon.svg" />
 
@@ -77,15 +77,16 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         <Container>
           <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-2">
             <div>
-              <div class="badge badge-lg">AI для складского документооборота</div>
+              <div class="badge badge-lg">AI для ввода данных из документов</div>
 
               <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">
                 Перестаньте платить за<br />ввод данных
               </h2>
 
               <p class="p mt-4 max-w-xl text-lg text-slate-700">
-                Автоматический перенос данных из фото/PDF накладных на компьютер для передачи в
-                <b> CRM / ERP / складской и бух. учёт / любые другие программы</b>.
+                Автоматический перенос данных из фото/PDF документов 
+                на компьютер для передачи в
+                <b> CRM / ERP / учётные и любые другие программы</b>.
               </p>
 
               <ul class="mt-6 space-y-3 text-lg text-slate-700">
@@ -117,7 +118,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 <div>
                   <h3 class="text-lg font-semibold">Из печатной накладной → в компьютерные данные</h3>
                   <div class="mt-1 text-sm text-slate-600">
-                    Фото/скан/pdf документа → AI-анализ → CRM / ERP / складской и бух. учёт / любые другие программы
+                    Фото/скан/pdf документа → AI-анализ → CRM / ERP / 
+                    учётные и любые другие программы
                   </div>
                 </div>
               </div>
@@ -141,13 +143,23 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           <FlexGrid cols={4} gap="md" class="mt-8">
             <Card variant="feature">
               <div class="text-base font-semibold">Меньше работы = меньше затрат</div>
-              <p class="p mt-2 text-sm">Рутинный ввод уходит: меньше операторов — или те же люди делают более ценную работу.</p>
+              <p class="p mt-2 text-sm">
+              <!--
+              Рутинный ввод уходит: меньше операторов 
+              — или те же люди делают более ценную работу.
+              -->
+              Снижаем стоимость обработки документа: меньше ручного труда
+              </p>
             </Card>
 
             <Card variant="feature">
               <div class="text-base font-semibold">Минимизация ошибок</div>
               <p class="p mt-2 text-sm">
-                DocLogic извлекает данные и показывает их в обычной web-форме. Если заметили неточность — быстро правите и сохраняете.
+                <!--DocLogic извлекает данные и показывает их в обычной web-форме. 
+                Если заметили неточность — быстро правите и сохраняете.
+                -->
+                Проверки перед выгрузкой: суммы, цены, дубли, обязательные 
+                поля — в систему попадает только корректное
               </p>
             </Card>
 
@@ -163,6 +175,285 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           </FlexGrid>
         </Container>
       </Section>
+
+
+
+<!-- ROI / Экономия -->
+<Section id="roi" padding="small">
+  <Container>
+    <div class="max-w-3xl">
+      <h2 class="h2">Оценка экономии за 30 секунд</h2>
+      <p class="p mt-2">
+        Введите примерные цифры — покажем экономию денег и эффект по ошибкам.
+        Можно округлить: точность уточним на демо по вашим документам.
+      </p>
+    </div>
+
+    <FlexGrid cols={2} gap="lg" items="start" class="mt-8 lg:grid-cols-2">
+      <!-- Inputs -->
+      <Card>
+        <div class="text-lg font-semibold">Ваши цифры</div>
+        <p class="mt-1 text-sm text-slate-600">
+          Никаких «минимальных объёмов»: выгода зависит от времени ручной обработки и стоимости ошибок.
+        </p>
+
+        <div class="mt-5 grid gap-4 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label class="text-sm font-medium" for="roi_docs">Документов в месяц (примерно)</label>
+            <input
+              id="roi_docs"
+              inputmode="numeric"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              placeholder="например: 80 / 200 / 500 / 2000"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm font-medium" for="roi_minutes">Минут на документ сейчас</label>
+            <input
+              id="roi_minutes"
+              inputmode="decimal"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              placeholder="например: 3–10"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm font-medium" for="roi_rate">Стоимость часа сотрудника, €</label>
+            <input
+              id="roi_rate"
+              inputmode="decimal"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              placeholder="например: 15–30"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm font-medium" for="roi_errors">Ошибок в месяц (опционально)</label>
+            <input
+              id="roi_errors"
+              inputmode="numeric"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              placeholder="например: 2 / 10 / 30"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm font-medium" for="roi_error_cost">Цена одной ошибки, € (опционально)</label>
+            <input
+              id="roi_error_cost"
+              inputmode="decimal"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              placeholder="например: 20 / 80 / 200"
+            />
+          </div>
+        </div>
+
+        <details class="mt-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+          <summary class="cursor-pointer text-sm font-semibold text-slate-900">Допущения расчёта</summary>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            <div class="sm:col-span-2 text-sm text-slate-600">
+              После DocLogic сотрудник обычно подтверждает результат и правит только исключения.
+            </div>
+            <div>
+              <label class="text-sm font-medium" for="roi_after">Минут на проверку после DocLogic</label>
+              <input
+                id="roi_after"
+                inputmode="decimal"
+                class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+                value="0.5"
+              />
+              <div class="mt-1 text-xs text-slate-500">По умолчанию: 0.5 мин (30 сек)</div>
+            </div>
+          </div>
+        </details>
+
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a href="#request" class="btn btn-primary">Получить расчёт и демо на моих документах</a>
+          <button id="roi_reset" type="button" class="btn">Сбросить</button>
+        </div>
+
+        <div id="roi_hint" class="small mt-3 text-slate-500">
+          Подсказка: если документов мало — экономия часто появляется за счёт дорогих ошибок и сложных документов.
+        </div>
+      </Card>
+
+      <!-- Outputs -->
+      <Card>
+        <div class="text-lg font-semibold">Результат</div>
+        <p class="mt-1 text-sm text-slate-600">
+          Это оценка. Точный расчёт сделаем после 5–10 ваших документов и покажем выгрузку “как вам нужно”.
+        </p>
+
+        <div class="mt-5 grid gap-3">
+          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-600">Экономия времени</div>
+            <div id="roi_out_hours" class="mt-1 text-2xl font-bold">—</div>
+            <div id="roi_out_hours_sub" class="mt-1 text-xs text-slate-500">часов/мес</div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-600">Экономия на ручной обработке</div>
+            <div id="roi_out_labor" class="mt-1 text-2xl font-bold">—</div>
+            <div class="mt-1 text-xs text-slate-500">€/мес</div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-600">Экономия на ошибках</div>
+            <div id="roi_out_errors" class="mt-1 text-2xl font-bold">—</div>
+            <div class="mt-1 text-xs text-slate-500">€/мес</div>
+          </div>
+
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-600">Итого потенциальная выгода</div>
+            <div id="roi_out_total" class="mt-1 text-3xl font-bold">—</div>
+            <div class="mt-1 text-xs text-slate-500">€/мес</div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold">Комментарий</div>
+            <div id="roi_msg" class="mt-2 text-sm text-slate-700">
+              Введите цифры слева — мы покажем оценку экономии.
+            </div>
+          </div>
+        </div>
+      </Card>
+    </FlexGrid>
+
+    <script is:inline>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+
+        const elDocs = $('roi_docs');
+        const elMin = $('roi_minutes');
+        const elRate = $('roi_rate');
+        const elAfter = $('roi_after');
+        const elErr = $('roi_errors');
+        const elErrCost = $('roi_error_cost');
+        const btnReset = $('roi_reset');
+
+        const outHours = $('roi_out_hours');
+        const outLabor = $('roi_out_labor');
+        const outErrors = $('roi_out_errors');
+        const outTotal = $('roi_out_total');
+        const outMsg = $('roi_msg');
+
+        const fmtEur = new Intl.NumberFormat('ru-RU', {
+          style: 'currency',
+          currency: 'EUR',
+          maximumFractionDigits: 0,
+        });
+
+        const fmtNum = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
+
+        const parse = (v) => {
+          if (v == null) return NaN;
+          const s = String(v).trim().replace(/\s+/g, '').replace(',', '.');
+          if (!s) return NaN;
+          const n = Number(s);
+          return Number.isFinite(n) ? n : NaN;
+        };
+
+        const clamp0 = (n) => (Number.isFinite(n) && n > 0 ? n : 0);
+
+        const setDash = () => {
+          outHours.textContent = '—';
+          outLabor.textContent = '—';
+          outErrors.textContent = '—';
+          outTotal.textContent = '—';
+        };
+
+        const update = () => {
+          const N = parse(elDocs.value);
+          const Tm = parse(elMin.value);
+          const R = parse(elRate.value);
+          const Ta = parse(elAfter.value);
+
+          const E = parse(elErr.value);
+          const Ec = parse(elErrCost.value);
+
+          // Need at least these three to compute labor ROI
+          const canLabor = Number.isFinite(N) && N > 0 && Number.isFinite(Tm) && Tm > 0 && Number.isFinite(R) && R > 0 && Number.isFinite(Ta) && Ta >= 0;
+
+          if (!canLabor) {
+            setDash();
+            outMsg.textContent = 'Введите документы/месяц, минуты на документ и стоимость часа — покажем оценку экономии.';
+            return;
+          }
+
+          const docs = clamp0(N);
+          const minutesManual = clamp0(Tm);
+          const rate = clamp0(R);
+          const minutesAfter = Math.max(0, Number.isFinite(Ta) ? Ta : 0.5);
+
+          // Manual workload (for message A/B/C)
+          const manualHours = (docs * minutesManual) / 60;
+
+          // Savings (labor)
+          const minutesSavedPerDoc = Math.max(0, minutesManual - minutesAfter);
+          const hoursSaved = (docs * minutesSavedPerDoc) / 60;
+          const laborEur = hoursSaved * rate;
+
+          // Savings (errors) — only if both inputs present
+          const hasErrorInputs = Number.isFinite(E) && E > 0 && Number.isFinite(Ec) && Ec > 0;
+          const errorsEur = hasErrorInputs ? E * Ec : 0;
+
+          const totalEur = laborEur + errorsEur;
+
+          outHours.textContent = fmtNum.format(hoursSaved);
+          outLabor.textContent = fmtEur.format(laborEur);
+          outErrors.textContent = hasErrorInputs ? fmtEur.format(errorsEur) : '—';
+          outTotal.textContent = fmtEur.format(totalEur);
+
+          // A/B/C message by manual hours (NOT by N_docs)
+          let msg = '';
+          if (manualHours < 10) {
+            msg =
+              'При небольшой нагрузке выгода чаще всего появляется за счёт дорогих ошибок и сложных документов. ' +
+              'Пришлите 5–10 примеров — покажем, есть ли экономический смысл именно у вас.';
+          } else if (manualHours < 40) {
+            msg =
+              'Чаще всего это уже окупается за счёт экономии времени + снижения ошибок. ' +
+              'На демо покажем выгрузку “как вам нужно” и сделаем точный расчёт.';
+          } else {
+            msg =
+              'При такой нагрузке эффект обычно максимальный: меньше ручной работы и меньше разборов из-за ошибок. ' +
+              'Давайте быстро сделаем пилот на ваших документах — результат увидите сразу.';
+          }
+
+          // If user didn’t enter error part, nudge gently
+          if (!hasErrorInputs) {
+            msg += ' Добавьте “ошибок/месяц” и “цену ошибки” — тогда расчёт станет ещё точнее.';
+          }
+
+          outMsg.textContent = msg;
+        };
+
+        const bind = (el) => el && el.addEventListener('input', update);
+
+        [elDocs, elMin, elRate, elAfter, elErr, elErrCost].forEach(bind);
+
+        btnReset?.addEventListener('click', () => {
+          elDocs.value = '';
+          elMin.value = '';
+          elRate.value = '';
+          elErr.value = '';
+          elErrCost.value = '';
+          elAfter.value = '0.5';
+          setDash();
+          outMsg.textContent = 'Введите цифры слева — мы покажем оценку экономии.';
+        });
+
+        // init
+        setDash();
+        update();
+      })();
+    </script>
+  </Container>
+</Section>
+
+
+
 
       <!-- Examples -->
       <Section id="examples">
@@ -252,7 +543,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
               <div class="badge">Шаг 4</div>
               <div class="mt-3 text-lg font-semibold">После подтверждения данные сохраняются в указанном месте</div>
               <div class="p mt-2 text-sm">
-                Отправка в ERP/учёт/CRM — через API или файлом (Excel/CSV/JSON), под ваш формат.
+                Отправка в CRM /ERP /учёт — через API или файлом (Excel/CSV/JSON), под ваш формат.
               </div>
             </Card>
           </FlexGrid>
@@ -309,7 +600,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 </div>
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Бухгалтерские/учётные системы / 1C / Bitrix24</b></div>
+                  <div><b>Бухгалтерские/учётные системы</b></div>
                 </div>
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
@@ -360,6 +651,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                   <b>Что настраиваем</b>
                   <div class="mt-1 text-slate-600">
                     Реквизиты и строки товаров/услуг + любые поля, которые нужны вашей системе.
+                    <br>
                     Правила: единицы, округления, НДС, обязательные поля, сопоставления.
                   </div>
                 </div>
@@ -429,7 +721,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           <div class="flex items-start gap-3">
             <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
             <div>
-              <b>Правила под склад и бухгалтерию</b>
+              <b>Правила под склад/ бухгалтерию / CRM / ERP и 
+              другие ваши программы</b>
               <div class="mt-1 text-slate-600">Формат, порядок передачи, дополнительные обработки под ваш регламент.</div>
             </div>
           </div>
@@ -449,14 +742,15 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         <div class="mt-5 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
           <div class="text-sm font-semibold">Результат</div>
           <div class="mt-1 text-slate-600 text-sm">
-            В вашу систему попадают только данные, которые прошли заданные проверки и правила.
+            В вашу систему попадают только те данные, которые прошли заданные проверки и правила.
           </div>
         </div>
 
         <!-- вместо мелкого “подозрительного” текста -->
         <div class="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p class="p text-sm text-slate-600 md:max-w-2xl">
-            На встрече быстро уточним ваш процесс и покажем, какие правила дадут максимум эффекта именно у вас.
+            На встрече быстро уточним ваш процесс и покажем, 
+            какие правила дадут максимум эффекта именно у вас.
           </p>
 
           <a href="#request" class="btn btn-primary whitespace-nowrap">Связаться и обсудить</a>
@@ -468,6 +762,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
 
       <!-- Differences -->
+      <!--
       <Section id="differences">
         <Container>
           <h2 class="h2">Ключевые отличия DocLogic</h2>
@@ -499,6 +794,119 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           </FlexGrid>
         </Container>
       </Section>
+-->
+
+<!-- Differences -->
+<!-- Differences -->
+<Section id="differences" padding="small">
+  <Container>
+    <div class="max-w-3xl">
+      <h2 class="h2">Ключевые отличия DocLogic</h2>
+      <p class="p mt-2">
+        Мы делаем не просто распознавание текста, а <b>подготовку данных под вашу компанию</b> — с нужными полями,
+        правилами и форматом выгрузки.
+      </p>
+    </div>
+
+    <FlexGrid cols={3} gap="md" class="mt-8 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- 1 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Настраиваем под каждую компанию отдельно</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              Поля, правила обработки и формат выгрузки — под вашу систему и ваш процесс, а не “один шаблон на всех”.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- 2 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Структурированные данные на выходе</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              На выходе — не “текст”, а реквизиты + строки товаров/услуг в структуре, удобной для вашей системы.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- 3 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Проверка результата перед выгрузкой</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              Сотрудник быстро просматривает результат и подтверждает. При необходимости — правит как в Excel.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- 4 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Правила и проверки — по вашим требованиям</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              На запуске можем настроить проверки (суммы/цены/дубли/обязательные поля/сверка со справочниками) — под ваш регламент.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- 5 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Без “ведения шаблонов” поставщиков</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              Документы бывают разными — мы подстраиваем извлечение и структуру данных под вашу задачу.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- 6 -->
+      <Card variant="feature" class="h-full">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
+            ✓
+          </span>
+          <div>
+            <div class="text-base font-semibold text-slate-900">Выгрузка туда, где вам удобно</div>
+            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+              Через API или файлом (Excel/CSV/JSON) — формат на выходе делаем под вашу систему.
+            </p>
+          </div>
+        </div>
+      </Card>
+    </FlexGrid>
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <a class="btn btn-primary" href="#request">Показать на моих документах</a>
+      <div class="text-sm text-slate-500">Достаточно 5–10 примеров — покажем результат и формат выгрузки под вас.</div>
+    </div>
+  </Container>
+</Section>
+
 
       <!-- FAQ -->
       <Section id="faq">
@@ -541,11 +949,13 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
             <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
               <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
-                <span class="flex-1">Насколько быстро внедрение?</span>
+                <span class="flex-1">Насколько быстры настройка и подключение?</span>
                 <span class="ml-4 text-slate-400 transition-transform">▶</span>
               </summary>
               <div class="mt-3 pt-3 border-t border-slate-100">
-                <p class="p text-sm">Зависит от интеграции в вашу систему и объёма правил. На встрече скажем точный сценарий.</p>
+                <p class="p text-sm">Зависит от сложности
+                интеграции в вашу систему и объёма правил. 
+                На встрече скажем точный сценарий.</p>
               </div>
             </details>
           </div>
@@ -555,19 +965,24 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
       <!-- Pricing -->
       <Section id="pricing">
         <Container>
-          <h2 class="h2">Внедрение и цена</h2>
-          <p class="p mt-2">Зависит от интеграции в вашу систему, объёма документов и набора правил/проверок.</p>
+          <h2 class="h2">Подключение и цена</h2>
+          <p class="p mt-2">Зависит от интеграции в вашу систему, набора правил/проверок
+          
+          и объёма документов.</p>
 
           <FlexGrid cols={3} gap="md" class="mt-8">
             <Card>
-              <div class="text-sm font-semibold text-slate-600">Настройка</div>
+              <div class="text-sm font-semibold text-slate-600">
+              Настройка и подключение
+              </div>
               <div class="mt-2 text-3xl font-bold">от 400 €</div>
-              <p class="p mt-2 text-sm">Внедрение и настройка под ваши документы, формат и правила.</p>
+              <p class="p mt-2 text-sm">
+              Внедрение и настройка под ваши документы, формат и правила.</p>
             </Card>
 
             <Card>
               <div class="text-sm font-semibold text-slate-600">Подписка</div>
-              <div class="mt-2 text-3xl font-bold">от 150 €/мес</div>
+              <div class="mt-2 text-3xl font-bold">от 200 €/мес</div>
               <p class="p mt-2 text-sm">Поддержка, стабильность обработки и развитие по вашему процессу.</p>
             </Card>
 
