@@ -1019,8 +1019,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 400 €</div>
         <p class="p mt-2 text-sm text-slate-700">
           Настраиваем поля, правила и формат выгрузки под вашу компанию.
-        </p>
-        <p class="mt-2 text-xs text-slate-500">
+        
+        <br><br>
           Результат: получаете данные «как нужно вашей системе».
         </p>
       </Card>
@@ -1030,8 +1030,8 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 200 €/мес</div>
         <p class="p mt-2 text-sm text-slate-700">
           Стабильная обработка документов + адаптация под новые форматы и поставщиков.
-        </p>
-        <p class="mt-2 text-xs text-slate-500">
+        
+        <br><br>
           Чтобы система не «сломалась» при изменениях — мы держим качество на своей стороне.
         </p>
       </Card>
@@ -1057,10 +1057,9 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
             сопровождение: новые форматы/поставщики, улучшение результата
           </li>
         </ul>
+<a class="btn btn-primary" href="#request">Демо на ваших документах</a>
 
-        <a href="#request" class="btn btn-primary mt-5 w-full">Получить расчёт экономии</a>
         <div class="mt-2 text-xs text-slate-500">
-          Достаточно 5–10 примеров документов.
         </div>
       </Card>
     </FlexGrid>
@@ -1119,12 +1118,14 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 <div class="mt-4">
                   <label class="text-sm font-medium" for="samples">Примеры документов (опционально)</label>
                   <input id="samples" name="samples" type="file" class="file mt-2" multiple accept="image/*,application/pdf" />
-                  <div class="small mt-2">Можно приложить до 5 файлов (фото/сканы/PDF).</div>
+                  <div class="small mt-2">
+                  Можно приложить до 5 файлов (фото/сканы/PDF).</div>
                 </div>
 
                 <div class="mt-4">
                   <label class="text-sm font-medium" for="message">Комментарий</label>
-                  <textarea id="message" name="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" placeholder="Какая система учёта/CRM, сколько накладных в месяц, какие поставщики…"></textarea>
+                  <textarea id="message" name="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" 
+                  placeholder="Какая система учёта/CRM, сколько накладных в месяц…"></textarea>
                 </div>
 
                 <button id="submitBtn" class="btn btn-primary w-full mt-6" type="submit">Отправить запрос</button>
