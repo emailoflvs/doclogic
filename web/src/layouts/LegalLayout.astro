@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+const { title, description = '' } = Astro.props;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" href="/assets/favicon.svg" />
+  </head>
+  <body>
+    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur">
+      <div class="container flex h-16 items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3 shrink-0">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white font-bold">DL</span>
+          <span class="font-semibold">DocLogic</span>
+        </a>
+        <a class="btn btn-primary hidden sm:inline-flex" href="/#request">Проверить 5 документов</a>
+      </div>
+    </header>
+
+    <main class="py-12 md:py-16">
+      <div class="container max-w-4xl">
+        <div class="rounded-3xl bg-white p-7 md:p-10 shadow-soft ring-1 ring-slate-200">
+          <slot />
+        </div>
+      </div>
+    </main>
+
+    <footer class="py-8">
+      <div class="container flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-sm text-slate-500">
+        <div>© {year} DocLogic</div>
+        <div class="flex flex-wrap gap-x-4 gap-y-2">
+          <a href="/privacy/" class="hover:text-slate-900">Политика конфиденциальности</a>
+          <a href="/terms/" class="hover:text-slate-900">Условия использования</a>
+          <a href="/data-handling/" class="hover:text-slate-900">Обработка данных</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -7,6 +7,7 @@ import Card from '../components/Card.astro';
 
 const year = new Date().getFullYear();
 const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
+const fallbackYoutubeId = 'D0UoSqo5kzo';
 ---
 
 <!doctype html>
@@ -16,22 +17,21 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="build-time" content={new Date().toISOString()} />
 
-    <title>DocLogic — автоматизация ввода данных и документооборота</title>
+    <title>DocLogic — уберите ручной ввод накладных и счетов</title>
     <meta
       name="description"
-      content="DocLogic переносит данные из фото/сканов/PDF накладных в структурированные данные и выгружает в вашу систему (CRM/ERP/учёт) через API или файлом."
+      content="DocLogic убирает ручной ввод накладных, счетов и входящих документов: извлекает реквизиты и товары из фото, сканов и PDF, даёт быструю проверку и сохраняет результат в CRM, ERP и учётные системы."
     />
     <link rel="icon" href="/assets/favicon.svg" />
 
     <style is:global>
-      /* Active nav item (scrollspy) */
       .nav-link {
         position: relative;
         padding: 6px 0;
         transition: color 150ms ease;
       }
       .nav-link--active {
-        color: #0f172a !important; /* slate-900 */
+        color: #0f172a !important;
         font-weight: 600;
       }
       .nav-link--active::after {
@@ -48,1058 +48,672 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
   </head>
 
   <body>
-    <!-- Top Nav -->
-    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur">
-      <div class="container flex h-16 items-center justify-between">
-        <a href="#top" class="flex items-center gap-3">
+    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur">
+      <div class="container flex h-16 items-center justify-between gap-4">
+        <a href="#top" class="flex items-center gap-3 shrink-0">
           <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white font-bold">DL</span>
           <span class="font-semibold">DocLogic</span>
         </a>
 
         <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+          <a class="nav-link hover:text-slate-900" href="#roi">Экономика</a>
           <a class="nav-link hover:text-slate-900" href="#how">Как работает</a>
-          <a class="nav-link hover:text-slate-900" href="#benefits">Выгоды</a>
-          <a class="nav-link hover:text-slate-900" href="#integrations">Интеграции</a>
-          <a class="nav-link hover:text-slate-900" href="#differences">Отличия</a>
-          <a class="nav-link hover:text-slate-900" href="#examples">Примеры</a>
-          <a class="nav-link hover:text-slate-900" href="#custom">Настройка</a>
-          <a class="nav-link hover:text-slate-900" href="#pricing">Внедрение и цена</a>
+          <a class="nav-link hover:text-slate-900" href="#setup">Настройка</a>
+          <a class="nav-link hover:text-slate-900" href="#pricing">Цена</a>
           <a class="nav-link hover:text-slate-900" href="#faq">FAQ</a>
         </nav>
 
-        <a class="btn btn-primary" href="#request">Связаться с нами</a>
+        <a class="btn btn-primary hidden sm:inline-flex" href="#request">Проверить 5 документов</a>
       </div>
     </header>
 
     <main id="top">
-      <!-- Hero -->
-      <Section>
+      <Section padding="none" class="pt-2 pb-6 md:pt-3 md:pb-10">
         <Container>
-          <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-2">
+          <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-[1fr,1fr]">
             <div>
-              <div class="badge badge-lg">AI для ввода данных из документов</div>
+              <div class="badge">AI для входящих документов</div>
 
-              <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">
-                Перестаньте платить за<br />ввод данных
-              </h2>
+              <h1 class="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-[1.02] max-w-3xl">
+                Перестаньте платить за ввод данных
+              </h1>
 
-              <p class="p mt-4 max-w-xl text-lg text-slate-700">
-                Автоматический перенос данных из фото/PDF документов 
-                на компьютер для передачи в
-                <b> CRM / ERP / учётные и любые другие программы</b>.
+              <p class="p mt-5 max-w-2xl text-lg text-slate-700">
+                Сотрудник больше не вводит данные вручную.
+                <br>
+                DocLogic сокращает рутину, 
+                уменьшает ошибки и ускоряет закрытие поступлений.
               </p>
 
-              <ul class="mt-6 space-y-3 text-lg text-slate-700">
-                <li class="flex gap-3">
-                  <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span>
-                  Экономия на вводе данных
-                </li>
-                <li class="flex gap-3">
-                  <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span>
-                  Минимизация ошибок
-                </li>
-                <li class="flex gap-3">
-                  <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span>
-                  Быстрое получение данных о новых поступлениях
-                </li>
-                <li class="flex gap-3">
-                  <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-white text-base">✓</span>
-                  Программа настраивается специально для вас
-                </li>
-              </ul>
+              <div class="mt-6 space-y-3 max-w-2xl">
+                <div class="hero-point"><span></span>Экономия на вводе данных</div>
+                <div class="hero-point"><span></span>Минимизация ошибок (надежность 99%)</div>
+                <div class="hero-point"><span></span>Быстрее закрываются поступления</div>
+                <div class="hero-point"><span></span>
+                Независимость от людей</div>
+                <div class="hero-point"><span></span>
+                Безопасность масштабирование бизнеса</div>
+              </div>
 
               <div class="mt-8 flex flex-wrap gap-3">
-                <a class="btn btn-primary" href="#request">Связаться с нами</a>
+                <a class="btn btn-primary" href="#request">Проверить 5 документов</a>
               </div>
             </div>
 
-            <Card>
-              <div class="flex items-start justify-between gap-4">
+            <div class="space-y-4">
+              <Card id="hero-video" class="overflow-hidden">
                 <div>
-                  <h3 class="text-lg font-semibold">Из печатной накладной → в компьютерные данные</h3>
+                  <div class="text-lg font-semibold">
+                  Из печатной накладной → в компьютерные данные</div>
                   <div class="mt-1 text-sm text-slate-600">
-                    Фото/скан/pdf документа → AI-анализ → CRM / ERP / 
-                    учётные и любые другие программы
+                  Загрузка фото/скан/pdf документа → AI-анализ →
+                    проверка человеком
+                    → выгрузка в Вашу систему.
                   </div>
                 </div>
-              </div>
 
-              <div class="mt-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 overflow-hidden">
-                <img src="/assets/best_image_for_site2.png" alt="Из накладной в данные" class="w-full" loading="lazy" />
+                <div class="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200 bg-slate-100">
+                  <div class="video-poster-shell relative aspect-video w-full bg-slate-950">
+                    <button
+                      id="hero-video-trigger"
+                      type="button"
+                      class="video-poster-btn absolute inset-0 block h-full w-full text-left"
+                      aria-label="Запустить видео о работе DocLogic"
+                    >
+                      <img src="/assets/video-poster-youtube2.jpg" alt="Видео о работе DocLogic" class="h-full w-full object-cover" loading="eager" />
+                      <span class="video-poster-play" aria-hidden="true"></span>
+                    </button>
+                    <iframe
+                      id="hero-video-iframe"
+                      class="absolute inset-0 hidden h-full w-full"
+                      data-src={`https://www.youtube.com/embed/${fallbackYoutubeId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3`}
+                      title="Видео: как работает DocLogic"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                </div>
+              </Card>
+
+              <div class="grid gap-3 sm:grid-cols-3">
+                <div class="rounded-2xl bg-white p-4 ring-1 ring-slate-200 shadow-soft">
+                  <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Типовой поток</div>
+                  <div class="mt-1 text-2xl font-bold">180</div>
+                  <div class="mt-1 text-xs text-slate-500">документов<span class="whitespace-nowrap"> / мес</span></div>
+                </div>
+                <div class="rounded-2xl bg-white p-4 ring-1 ring-slate-200 shadow-soft">
+                  <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">После AI</div>
+                  <div class="mt-1 text-2xl font-bold">30–60 сек</div>
+                  <div class="mt-1 text-xs text-slate-500">на проверку</div>
+                </div>
+                <div class="rounded-2xl bg-slate-900 p-4 text-white shadow-soft">
+                  <div class="text-xs font-semibold uppercase tracking-wide text-white/70">Потенциал выгоды</div>
+                  <div class="mt-1 text-2xl font-bold">~803 <span class="whitespace-nowrap">€ / мес</span></div>
+                  </div>
               </div>
+            </div>
+          </FlexGrid>
+        </Container>
+      </Section>
+
+      <Section id="solution" padding="small">
+        <Container>
+          <div class="max-w-3xl">
+            <h2 class="h2">Где ручной ввод обходится дороже всего</h2>
+            <p class="p mt-2">
+              Производство, стройка, бухгалтерия и другие процессы с потоком входящих документов, где ручной ввод дорого обходится по времени, ошибкам и скорости закрытия поступлений.
+            </p>
+          </div>
+
+          <FlexGrid cols={4} gap="md" class="mt-8 lg:grid-cols-4">
+            <Card variant="feature">
+              <div class="text-base font-semibold">Производство</div>
+              <p class="p mt-2 text-sm">Много строк, цена ошибок выше обычного, важно быстро проводить поступления и сверять данные.</p>
+            </Card>
+            <Card variant="feature">
+              <div class="text-base font-semibold">Строительные компании</div>
+              <p class="p mt-2 text-sm">Поставки идут постоянно, документов много, ручной ввод тормозит операционку и учёт.</p>
+            </Card>
+            <Card variant="feature">
+              <div class="text-base font-semibold">Бухгалтерия и офисные процессы</div>
+              <p class="p mt-2 text-sm">Меньше ручных переносов, меньше ошибок из-за усталости и спешки, проще закрывать поток документов.</p>
+            </Card>
+            <Card variant="feature">
+              <div class="text-base font-semibold">Другие компании с потоком входящих документов</div>
+              <p class="p mt-2 text-sm">Опт, импорт, HoReCa, склады, сервисные компании и любые процессы с регулярными документами.</p>
             </Card>
           </FlexGrid>
         </Container>
       </Section>
 
-      <!-- Benefits -->
-      <Section id="benefits" padding="small">
+      <Section id="roi" padding="small">
         <Container>
-          <h2 class="h2">Выгоды для бизнеса</h2>
-          <p class="p mt-2">
-            <b>Основной эффект — экономия денег, быстрое поступление данных, минимизация ошибок, контроль и дальнейшая работа с данными.</b>
-          </p>
+          <div class="max-w-3xl">
+            <h2 class="h2">Сколько Вы теряете на ручном вводе</h2>
+            <p class="p mt-2">
+              Подставьте свои цифры и сразу увидите, сколько времени, денег и ручной рутины уходит каждый месяц.
+            </p>
+          </div>
 
-          <FlexGrid cols={4} gap="md" class="mt-8">
-            <Card variant="feature">
-              <div class="text-base font-semibold">Меньше работы = меньше затрат</div>
-              <p class="p mt-2 text-sm">
-              <!--
-              Рутинный ввод уходит: меньше операторов 
-              — или те же люди делают более ценную работу.
-              -->
-              Снижаем стоимость обработки документа: меньше ручного труда
+          <FlexGrid cols={2} gap="lg" items="start" class="mt-8 lg:grid-cols-2">
+            <Card>
+              <div class="text-lg font-semibold">Ваши цифры</div>
+              <p class="mt-1 text-sm text-slate-600">
+                Предзаполнено для сценария: 180 документов в месяц, 
+                5 минут ручного ввода, 15 € / час. Ограничений по объёму документов нет.
               </p>
-            </Card>
 
-            <Card variant="feature">
-              <div class="text-base font-semibold">Минимизация ошибок</div>
-              <p class="p mt-2 text-sm">
-                <!--DocLogic извлекает данные и показывает их в обычной web-форме. 
-                Если заметили неточность — быстро правите и сохраняете.
+              <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                  <label class="text-sm font-medium" for="roi_docs">Документов в месяц (примерно)</label>
+                  <input id="roi_docs" inputmode="numeric" class="mt-2 w-full rounded-2xl border 
+                  border-slate-200 bg-white px-4 py-3 text-sm" value="180" />
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="roi_minutes">
+                  Минут на документ сейчас</label>
+                  <input id="roi_minutes" inputmode="decimal" 
+                  class="mt-2 w-full rounded-2xl border 
+                  border-slate-200 bg-white px-4 py-3 text-sm" value="5" />
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="roi_rate">
+                  Стоимость часа сотрудника, €</label>
+                  <input id="roi_rate" inputmode="decimal" 
+                  class="mt-2 w-full rounded-2xl border border-slate-200 
+                  bg-white px-4 py-3 text-sm" value="15" />
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="roi_errors">Ошибок в месяц</label>
+                  <input id="roi_errors" inputmode="numeric" 
+                  class="mt-2 w-full rounded-2xl border 
+                  border-slate-200 bg-white px-4 py-3 text-sm" value="20" />
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="roi_error_cost">Цена одной ошибки, €</label>
+                  <input id="roi_error_cost" inputmode="decimal" 
+                  class="mt-2 w-full rounded-2xl border 
+                  border-slate-200 bg-white px-4 py-3 text-sm" value="30" />
+                </div>
+              </div>
+<!--
+              <details class="mt-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+                <!--<summary class="cursor-pointer text-sm font-semibold 
+                text-slate-900">Допущения расчёта</summary>
                 -->
-                Проверки перед выгрузкой: суммы, цены, дубли, обязательные 
-                поля — в систему попадает только корректное
+                <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                  <div class="sm:col-span-2 text-sm text-slate-600">
+                    После AI сотрудник быстро просматривает результат 
+                    и подтверждает выгрузку в web-форме.
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium" for="roi_after">Минут на проверку после DocLogic</label>
+                    <input id="roi_after" inputmode="decimal" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" value="0.5" />
+                    <div class="mt-1 text-xs text-slate-500">По умолчанию: 0.5 мин (30 сек)</div>
+                  </div>
+                </div>
+              </details>
+-->
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a href="#request" class="btn btn-primary">Получить точный расчёт и демо</a>
+                <button id="roi_reset" type="button" class="btn btn-secondary">Вернуть пример</button>
+              </div>
+            </Card>
+
+            <Card>
+              <div class="text-lg font-semibold">Результат</div>
+              <p class="mt-1 text-sm text-slate-600">
+                Это ориентир. На демо покажем расчёт уже на Ваших документах и Вашей схеме выгрузки.
               </p>
-            </Card>
 
-            <Card variant="feature">
-              <div class="text-base font-semibold">Ускорение закрытия поступлений</div>
-              <p class="p mt-2 text-sm">Данные быстрее попадают в систему — 
-              отделы работают синхронно .</p>
-            </Card>
+              <div class="mt-5 grid gap-3">
+                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+                  <div class="text-sm font-semibold text-slate-600">
+                  Экономия времени</div>
+                  <div id="roi_out_hours" class="mt-1 text-2xl font-bold">
+                  —</div>
+                  <div class="mt-1 text-xs text-slate-500">часов<span class="whitespace-nowrap"> / мес</span></div>
+                </div>
 
-            <Card variant="feature">
-              <div class="text-base font-semibold">Полная настройка программы для вас</div>
-              <p class="p mt-2 text-sm">Интеграция в вашу систему + доработки под ваш процесс (по договорённости на внедрении).</p>
-            </Card>
-          </FlexGrid>
-        </Container>
-      </Section>
+                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+                  <div class="text-sm font-semibold text-slate-600">Экономия на ручной обработке</div>
+                  <div id="roi_out_labor" class="mt-1 text-2xl font-bold">—</div>
+                  <div class="mt-1 text-xs text-slate-500"><span class="whitespace-nowrap">€/мес</span></div>
+                </div>
 
+                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
+                  <div class="text-sm font-semibold text-slate-600">Экономия на ошибках</div>
+                  <div id="roi_out_errors" class="mt-1 text-2xl font-bold">—</div>
+                  <div class="mt-1 text-xs text-slate-500"><span class="whitespace-nowrap">€/мес</span></div>
+                </div>
 
+                <div class="rounded-2xl bg-slate-900 p-4 text-white">
+                  <div class="text-sm font-semibold text-white/70">Итого потенциальная выгода</div>
+                  <div id="roi_out_total" class="mt-1 text-3xl font-bold">—</div>
+                  <div class="mt-1 text-xs text-white/70"><span class="whitespace-nowrap">€/мес</span></div>
+                </div>
 
-<!-- ROI / Экономия -->
-<Section id="roi" padding="small">
-  <Container>
-    <div class="max-w-3xl">
-      <h2 class="h2">Оценка экономии за 30 секунд</h2>
-      <p class="p mt-2">
-        Введите примерные цифры — покажем экономию денег и эффект по ошибкам.
-        Можно округлить: точность уточним на демо по вашим документам.
-      </p>
-    </div>
-
-    <FlexGrid cols={2} gap="lg" items="start" class="mt-8 lg:grid-cols-2">
-      <!-- Inputs -->
-      <Card>
-        <div class="text-lg font-semibold">Ваши цифры</div>
-        <p class="mt-1 text-sm text-slate-600">
-          Никаких «минимальных объёмов»: выгода зависит от времени ручной обработки и стоимости ошибок.
-        </p>
-
-        <div class="mt-5 grid gap-4 sm:grid-cols-2">
-          <div class="sm:col-span-2">
-            <label class="text-sm font-medium" for="roi_docs">Документов в месяц (примерно)</label>
-            <input
-              id="roi_docs"
-              inputmode="numeric"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
-              placeholder="например: 80 / 200 / 500 / 2000"
-            />
-          </div>
-
-          <div>
-            <label class="text-sm font-medium" for="roi_minutes">Минут на документ сейчас</label>
-            <input
-              id="roi_minutes"
-              inputmode="decimal"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
-              placeholder="например: 3–10"
-            />
-          </div>
-
-          <div>
-            <label class="text-sm font-medium" for="roi_rate">Стоимость часа сотрудника, €</label>
-            <input
-              id="roi_rate"
-              inputmode="decimal"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
-              placeholder="например: 15–30"
-            />
-          </div>
-
-          <div>
-            <label class="text-sm font-medium" for="roi_errors">Ошибок в месяц (опционально)</label>
-            <input
-              id="roi_errors"
-              inputmode="numeric"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white 
-              px-4 py-3 text-sm"
-              placeholder="например: 2 / 10 / 30"
-            />
-          </div>
-
-          <div>
-            <label class="text-sm font-medium" for="roi_error_cost">Цена одной ошибки, € (опционально)</label>
-            <input
-              id="roi_error_cost"
-              inputmode="decimal"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
-              placeholder="например: 20 / 80 / 200"
-            />
-          </div>
-        </div>
-
-        <details class="mt-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-          <summary class="cursor-pointer text-sm font-semibold text-slate-900">Допущения расчёта</summary>
-          <div class="mt-3 grid gap-3 sm:grid-cols-2">
-            <div class="sm:col-span-2 text-sm text-slate-600">
-              После сотрудник в обычной web-форме быстро проверяет и подтверждает результат.
-            </div>
-            <div>
-              <label class="text-sm font-medium" for="roi_after">Минут на проверку после DocLogic</label>
-              <input
-                id="roi_after"
-                inputmode="decimal"
-                class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
-                value="0.5"
-              />
-              <div class="mt-1 text-xs text-slate-500">По умолчанию: 0.5 мин (30 сек)</div>
-            </div>
-          </div>
-        </details>
-
-        <div class="mt-5 flex flex-wrap gap-3">
-          <a href="#request" class="btn btn-primary">
-          Демо на ваших документах
-          </a>
-          <button id="roi_reset" type="button" class="btn">Сбросить</button>
-        </div>
-
-        <div id="roi_hint" class="medium mt-2 text-slate-500">
-          При небольшом объёме выгода часто появляется за счёт дорогих
-           ошибок и сложных документов — проверим на ваших примерах
-          </div>
-      </Card>
-
-      <!-- Outputs -->
-      <Card>
-        <div class="text-lg font-semibold">Результат</div>
-        <p class="mt-1 text-sm text-slate-600">
-          Это оценка. Точный расчёт сделаем после 5–10 ваших документов и покажем выгрузку “как вам нужно”.
-        </p>
-
-        <div class="mt-5 grid gap-3">
-          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-            <div class="text-sm font-semibold text-slate-600">Экономия времени</div>
-            <div id="roi_out_hours" class="mt-1 text-2xl font-bold">—</div>
-            <div id="roi_out_hours_sub" class="mt-1 text-xs text-slate-500">часов/мес</div>
-          </div>
-
-          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-            <div class="text-sm font-semibold text-slate-600">Экономия на ручной обработке</div>
-            <div id="roi_out_labor" class="mt-1 text-2xl font-bold">—</div>
-            <div class="mt-1 text-xs text-slate-500">€/мес</div>
-          </div>
-
-          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-            <div class="text-sm font-semibold text-slate-600">Экономия на ошибках</div>
-            <div id="roi_out_errors" class="mt-1 text-2xl font-bold">—</div>
-            <div class="mt-1 text-xs text-slate-500">€/мес</div>
-          </div>
-
-          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4">
-            <div class="text-sm font-semibold text-slate-600">Итого потенциальная выгода</div>
-            <div id="roi_out_total" class="mt-1 text-3xl font-bold">—</div>
-            <div class="mt-1 text-xs text-slate-500">€/мес</div>
-          </div>
-
-          <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-            <div class="text-sm font-semibold">Комментарий</div>
-            <div id="roi_msg" class="mt-2 text-sm text-slate-700">
-              Введите цифры слева — мы покажем оценку экономии.
-            </div>
-          </div>
-        </div>
-      </Card>
-    </FlexGrid>
-
-    <script is:inline>
-      (function () {
-        const $ = (id) => document.getElementById(id);
-
-        const elDocs = $('roi_docs');
-        const elMin = $('roi_minutes');
-        const elRate = $('roi_rate');
-        const elAfter = $('roi_after');
-        const elErr = $('roi_errors');
-        const elErrCost = $('roi_error_cost');
-        const btnReset = $('roi_reset');
-
-        const outHours = $('roi_out_hours');
-        const outLabor = $('roi_out_labor');
-        const outErrors = $('roi_out_errors');
-        const outTotal = $('roi_out_total');
-        const outMsg = $('roi_msg');
-
-        const fmtEur = new Intl.NumberFormat('ru-RU', {
-          style: 'currency',
-          currency: 'EUR',
-          maximumFractionDigits: 0,
-        });
-
-        const fmtNum = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
-
-        const parse = (v) => {
-          if (v == null) return NaN;
-          const s = String(v).trim().replace(/\s+/g, '').replace(',', '.');
-          if (!s) return NaN;
-          const n = Number(s);
-          return Number.isFinite(n) ? n : NaN;
-        };
-
-        const clamp0 = (n) => (Number.isFinite(n) && n > 0 ? n : 0);
-
-        const setDash = () => {
-          outHours.textContent = '—';
-          outLabor.textContent = '—';
-          outErrors.textContent = '—';
-          outTotal.textContent = '—';
-        };
-
-        const update = () => {
-          const N = parse(elDocs.value);
-          const Tm = parse(elMin.value);
-          const R = parse(elRate.value);
-          const Ta = parse(elAfter.value);
-
-          const E = parse(elErr.value);
-          const Ec = parse(elErrCost.value);
-
-          // Need at least these three to compute labor ROI
-          const canLabor = Number.isFinite(N) && N > 0 && Number.isFinite(Tm) && Tm > 0 && Number.isFinite(R) && R > 0 && Number.isFinite(Ta) && Ta >= 0;
-
-          if (!canLabor) {
-            setDash();
-            outMsg.textContent = 'Введите документы/месяц, минуты на документ и стоимость часа — покажем оценку экономии.';
-            return;
-          }
-
-          const docs = clamp0(N);
-          const minutesManual = clamp0(Tm);
-          const rate = clamp0(R);
-          const minutesAfter = Math.max(0, Number.isFinite(Ta) ? Ta : 0.5);
-
-          // Manual workload (for message A/B/C)
-          const manualHours = (docs * minutesManual) / 60;
-
-          // Savings (labor)
-          const minutesSavedPerDoc = Math.max(0, minutesManual - minutesAfter);
-          const hoursSaved = (docs * minutesSavedPerDoc) / 60;
-          const laborEur = hoursSaved * rate;
-
-          // Savings (errors) — only if both inputs present
-          const hasErrorInputs = Number.isFinite(E) && E > 0 && Number.isFinite(Ec) && Ec > 0;
-          const errorsEur = hasErrorInputs ? E * Ec : 0;
-
-          const totalEur = laborEur + errorsEur;
-
-          outHours.textContent = fmtNum.format(hoursSaved);
-          outLabor.textContent = fmtEur.format(laborEur);
-          outErrors.textContent = hasErrorInputs ? fmtEur.format(errorsEur) : '—';
-          outTotal.textContent = fmtEur.format(totalEur);
-
-          // A/B/C message by manual hours (NOT by N_docs)
-          let msg = '';
-          if (manualHours < 10) {
-            msg =
-              'При небольшой нагрузке выгода чаще всего появляется за счёт дорогих ошибок и сложных документов. ' +
-              'Пришлите 5–10 примеров — покажем, есть ли экономический смысл именно у вас.';
-          } else if (manualHours < 40) {
-            msg =
-              'Чаще всего это уже окупается за счёт экономии времени + снижения ошибок. ' +
-              'На демо покажем выгрузку “как вам нужно” и сделаем точный расчёт.';
-          } else {
-            msg =
-              'При такой нагрузке эффект обычно максимальный: меньше ручной работы и меньше разборов из-за ошибок. ' +
-              'Давайте быстро сделаем пилот на ваших документах — результат увидите сразу.';
-          }
-
-          // If user didn’t enter error part, nudge gently
-          if (!hasErrorInputs) {
-            msg += ' Добавьте “ошибок/месяц” и “цену ошибки” — тогда расчёт станет ещё точнее.';
-          }
-
-          outMsg.textContent = msg;
-        };
-
-        const bind = (el) => el && el.addEventListener('input', update);
-
-        [elDocs, elMin, elRate, elAfter, elErr, elErrCost].forEach(bind);
-
-        btnReset?.addEventListener('click', () => {
-          elDocs.value = '';
-          elMin.value = '';
-          elRate.value = '';
-          elErr.value = '';
-          elErrCost.value = '';
-          elAfter.value = '0.5';
-          setDash();
-          outMsg.textContent = 'Введите цифры слева — мы покажем оценку экономии.';
-        });
-
-        // init
-        setDash();
-        update();
-      })();
-    </script>
-  </Container>
-</Section>
-
-
-
-
-      <!-- Examples -->
-      <Section id="examples">
-        <Container>
-          <h2 class="h2">Примеры документов</h2>
-
-          <FlexGrid cols={4} gap="md" class="mt-8">
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/invoice.jpg" alt="Пример накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/ford.jpeg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/french.jpg" alt="Пример накладной на иностранном языке" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/gastro.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/lunys.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/camozzi.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/metro.jpg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
-              </div>
-            </Card>
-
-            <Card class="overflow-hidden p-0">
-              <div class="w-full aspect-[210/297] bg-white flex items-start justify-center">
-                <img src="/assets/web/ttn.jpeg" alt="Пример товарной накладной" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+                <div class="roi-highlight">
+                  <div class="text-sm font-semibold uppercase tracking-wide text-emerald-800">
+                  Обычно окупается уже в первый месяц</div>
+                  <div id="roi_msg" class="mt-2 text-base font-medium text-slate-900">
+                  Расчёт обновится автоматически.</div>
+                </div>
               </div>
             </Card>
           </FlexGrid>
-        </Container>
-      </Section>
-
-      <!-- How -->
-      <Section id="how">
-        <Container>
-          <h2 class="h2">Как DocLogic работает</h2>
-          <p class="p mt-2"><b>Вход — накладная (фото/скан/PDF), выход — готовые данные в вашу систему.</b></p>
-
-          <FlexGrid cols={4} gap="md" class="mt-8">
-            <Card variant="feature">
-              <div class="badge">Шаг 1</div>
-              <div class="mt-3 text-lg font-semibold">Загружаете накладную</div>
-              <div class="p mt-2 text-sm">Скан, фото или PDF</div>
-            </Card>
-
-            <Card variant="feature">
-              <div class="badge">Шаг 2</div>
-              <div class="mt-3 text-lg font-semibold">Программа анализирует документ и собирает данные</div>
-              <div class="p mt-2 text-sm">Извлекаем <b>все нужные поля</b> из документа.</div>
-            </Card>
-
-            <Card variant="feature">
-              <div class="badge">Шаг 3</div>
-              <div class="mt-3 text-lg font-semibold">Посмотрели и при желании поправили</div>
-              <div class="p mt-2 text-sm">
-                Открывается страница с результатом: реквизиты + таблица товаров. Если нужно — правите как в Excel.
-              </div>
-            </Card>
-
-            <Card variant="feature">
-              <div class="badge">Шаг 4</div>
-              <div class="mt-3 text-lg font-semibold">После подтверждения данные сохраняются в указанном месте</div>
-              <div class="p mt-2 text-sm">
-                Отправка в CRM /ERP /учёт — через API или файлом (Excel/CSV/JSON), под ваш формат.
-              </div>
-            </Card>
-          </FlexGrid>
-
-          <div id="youtube-embed-wrapper" class="mt-8 max-w-4xl mx-auto" aria-hidden="true">
-            <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white shadow-soft youtube-embed-container" style="display: none;">
-              <div class="relative w-full aspect-video bg-slate-100">
-                <iframe
-                  class="absolute inset-0 w-full h-full block"
-                  title="Видео: как работает DocLogic"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                />
-              </div>
-            </div>
-          </div>
 
           <script is:inline>
-            (function() {
-              const wrap = document.getElementById('youtube-embed-wrapper');
-              const container = wrap?.querySelector('.youtube-embed-container');
-              const iframe = container?.querySelector('iframe');
-              if (!container || !iframe) return;
+            (function () {
+              const defaults = {
+                docs: '180',
+                minutes: '10',
+                rate: '18',
+                after: '0.5',
+                errors: '6',
+                errorCost: '45'
+              };
 
-              fetch('/api/config')
-                .then(r => r.json())
-                .then(data => {
-                  const id = data?.youtubeVideoId;
-                  if (id && typeof id === 'string' && id.trim()) {
-                    iframe.src = 'https://www.youtube.com/embed/' + id.trim() + '?rel=0&modestbranding=1&iv_load_policy=3';
-                    container.style.display = '';
-                    wrap.setAttribute('aria-hidden', 'false');
-                  }
-                })
-                .catch(() => {});
+              const $ = (id) => document.getElementById(id);
+              const elDocs = $('roi_docs');
+              const elMin = $('roi_minutes');
+              const elRate = $('roi_rate');
+              const elAfter = $('roi_after');
+              const elErr = $('roi_errors');
+              const elErrCost = $('roi_error_cost');
+              const btnReset = $('roi_reset');
+
+              const outHours = $('roi_out_hours');
+              const outLabor = $('roi_out_labor');
+              const outErrors = $('roi_out_errors');
+              const outTotal = $('roi_out_total');
+              const outMsg = $('roi_msg');
+
+              const fmtEur = new Intl.NumberFormat('ru-RU', {
+                style: 'currency',
+                currency: 'EUR',
+                maximumFractionDigits: 0,
+              });
+
+              const fmtNum = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
+
+              const parse = (v) => {
+                if (v == null) return NaN;
+                const s = String(v).trim().replace(/\s+/g, '').replace(',', '.');
+                if (!s) return NaN;
+                const n = Number(s);
+                return Number.isFinite(n) ? n : NaN;
+              };
+
+              const update = () => {
+                const docs = parse(elDocs.value);
+                const minutesManual = parse(elMin.value);
+                const rate = parse(elRate.value);
+                const minutesAfter = parse(elAfter.value);
+                const errors = parse(elErr.value);
+                const errorCost = parse(elErrCost.value);
+
+                if (![docs, minutesManual, rate, minutesAfter].every((v) => Number.isFinite(v) && v >= 0)) {
+                  outHours.textContent = '—';
+                  outLabor.textContent = '—';
+                  outErrors.textContent = '—';
+                  outTotal.textContent = '—';
+                  outMsg.textContent = 'Введите корректные цифры — и расчёт обновится автоматически.';
+                  return;
+                }
+
+                const minutesSavedPerDoc = Math.max(0, minutesManual - minutesAfter);
+                const hoursSaved = (docs * minutesSavedPerDoc) / 60;
+                const laborEur = hoursSaved * rate;
+                const errorsEur = Number.isFinite(errors) && Number.isFinite(errorCost) ? Math.max(0, errors) * Math.max(0, errorCost) : 0;
+                const totalEur = laborEur + errorsEur;
+                const manualHours = (docs * minutesManual) / 60;
+
+                outHours.textContent = fmtNum.format(hoursSaved);
+                outLabor.textContent = fmtEur.format(laborEur);
+                outErrors.textContent = fmtEur.format(errorsEur);
+                outTotal.textContent = fmtEur.format(totalEur);
+
+                if (manualHours < 15) {
+                  outMsg.textContent = 'Даже при умеренном потоке документов Вы снимаете часть рутины и уменьшаете число ошибок.';
+                } else if (manualHours < 40) {
+                  outMsg.textContent = 'При такой нагрузке DocLogic обычно окупается уже в первый месяц за счёт экономии времени и снижения ручной рутины.';
+                } else {
+                  outMsg.textContent = 'При такой нагрузке эффект обычно максимальный: освобождаются десятки часов в месяц и снижается нагрузка на команду.';
+                }
+              };
+
+              [elDocs, elMin, elRate, elAfter, elErr, elErrCost].forEach((el) => el?.addEventListener('input', update));
+
+              btnReset?.addEventListener('click', () => {
+                elDocs.value = defaults.docs;
+                elMin.value = defaults.minutes;
+                elRate.value = defaults.rate;
+                elAfter.value = defaults.after;
+                elErr.value = defaults.errors;
+                elErrCost.value = defaults.errorCost;
+                update();
+              });
+
+              update();
             })();
           </script>
         </Container>
       </Section>
 
-      <!-- Integrations -->
-      <Section id="integrations">
-        <Container>
-          <h2 class="h2">Куда отправляются данные</h2>
-          <p class="p mt-2"><b>Выгружаем в вашу систему через API или файлом (Excel/CSV/JSON) — формат под вас.</b></p>
-
-          <FlexGrid cols={1} gap="md" class="mt-8">
-            <Card>
-              <div class="text-base font-semibold">Куда отправляем</div>
-              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>CRM / ERP</b></div>
-                </div>
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Бухгалтерские/учётные системы</b></div>
-                </div>
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Файлом: Excel / CSV / JSON</b></div>
-                </div>
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Любая другая программа</b></div>
-                </div>
-              </div>
-            </Card>
-          </FlexGrid>
-        </Container>
-      </Section>
-
-      <!-- Custom: "Как будет в вашей учётной системе" -->
-      <Section id="custom">
+      <Section id="hidden-losses" padding="small">
         <Container>
           <div class="max-w-3xl">
-            <h2 class="h2">Как будет в вашей учётной системе</h2>
+            <h2 class="h2">Потери, которых не видно в калькуляторе</h2>
             <p class="p mt-2">
-              На встрече вы показываете 5–10 документов — мы настраиваем поля, правила и формат выгрузки.
-              Дальше вы смотрите результат и при необходимости правите (как в обычной форме).
+              Кроме прямой экономии есть ещё операционные риски, которые ручной ввод только усиливает.
             </p>
           </div>
 
-          <FlexGrid cols={1} gap="md" class="mt-8">
+          <FlexGrid cols={2} gap="md" class="mt-8 lg:grid-cols-2">
             <Card>
-              <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4">
-                <div class="text-sm font-semibold">Пример “как было → как стало”</div>
+              <div class="text-lg font-semibold">Ручной ввод зависит от конкретных людей</div>
+              <p class="p mt-3 text-sm">
+                Если сотрудник заболел, ушёл в отпуск или уволился, нагрузка резко ложится на остальных.
+                Новый человек работает медленнее и чаще ошибается.
+              </p>
+            </Card>
+            <Card>
+              <div class="text-lg font-semibold">При росте потока документов ручная обработка начинает тормозить бизнес</div>
+              <p class="p mt-3 text-sm">
+                Когда документов становится больше, ввод данных начинает задерживать поступления,
+                учёт и работу команды. DocLogic снимает это ограничение.
+              </p>
+            </Card>
+          </FlexGrid>
+        </Container>
+      </Section>
 
-                <div class="mt-2 grid gap-2 md:grid-cols-2 text-sm">
-                  <div class="rounded-xl bg-slate-50 p-3 text-slate-700">
-                    <b>В документе:</b> “pcs”, “Profil 50x50”, “1.000”
-                  </div>
-                  <div class="rounded-xl bg-slate-50 p-3 text-slate-700">
-                    <b>В учёте:</b> “шт”, “Профиль 50×50”, “1000” (по вашим правилам)
-                  </div>
-                </div>
+      <Section id="how" padding="small">
+        <Container>
+          <div class="max-w-3xl">
+            <h2 class="h2">Как DocLogic работает</h2>
+            <p class="p mt-2"><b>Вход — документ. Выход — готовые данные в Вашу систему.</b></p>
+          </div>
 
-                <div class="mt-2 text-slate-500 text-sm">
-                  Приводим данные к вашим правилам и формату на выходе.
-                </div>
+          <FlexGrid cols={2} gap="md" class="mt-8 lg:grid-cols-2">
+            <Card class="overflow-hidden p-0">
+              <div class="p-5 pb-0">
+                <div class="badge text-sm">Шаг 1</div>
+                <div class="mt-3 text-xl font-semibold">Выбираете документ для обработки</div>
+                <div class="p mt-2 text-sm">Фото, скан или PDF из Вашего рабочего потока.</div>
               </div>
-
-              <div class="mt-5 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <b>Что настраиваем</b>
-                  <div class="mt-1 text-slate-600">
-                    Реквизиты и строки товаров/услуг + любые поля, которые нужны вашей системе.
-                    <br>
-                    Правила: единицы, округления, НДС, обязательные поля, сопоставления.
-                  </div>
-                </div>
-
-                <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                  <b>Выгрузка в вашу систему</b>
-                  <div class="mt-1 text-slate-600">
-                    Через API или файлом (Excel/CSV/JSON) + web-форма проверки результата перед отправкой.
-                  </div>
-                </div>
+              <div class="p-5 pt-4">
+                <img src="/assets/steps/step1-select.png" alt="Выбор документа для обработки" class="step-shot" loading="lazy" />
               </div>
+            </Card>
 
-              <div class="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <p class="p text-sm md:max-w-2xl">
-                  <b>Итог:</b> на выходе вы получаете <b>единый стандарт данных</b> для вашей системы —
-                  даже при “зоопарке” документов от поставщиков.
-                </p>
+            <Card class="overflow-hidden p-0">
+              <div class="p-5 pb-0">
+                <div class="badge text-sm">Шаг 2</div>
+                <div class="mt-3 text-xl font-semibold">DocLogic обрабатывает документ</div>
+                <div class="p mt-2 text-sm">AI анализирует файл и готовит результат для проверки перед выгрузкой.</div>
+              </div>
+              <div class="p-5 pt-4">
+                <img src="/assets/steps/step2-processing-v2.png" alt="Обработка документа и подготовка результата" class="step-shot" loading="lazy" />
+              </div>
+            </Card>
 
-                <a href="#request" class="btn btn-primary whitespace-nowrap">Связаться и обсудить</a>
+            <Card class="overflow-hidden p-0">
+              <div class="p-5 pb-0">
+                <div class="badge text-sm">Шаг 3</div>
+                <div class="mt-3 text-xl font-semibold">Перед выгрузкой сотрудник проверяет результат</div>
+                <div class="p mt-2 text-sm">Реквизиты документа и товары доступны для быстрой проверки на одном экране.</div>
+              </div>
+              <div class="p-5 pt-4">
+                <img src="/assets/steps/step3-review-single.png" alt="Проверка реквизитов и товаров на одном экране" class="step-shot" loading="lazy" />
+              </div>
+            </Card>
+
+            <Card class="overflow-hidden p-0">
+              <div class="p-5 pb-0">
+                <div class="badge text-sm">Шаг 4</div>
+                <div class="mt-3 text-xl font-semibold">Данные сохраняются туда, где Вам удобно</div>
+                <div class="p mt-2 text-sm">CRM / ERP / учётная система / Excel / CSV / JSON. Google Sheets — только один из примеров вывода.</div>
+              </div>
+              <div class="p-5 pt-4">
+                <img src="/assets/steps/step4-output-v2.png" alt="Пример вывода данных в систему" class="step-shot" loading="lazy" />
               </div>
             </Card>
           </FlexGrid>
         </Container>
       </Section>
 
-      <!-- Individual settings -->
-<Section id="custom-rules">
-  <Container>
-    <div class="max-w-3xl">
-      <h2 class="h2">Индивидуальные настройки под ваш процесс</h2>
-      <p class="p mt-2">
-        На внедрении можем добавить <b>проверки и действия перед выгрузкой</b> —
-        чтобы в учёт попадали только корректные данные.
-      </p>
-    </div>
-
-    <FlexGrid cols={1} gap="md" class="mt-8">
-      <Card>
-        <div class="grid gap-4 sm:grid-cols-2 text-sm">
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
-            <div>
-              <b>Контроль сумм и цен</b>
-              <div class="mt-1 text-slate-600">Пересчёт по строкам и сверка с итогом документа.</div>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
-            <div>
-              <b>Защита от дублей</b>
-              <div class="mt-1 text-slate-600">Один документ не загрузится дважды.</div>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
-            <div>
-              <b>Сравнение с вашими данными</b>
-              <div class="mt-1 text-slate-600">
-                Берём ваши справочники/цены и применяем сценарий:
-                авто-загрузка / остановка / подтверждение.
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
-            <div>
-              <b>Правила под CRM / ERP / любые другие ваши программы</b>
-              <div class="mt-1 text-slate-600">Формат, порядок передачи, дополнительные обработки под ваш регламент.</div>
-            </div>
-          </div>
-
-          <!-- NEW: “любые другие” (не ограничиваем список) -->
-          <div class="flex items-start gap-3 sm:col-span-2">
-            <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">✓</span>
-            <div>
-              <b>Любые другие проверки и правила</b>
-              <div class="mt-1 text-slate-600">
-                Под ваши требования: обязательные поля, логика действий, маршрутизация, форматы и т.д.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-5 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
-          <div class="text-sm font-semibold">Результат</div>
-          <div class="mt-1 text-slate-600 text-sm">
-            В вашу систему попадают только те данные, которые прошли заданные проверки и правила.
-          </div>
-        </div>
-
-        <!-- вместо мелкого “подозрительного” текста -->
-        <div class="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p class="p text-sm text-slate-600 md:max-w-2xl">
-            На встрече быстро уточним ваш процесс и покажем, 
-            какие правила дадут максимум эффекта именно у вас.
-          </p>
-
-          <a href="#request" class="btn btn-primary whitespace-nowrap">Связаться и обсудить</a>
-        </div>
-      </Card>
-    </FlexGrid>
-  </Container>
-</Section>
-
-
-      <!-- Differences -->
-      <!--
-      <Section id="differences">
+      <Section id="proof" padding="small">
         <Container>
-          <h2 class="h2">Ключевые отличия DocLogic</h2>
+          <div class="max-w-3xl">
+            <h2 class="h2">Работает с реальными документами, а не с идеальными PDF</h2>
+            <p class="p mt-2">
+              Фото, сканы и PDF на разных языках и разного качества. Это показывает не презентацию, а реальный рабочий поток входящих документов.
+            </p>
+          </div>
 
-          <FlexGrid cols={1} gap="md" class="mt-8">
-            <Card>
-              <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Поддерживает документы на разных языках</b></div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Настройка и поддержка — на нашей стороне</b></div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Сам адаптируется к новым форматам — не нужно вести шаблоны поставщиков</b></div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">✓</span>
-                  <div><b>Развиваем решение вокруг ваших данных: правила обработки, доп. модули под задачи</b></div>
-                </div>
-              </div>
+          <FlexGrid cols={4} gap="md" class="mt-8 lg:grid-cols-4">
+            <Card class="overflow-hidden p-0 proof-card-tight">
+              <div class="proof-frame-tight"><img src="
+              /assets/rostov.jpeg" alt="Печатная накладная с печатью" class="proof-doc-image" loading="lazy" /></div>
+              <div class="proof-caption-tight">Печатная накладная с печатью и подписями</div>
+            </Card>
+            <Card class="overflow-hidden p-0 proof-card-tight">
+              <div class="proof-frame-tight"><img src="/assets/proof_french_cropped.jpg" alt="PDF на иностранном языке" class="proof-doc-image" loading="lazy" /></div>
+              <div class="proof-caption-tight">PDF на иностранном языке</div>
+            </Card>
+            <Card class="overflow-hidden p-0 proof-card-tight">
+              <div class="proof-frame-tight"><img src="/assets/proof_gastro_cropped.png" alt="Фото документа с телефона" class="proof-doc-image" loading="lazy" /></div>
+              <div class="proof-caption-tight">Фото с телефона и неидеальным качеством</div>
+            </Card>
+            <Card class="overflow-hidden p-0 proof-card-tight">
+              <div class="proof-frame-tight"><img src="/assets/proof_ttn_cropped.jpeg" alt="ТТН" class="proof-doc-image" loading="lazy" /></div>
+              <div class="proof-caption-tight">ТТН</div>
             </Card>
           </FlexGrid>
         </Container>
       </Section>
--->
-
-<!-- Differences -->
-<!-- Differences -->
-<Section id="differences" padding="small">
-  <Container>
-    <div class="max-w-3xl">
-      <h2 class="h2">Ключевые отличия DocLogic</h2>
-      <p class="p mt-2">
-        Мы делаем не просто распознавание текста, а <b>подготовку данных под вашу компанию</b> — с нужными полями,
-        правилами и форматом выгрузки.
-      </p>
-    </div>
-
-    <FlexGrid cols={3} gap="md" class="mt-8 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- 1 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Настраиваем под каждую компанию отдельно</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              Поля, правила обработки и формат выгрузки — под вашу систему и ваш процесс, а не “один шаблон на всех”.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <!-- 2 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Структурированные данные на выходе</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              На выходе — не “текст”, а реквизиты + строки товаров/услуг в структуре, удобной для вашей системы.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <!-- 3 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Проверка результата перед выгрузкой</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              Сотрудник быстро просматривает результат и подтверждает. 
-              При необходимости — правит в web-форме.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <!-- 4 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Правила и проверки — по вашим требованиям</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              На запуске можем настроить проверки (суммы/цены/дубли/обязательные поля/сверка со справочниками) — под ваш регламент.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <!-- 5 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Без “ведения шаблонов” поставщиков</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              Документы бывают разными — мы подстраиваем извлечение и структуру данных под вашу задачу.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <!-- 6 -->
-      <Card variant="feature" class="h-full">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-900 text-sm">
-            ✓
-          </span>
-          <div>
-            <div class="text-base font-semibold text-slate-900">Выгрузка туда, где вам удобно</div>
-            <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-              Через API или файлом (Excel/CSV/JSON) — формат на выходе делаем под вашу систему.
-            </p>
-          </div>
-        </div>
-      </Card>
-    </FlexGrid>
-
-    <div class="mt-6 flex flex-wrap items-center gap-3">
-      <a class="btn btn-primary" href="#request">Демо на ваших документах</a>
-      <div class="text-sm text-slate-500">
-      </div>
-    </div>
-  </Container>
-</Section>
 
 
-      <!-- FAQ -->
-      <Section id="faq">
+      <Section id="setup" padding="small">
         <Container>
-          <h2 class="h2">FAQ</h2>
-          <p class="p mt-2"><b>Короткие ответы на типовые вопросы.</b></p>
-
-          <div class="mt-8 space-y-3">
-            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
-              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
-                <span class="flex-1">Это заменяет сотрудников?</span>
-                <span class="ml-4 text-slate-400 transition-transform">▶</span>
-              </summary>
-              <div class="mt-3 pt-3 border-t border-slate-100">
-                <p class="p text-sm">Нет — снимает рутину. Человек быстро просматривает результат и подтверждает.</p>
-              </div>
-            </details>
-
-            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
-              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
-                <span class="flex-1">Если у поставщиков разные шаблоны?</span>
-                <span class="ml-4 text-slate-400 transition-transform">▶</span>
-              </summary>
-              <div class="mt-3 pt-3 border-t border-slate-100">
-                <p class="p text-sm">Это нормально: DocLogic распознаёт структуру и извлекает данные без “ведения шаблонов”.</p>
-              </div>
-            </details>
-
-            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
-              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
-                <span class="flex-1">Можно ли отправлять через Telegram?</span>
-                <span class="ml-4 text-slate-400 transition-transform">▶</span>
-              </summary>
-              <div class="mt-3 pt-3 border-t border-slate-100">
-                <p class="p text-sm">
-                  Да. Можно отправлять документ в ваш Telegram Bot. Фото должны быть хорошего качества (Telegram сжимает), PDF не портится.
-                </p>
-              </div>
-            </details>
-
-            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
-              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
-                <span class="flex-1">Насколько быстры настройка и подключение?</span>
-                <span class="ml-4 text-slate-400 transition-transform">▶</span>
-              </summary>
-              <div class="mt-3 pt-3 border-t border-slate-100">
-                <p class="p text-sm">Зависит от сложности
-                интеграции в вашу систему и объёма правил. 
-                На встрече скажем точный сценарий.</p>
-              </div>
-            </details>
+          <div class="max-w-3xl">
+            <h2 class="h2">Мы настраиваем решение под Ваш процесс</h2>
+            <p class="p mt-2">
+              Это не просто распознавание текста. 
+              <br>Мы настраиваем поля, проверки, формат выгрузки и 
+              правила передачи данных под Вашу систему.
+            </p>
           </div>
+
+          <Card class="mt-8">
+            <div class="grid gap-5 lg:grid-cols-2">
+              <div class="rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
+                <div class="text-lg font-semibold">Как выглядит реальный запуск, а не демо</div>
+                <p class="mt-3 text-sm text-slate-700 leading-relaxed">
+                
+                  После показа демо Вы описываете все требования, 
+                  которые должна выполнять программа, и мы внедряем их.
+                 <!--
+                  Это может быть простая передача данных в CRM / ERP / учёт, а может быть более сложная логика:
+                  специфические переводы, работа с Вашими данными, сверка с остатками, ценами или количеством товара и предупреждения оператору.
+                -->
+                </p>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm text-slate-700">
+                  <div class="rounded-xl bg-white p-3 ring-1 ring-slate-200">Простая выгрузка в CRM / ERP / учёт</div>
+                  <div class="rounded-xl bg-white p-3 ring-1 ring-slate-200">Специфические переводы и нужная Вам терминология</div>
+                  <div class="rounded-xl bg-white p-3 ring-1 ring-slate-200">Проверка по Вашим данным: остатки, цены, количество</div>
+                  <div class="rounded-xl bg-white p-3 ring-1 ring-slate-200">Предупреждения оператору по Вашим правилам</div>
+                </div>
+                <div class="mt-4 rounded-2xl bg-white p-4 ring-1 ring-slate-200 text-sm text-slate-700">
+                  <b>Итог:</b> решение обрабатывает данные по Вашим правилам, а не только по “одному шаблону на всех”.
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="setting-row"><span>✓</span><div><b>Поля и структура данных</b><div class="text-sm text-slate-600 mt-1">Что именно извлекаем из документа и как это будет называться на выходе.</div></div></div>
+                <div class="setting-row"><span>✓</span><div><b>Проверки перед выгрузкой</b><div class="text-sm text-slate-600 mt-1">Суммы, дубли, обязательные поля и простые правила под Ваш регламент.</div></div></div>
+                <div class="setting-row"><span>✓</span><div><b>Формат передачи данных</b><div class="text-sm text-slate-600 mt-1">API, Excel, CSV, JSON или другой формат, который нужен Вашей системе.</div></div></div>
+                <div class="setting-row"><span>✓</span><div><b>Адаптация под новые документы</b><div class="text-sm text-slate-600 mt-1">Новые поставщики и форматы не должны ломать процесс при каждом изменении.</div></div></div>
+              </div>
+
+
+            </div>
+          </Card>
         </Container>
       </Section>
 
 
 
-      <!-- Pricing -->
-<!--
-      <Section id="pricing">
+
+
+
+      <Section id="pricing" padding="small">
         <Container>
-          <h2 class="h2">Подключение и цена</h2>
-          <p class="p mt-2">Зависит от интеграции в вашу систему, набора правил/проверок
-          
-          и объёма документов.</p>
+          <h2 class="h2">Цена и окупаемость</h2>
+          <p class="p mt-2">Цена зависит от объёма документов, правил и способа выгрузки. 
+          <br>Важно не только “сколько стоит”, но и как быстро сценарий окупает ручной труд.</p>
 
           <FlexGrid cols={3} gap="md" class="mt-8">
             <Card>
-              <div class="text-sm font-semibold text-slate-600">
-              Настройка и подключение
-              </div>
-              <div class="mt-2 text-3xl font-bold">от 400 €</div>
-              <p class="p mt-2 text-sm">
-              Внедрение и настройка под ваши документы, формат и правила.</p>
-            </Card>
+              <div class="text-sm font-semibold text-slate-600">Настройка и подключение</div>
+              <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 400 €</div>
+              <p class="p mt-2 text-sm text-slate-700">
+                Запуск под Ваши документы, поля, правила и формат выгрузки.
+               <br> Первый результат показываем ещё на демо при первой встрече.
+               <br>Стоимость зависит от сложности необходимой настройки.
+               <br>Запуск от 2 рабочих дней. 
+               Срок зависит от Ваших требований, правил обработки и формата выгрузки.
+              </p>
+            </Card>>
 
             <Card>
-              <div class="text-sm font-semibold text-slate-600">Подписка</div>
-              <div class="mt-2 text-3xl font-bold">от 200 €/мес</div>
-              <p class="p mt-2 text-sm">Поддержка, стабильность обработки и развитие по вашему процессу.</p>
+              <div class="text-sm font-semibold text-slate-600">Ежемесячное сопровождение</div>
+              <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">
+              от 200 <span class="whitespace-nowrap">€ / мес</span></div>
+              <p class="p mt-2 text-sm text-slate-700">
+                
+              <ul class="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span>
+                 поддержка качества обработки</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span>
+                 адаптация к новым поставщикам</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span>
+                количество и качество обрабатываемых документов</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span> 
+                сложность сценария обработки каждого запроса</li>
+                </ul>
+              </p>
+              
             </Card>
 
-            <Card>
-              <div class="text-sm font-semibold text-slate-600">Что входит</div>
-              <ul class="mt-3 space-y-2 text-sm text-slate-700">
-                <li class="flex gap-2"><span class="mt-1">•</span> настройка под ваши документы и правила</li>
-                <li class="flex gap-2"><span class="mt-1">•</span> интеграция через API/файлы</li>
-                <li class="flex gap-2"><span class="mt-1">•</span> поддержка и развитие</li>
+            <Card class="border-slate-900 ring-2 ring-slate-900/10">
+              <div class="text-sm font-semibold text-slate-600">Что Вы получаете на старте</div>
+              <ul class="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span>
+                 пример результата на своих документах до старта</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span> точность извлечения может достигать 99%*</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span> ограничений по объёму документов нет</li>
+                <li class="flex gap-2"><span class="mt-1 text-slate-400">•</span>
+                 формат выгрузки и правила под Ваш процесс</li>
               </ul>
+              
             </Card>
           </FlexGrid>
         </Container>
       </Section>
 
--->
+      <Section id="about" padding="small">
+        <Container>
+          <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-[0.28fr,0.72fr]">
+            <div>
+              <img src="/assets/founder-vladimir.png" 
+              alt="Владимир Любимов, основатель проекта DocLogic" 
+              class="w-full max-w-[240px] rounded-[28px] 
+              shadow-soft ring-1 ring-slate-200 bg-white" loading="lazy" />
+            </div>
 
-<!-- Pricing -->
-<Section id="pricing" padding="small">
-  <Container>
-    <h2 class="h2">Настройка и стоимость</h2>
-    <p class="p mt-2">
-      Цена зависит от объёма документов, сложности правил и способа выгрузки (API/файл).
-    </p>
+            <div class="space-y-5">
+              <div>
+                <h2 class="h2">О нас</h2>
+                <p class="p mt-3 text-base">
+                  <b>Владимир Любимов</b> — основатель проекта DocLogic.
+                  <b> 20 лет опыта</b> в международной торговле, производстве и IT-бизнесе.
+                  Создатель нескольких CRM- и ERP-решений под реальные операционные процессы компаний.
+                </p>
+                <p class="p mt-3 text-base">
+                  DocLogic создан как практический инструмент для компаний, где ручной ввод входящих документов
+                  отнимает время, создаёт ошибки и тормозит операционку.
+                </p>
+              </div>
 
-    <FlexGrid cols={3} gap="md" class="mt-8">
-      <Card>
-        <div class="text-sm font-semibold text-slate-600">Настройка и подключение</div>
-        <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 400 €</div>
-        <p class="p mt-2 text-sm text-slate-700">
-          Настраиваем поля, правила и формат выгрузки под вашу компанию.
-        
-        <br><br>
-          Результат: получаете данные «как нужно вашей системе».
-        </p>
-      </Card>
+              <Card>
+                <div class="text-lg font-semibold">Контакты</div>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm text-slate-700">
+                  <div><b>Локация</b>:Братислава, Словакия</div>
+                  <div><b>Email</b>: info@doclogic.eu</div>
+                  <div><b>Телефон и мессенджеры</b><br />+421 911 705 770<br />+380 50 361 2699</div>
+                  <div><b>Telegram</b><br />@lyubimov_v</div>
+                </div>
+              </Card>
+            </div>
+          </FlexGrid>
+        </Container>
+      </Section>
 
-      <Card>
-        <div class="text-sm font-semibold text-slate-600">Ежемесячное сопровождение</div>
-        <div class="mt-2 text-2xl md:text-3xl font-bold tracking-tight">от 200 €/мес</div>
-        <p class="p mt-2 text-sm text-slate-700">
-          Стабильная обработка документов + адаптация под новые форматы и поставщиков.
-        
-        <br><br>
-          Чтобы система не «сломалась» при изменениях — мы держим качество на своей стороне.
-        </p>
-      </Card>
+      <Section id="security" padding="small">
+        <Container>
+          <Card>
+            <h2 class="h2 text-[1.9rem] md:text-3xl">Безопасность и обработка документов</h2>
 
-      <Card>
-        <div class="text-sm font-semibold text-slate-600">Что входит</div>
+            <div class="mt-6 grid gap-3 lg:grid-cols-4">
+              <div class="security-item">EU-hosted infrastructure: Германия</div>
+              <div class="security-item">Original files are not retained after processing</div>
+              <div class="security-item lg:col-span-2">Доступ к документам ограничен. Серверные настройки меняют только администраторы.</div>
+              <div class="security-item lg:col-span-4">NDA / data handling terms — по запросу</div>
+            </div>
+          </Card>
+        </Container>
+      </Section>
 
-        <ul class="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
-          <li class="flex gap-2">
-            <span class="mt-1 text-slate-400">•</span>
-            настройка полей и структуры данных под вашу систему
-          </li>
-          <li class="flex gap-2">
-            <span class="mt-1 text-slate-400">•</span>
-            правила и проверки по вашему регламенту (опционально)
-          </li>
-          <li class="flex gap-2">
-            <span class="mt-1 text-slate-400">•</span>
-            выгрузка через API или файлом (Excel/CSV/JSON)
-          </li>
-          <li class="flex gap-2">
-            <span class="mt-1 text-slate-400">•</span>
-            сопровождение: новые форматы/поставщики, улучшение результата
-          </li>
-        </ul>
-<br>
-<a class="btn btn-primary" href="#request">Демо на ваших документах</a>
-
-        <div class="mt-2 text-xs text-slate-500">
-        </div>
-      </Card>
-    </FlexGrid>
-  </Container>
-</Section>
-
-      <!-- Request -->
       <Section id="request">
         <Container>
           <Card variant="dark" padding="lg">
             <FlexGrid cols={2} gap="lg" items="start">
               <div>
-                <div class="badge bg-white/10 text-white">Запрос</div>
-                <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">Связаться с нами</h2>
+                <div class="badge bg-white/10 text-white">Следующий шаг</div>
+                <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">Покажем результат на Ваших документах</h2>
 
-                <h3 class="mt-3 text-3xl md:text-3xl font-bold tracking-tight leading-relaxed">
-                  На встрече протестируем ваши накладные в демо-версии
-                </h3>
-
-                <p class="mt-3 text-white/80 leading-relaxed">
-                  Пришлите примеры накладных — оценим объём, предложим сценарий внедрения и подготовим коммерческое предложение.
+                <p class="mt-4 text-white/80 leading-relaxed text-lg">
+                  Пришлите 5–10 документов или просто оставьте контакт.
+                  На встрече покажем, как будет выглядеть результат, какой объём ручной работы можно убрать и как это встроить в Ваш процесс.
                 </p>
 
                 <ul class="mt-6 space-y-3 text-sm text-white/85">
-                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> обработка ваших реальных документов</li>
-                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> пример структуры данных «как вам нужно»</li>
-                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> план внедрения и оценка экономии</li>
+                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> пример структуры данных “как Вам нужно”</li>
+                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> оценка экономии на Ваших цифрах</li>
+                  <li class="flex gap-3"><span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15">✓</span> понятный план запуска без лишней бюрократии</li>
                 </ul>
+
+                <div class="mt-4 flex flex-wrap gap-3">
+                  <a class="btn btn-white-outline" href="https://t.me/lyubimov_v" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+
+                <!--  
+                  <a class="btn btn-white-outline" href="https://wa.me/421911705770" 
+                  target="_blank" rel="noopener noreferrer">Написать в WhatsApp</a>
+                -->
+                </div>
               </div>
 
               <form id="leadForm" class="rounded-3xl bg-white text-slate-900 p-6 md:p-7" enctype="multipart/form-data">
                 <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;" aria-hidden="true" />
 
                 <div class="text-lg font-semibold">Контакты</div>
-                <p class="mt-1 text-sm text-slate-600">Оставьте имя и любой контакт (email или телефон). Можно приложить примеры документов.</p>
+                <p class="mt-1 text-sm text-slate-600">Оставьте имя и любой контакт. Примеры документов — по желанию.</p>
 
                 <div class="mt-5 grid gap-4 sm:grid-cols-2">
                   <div>
@@ -1115,7 +729,7 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                     <input id="email" name="email" type="email" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" placeholder="name@company.com" />
                   </div>
                   <div>
-                    <label class="text-sm font-medium" for="phone">Телефон</label>
+                    <label class="text-sm font-medium" for="phone">Телефон / Telegram</label>
                     <input id="phone" name="phone" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" />
                   </div>
                 </div>
@@ -1123,17 +737,22 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 <div class="mt-4">
                   <label class="text-sm font-medium" for="samples">Примеры документов (опционально)</label>
                   <input id="samples" name="samples" type="file" class="file mt-2" multiple accept="image/*,application/pdf" />
-                  <div class="small mt-2">
-                  Можно приложить до 5 файлов (фото/сканы/PDF).</div>
+                  <div class="small mt-2">До 5 файлов: фото, сканы или PDF.</div>
                 </div>
 
                 <div class="mt-4">
                   <label class="text-sm font-medium" for="message">Комментарий</label>
-                  <textarea id="message" name="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" 
-                  placeholder="Какая система учёта/CRM, сколько накладных в месяц…"></textarea>
+                  <textarea id="message" name="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" placeholder="Какая система учёта, сколько документов в месяц, 
+                  что хотите получить на выходе"></textarea>
                 </div>
 
-                <button id="submitBtn" class="btn btn-primary w-full mt-6" type="submit">Отправить запрос</button>
+                <button id="submitBtn" class="btn btn-primary w-full mt-6" type="submit">
+                Получить демо и расчёт</button>
+               <!-- <div class="small mt-3 text-slate-500">
+                  Отправляя форму, Вы соглашаетесь с <a href="/privacy/" class="underline underline-offset-2 hover:text-slate-900">политикой конфиденциальности</a>
+                  и <a href="/data-handling/" class="underline underline-offset-2 hover:text-slate-900">условиями обработки данных</a>.
+                </div>
+                -->
                 <div id="formMsg" class="small mt-3"></div>
               </form>
             </FlexGrid>
@@ -1141,25 +760,122 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
         </Container>
       </Section>
 
+      <Section id="faq" padding="small">
+        <Container>
+          <h2 class="h2">FAQ</h2>
+
+          <div class="mt-8 space-y-3">
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Это заменяет сотрудников?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Нет. Убирает рутину: AI собирает данные, а сотрудник быстро проверяет и подтверждает результат.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Если документы у поставщиков разные?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Это нормальный сценарий. На запуске настраиваем поля, правила и формат результата под Ваш процесс.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Какая точность реально?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Точность извлечения может достигать 99%, в зависимости от качества документа и после настройки сценария. Перед выгрузкой результат подтверждается сотрудником.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Насколько быстро можно стартовать?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">
+              Типовой рабочий сценарий запускаем от 2 рабочих дней. Срок зависит от Ваших требований, правил обработки и формата выгрузки.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Есть ли ограничения по объёму документов?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Ограничений по объёму документов нет. Решение масштабируется под Вашу нагрузку.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Как выглядит запуск после демо?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">После показа демо Вы описываете все требования, которые должна выполнять программа именно в Вашем процессе. Это может быть простая передача данных в CRM / ERP / учёт, а может быть более сложная обработка: специфические переводы, работа с Вашими данными, сверка с остатками, ценами или количеством товара и предупреждения оператору. Программа может обрабатывать данные согласно Вашим требованиям.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Как обеспечивается безопасность документов?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Инфраструктура размещается в Германии. Оригиналы документов не храним после обработки. Доступ к документам ограничен, серверные настройки меняют только администраторы. NDA / data handling terms — по запросу.</p></div>
+            </details>
+
+            <details class="rounded-2xl bg-white ring-1 ring-slate-200 p-5">
+              <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-900">
+                <span class="flex-1">Что Вы получите после первой встречи?</span>
+                <span class="ml-4 text-slate-400 transition-transform">▶</span>
+              </summary>
+              <div class="mt-3 pt-3 border-t border-slate-100"><p class="p text-sm">Пример результата на Ваших документах, оценку экономии и понятный следующий шаг по запуску.</p></div>
+            </details>
+
+            <!-- TODO: добавить позже публичный ответ на вопрос "Кто уже этим пользуется?" -->
+          </div>
+        </Container>
+      </Section>
+
+<!--
       <footer class="py-8">
         <div class="container flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-sm text-slate-500">
           <div>© {year} DocLogic <span class="text-slate-400" title="Обновите страницу с Ctrl+Shift+R">· сборка {buildId}</span></div>
-          <a class="hover:text-slate-800" href="https://scan.doclogic.eu/" target="_blank">Тестовая версия</a>
+          <div class="flex flex-wrap gap-x-4 gap-y-2">
+            <a href="/privacy/" class="hover:text-slate-900">Политика конфиденциальности</a>
+            <a href="/terms/" class="hover:text-slate-900">Условия использования</a>
+            <a href="/data-handling/" class="hover:text-slate-900">Обработка данных</a>
+          </div>
         </div>
       </footer>
+    
+    -->
     </main>
 
-    <!-- Scrollspy: подсветка активного пункта меню -->
+    <div class="mobile-cta-bar md:hidden">
+      <a class="btn btn-primary w-full" href="#request">Проверить 5 документов</a>
+    </div>
+
+
     <script is:inline>
       (function () {
-        const header = document.querySelector('header');
-        const links = Array.from(document.querySelectorAll('header nav a[href^="#"]'));
+        const trigger = document.getElementById('hero-video-trigger');
+        const iframe = document.getElementById('hero-video-iframe');
+        if (!trigger || !iframe) return;
 
+        trigger.addEventListener('click', () => {
+          const src = iframe.getAttribute('data-src');
+          if (src && !iframe.getAttribute('src')) iframe.setAttribute('src', src);
+          iframe.classList.remove('hidden');
+          trigger.classList.add('hidden');
+        }, { once: true });
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        const links = Array.from(document.querySelectorAll('header nav a[href^="#"]'));
         if (!links.length) return;
 
-        const sections = links
-          .map(a => document.querySelector(a.getAttribute('href')))
-          .filter(Boolean);
+        const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
         const setActive = (id) => {
           links.forEach(a => {
@@ -1168,7 +884,6 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
           });
         };
 
-        // initial by hash
         if (location.hash) {
           const id = location.hash.replace('#', '');
           if (document.getElementById(id)) setActive(id);
@@ -1176,33 +891,24 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
         const observer = new IntersectionObserver(
           (entries) => {
-            const visible = entries
-              .filter(e => e.isIntersecting)
-              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
+            const visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
             if (visible?.target?.id) setActive(visible.target.id);
           },
           {
             root: null,
-            // учитываем липкий header: активируем секцию, когда она ближе к верхней части экрана
             rootMargin: '-35% 0px -55% 0px',
             threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
           }
         );
 
         sections.forEach(s => observer.observe(s));
-
-        // on click: update active immediately
-        links.forEach(a => {
-          a.addEventListener('click', () => {
-            const id = (a.getAttribute('href') || '').replace('#', '');
-            if (id) setActive(id);
-          });
-        });
+        links.forEach(a => a.addEventListener('click', () => {
+          const id = (a.getAttribute('href') || '').replace('#', '');
+          if (id) setActive(id);
+        }));
       })();
     </script>
 
-    <!-- Lead form submit -->
     <script is:inline>
       const form = document.getElementById('leadForm');
       const msg = document.getElementById('formMsg');
@@ -1235,15 +941,10 @@ const buildId = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
           const data = await res.json();
           const criticalChannels = ['email', 'telegram'];
-
-          const criticalResults = criticalChannels
-            .map(key => data.results?.[key])
-            .filter(Boolean);
-
+          const criticalResults = criticalChannels.map(key => data.results?.[key]).filter(Boolean);
           const criticalHasErrors = criticalResults.some(r => r.error);
           const criticalHasSuccess = criticalResults.some(r => r.ok);
-          const criticalAllSkipped =
-            criticalResults.length > 0 && criticalResults.every(r => r.skipped && !r.ok);
+          const criticalAllSkipped = criticalResults.length > 0 && criticalResults.every(r => r.skipped && !r.ok);
 
           if (criticalHasErrors) {
             msg.textContent = 'Запрос отправлен, но возникли ошибки при уведомлении. Проверьте логи сервера.';
