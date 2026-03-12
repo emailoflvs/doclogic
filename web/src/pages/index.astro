@@ -299,11 +299,13 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                     После AI сотрудник быстро просматривает результат 
                     и подтверждает выгрузку в web-форме.
                   </div>
+                  <!--
                   <div>
                     <label class="text-sm font-medium" for="roi_after">Минут на проверку после DocLogic</label>
                     <input id="roi_after" inputmode="decimal" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" value="0.5" />
                     <div class="mt-1 text-xs text-slate-500">По умолчанию: 0.5 мин (30 сек)</div>
                   </div>
+                  -->
                 </div>
               </details>
 -->
@@ -413,7 +415,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 const docs = parse(elDocs.value);
                 const minutesManual = parse(elMin.value);
                 const rate = parse(elRate.value);
-                const minutesAfter = parse(elAfter.value);
+                const minutesAfter = parse(elAfter?.value ?? 0.5);
                 const errors = parse(elErr.value);
                 const errorCost = parse(elErrCost.value);
 
