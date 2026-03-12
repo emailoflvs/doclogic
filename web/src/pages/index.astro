@@ -24,6 +24,39 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
     />
     <link rel="icon" href="/assets/favicon.svg" />
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ELPJTJDBJ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-2ELPJTJDBJ');
+
+      window.dlTrack = function (eventName, params = {}) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', eventName, params);
+        }
+      };
+
+      window.dlAttributionStorageKey = 'dl_attribution_v1';
+
+      window.dlReadAttribution = function () {
+        try {
+          return JSON.parse(localStorage.getItem(window.dlAttributionStorageKey) || '{}') || {};
+        } catch {
+          return {};
+        }
+      };
+
+      window.dlWriteAttribution = function (value) {
+        try {
+          localStorage.setItem(window.dlAttributionStorageKey, JSON.stringify(value || {}));
+        } catch {}
+      };
+
+      window.dlGetAttribution = window.dlReadAttribution;
+    </script>
+
     <style is:global>
       .nav-link {
         position: relative;
@@ -63,7 +96,15 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
           <a class="nav-link hover:text-slate-900" href="#faq">FAQ</a>
         </nav>
 
-        <a class="btn btn-primary hidden sm:inline-flex" href="#request">Проверить 5 документов</a>
+        <a
+          class="btn btn-primary hidden sm:inline-flex"
+          href="#request"
+          data-ga-event="cta_click"
+          data-ga-placement="header"
+          data-ga-label="Проверить 5 документов"
+        >
+          Проверить 5 документов
+        </a>
       </div>
     </header>
 
@@ -96,7 +137,15 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               </div>
 
               <div class="mt-8 flex flex-wrap gap-3">
-                <a class="btn btn-primary" href="#request">Проверить 5 документов</a>
+                <a
+                  class="btn btn-primary"
+                  href="#request"
+                  data-ga-event="cta_click"
+                  data-ga-placement="hero"
+                  data-ga-label="Проверить 5 документов"
+                >
+                  Проверить 5 документов
+                </a>
               </div>
             </div>
 
@@ -126,7 +175,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                     <iframe
                       id="hero-video-iframe"
                       class="absolute inset-0 hidden h-full w-full"
-                      data-src={`https://www.youtube.com/embed/${fallbackYoutubeId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3`}
+                      data-src={`https://www.youtube.com/embed/${fallbackYoutubeId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`}
                       title="Видео: как работает DocLogic"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowfullscreen
@@ -259,8 +308,16 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               </details>
 -->
               <div class="mt-5 flex flex-wrap gap-3">
-                <a href="#request" class="btn btn-primary">Получить точный расчёт и демо</a>
-                <button id="roi_reset" type="button" class="btn btn-secondary">Вернуть пример</button>
+                <a
+                  href="#request"
+                  class="btn btn-primary"
+                  data-ga-event="cta_click"
+                  data-ga-placement="roi"
+                  data-ga-label="Получить точный расчёт и демо"
+                >
+                  Получить точный расчёт и демо
+                </a>
+                <!-- <button id="roi_reset" type="button" class="btn btn-secondary">Вернуть пример</button> -->
               </div>
             </Card>
 
@@ -274,27 +331,30 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
                   <div class="text-sm font-semibold text-slate-600">
                   Экономия времени</div>
-                  <div id="roi_out_hours" class="mt-1 text-2xl font-bold">
-                  —</div>
-                  <div class="mt-1 text-xs text-slate-500">часов<span class="whitespace-nowrap"> / мес</span></div>
+                  <div class="mt-1 text-2xl font-bold">
+                    <span id="roi_out_hours">—</span><span class="text-xs font-normal text-slate-500 whitespace-nowrap"> часов / мес</span>
+                  </div>
                 </div>
 
                 <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
                   <div class="text-sm font-semibold text-slate-600">Экономия на ручной обработке</div>
-                  <div id="roi_out_labor" class="mt-1 text-2xl font-bold">—</div>
-                  <div class="mt-1 text-xs text-slate-500"><span class="whitespace-nowrap">€/мес</span></div>
+                  <div class="mt-1 text-2xl font-bold">
+                    <span id="roi_out_labor">—</span><span class="text-xs font-normal text-slate-500 whitespace-nowrap"> / мес</span>
+                  </div>
                 </div>
 
                 <div class="rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
                   <div class="text-sm font-semibold text-slate-600">Экономия на ошибках</div>
-                  <div id="roi_out_errors" class="mt-1 text-2xl font-bold">—</div>
-                  <div class="mt-1 text-xs text-slate-500"><span class="whitespace-nowrap">€/мес</span></div>
+                  <div class="mt-1 text-2xl font-bold">
+                    <span id="roi_out_errors">—</span><span class="text-xs font-normal text-slate-500 whitespace-nowrap"> / мес</span>
+                  </div>
                 </div>
 
                 <div class="rounded-2xl bg-slate-900 p-4 text-white">
                   <div class="text-sm font-semibold text-white/70">Итого потенциальная выгода</div>
-                  <div id="roi_out_total" class="mt-1 text-3xl font-bold">—</div>
-                  <div class="mt-1 text-xs text-white/70"><span class="whitespace-nowrap">€/мес</span></div>
+                  <div class="mt-1 text-3xl font-bold">
+                    <span id="roi_out_total">—</span><span class="text-xs font-normal text-white/70 whitespace-nowrap"> / мес</span>
+                  </div>
                 </div>
 
                 <div class="roi-highlight">
@@ -567,11 +627,6 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
         </Container>
       </Section>
 
-
-
-
-
-
       <Section id="pricing" padding="small">
         <Container>
           <h2 class="h2">Цена и окупаемость</h2>
@@ -585,7 +640,6 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               <p class="p mt-2 text-sm text-slate-700">
                Стоимость зависит от сложности необходимой настройки.
                <br> Запуск под Ваши документы, поля, правила и формат выгрузки.
-               <br> Первый результат показываем ещё на демо при первой встрече.
                <br> Срок запуска от 2 рабочих дней. 
                Он зависит от Ваших требований, правил обработки и формата выгрузки.
               </p>
@@ -650,10 +704,22 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               <Card>
                 <div class="text-lg font-semibold">Контакты</div>
                 <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm text-slate-700">
-                  <div><b>Локация</b>:Братислава, Словакия</div>
-                  <div><b>Email</b>: info@doclogic.eu</div>
-                  <div><b>Телефон и мессенджеры</b><br />+421 911 705 770<br />+380 50 361 2699</div>
-                  <div><b>Telegram</b><br />@lyubimov_v</div>
+                  <div><b>Локация</b>: Братислава, Словакия</div>
+                  <div>
+                    <b>Email</b>:<br />
+                    <a href="mailto:info@doclogic.eu" class="hover:text-slate-900 underline underline-offset-2">info@doclogic.eu</a>
+                  </div>
+                  <div>
+                    <b>Телефон и мессенджеры</b><br />
+                    <a href="tel:+421911705770" class="hover:text-slate-900 underline underline-offset-2">+421 911 705 770</a><br />
+                    <a href="tel:+380503612699" class="hover:text-slate-900 underline underline-offset-2">+380 50 361 2699</a>
+                  </div>
+                  <div>
+                    <b>Telegram</b><br />
+                    <a href="https://t.me/lyubimov_v" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 underline underline-offset-2">
+                      @lyubimov_v
+                    </a>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -696,17 +762,46 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 </ul>
 
                 <div class="mt-4 flex flex-wrap gap-3">
-                  <a class="btn btn-white-outline" href="https://t.me/lyubimov_v" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+                  <a
+                    class="btn btn-white-outline"
+                    href="https://t.me/lyubimov_v"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-ga-event="telegram_click"
+                    data-ga-placement="request_section"
+                    data-ga-label="Написать в Telegram"
+                  >
+                    Написать в Telegram
+                  </a>
 
-                <!--  
-                  <a class="btn btn-white-outline" href="https://wa.me/421911705770" 
-                  target="_blank" rel="noopener noreferrer">Написать в WhatsApp</a>
-                -->
+                  <a
+                    class="btn btn-white-outline"
+                    href="https://wa.me/421911705770"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-ga-event="whatsapp_click"
+                    data-ga-placement="request_section"
+                    data-ga-label="Написать в WhatsApp"
+                  >
+                    Написать в WhatsApp
+                  </a>
                 </div>
               </div>
 
               <form id="leadForm" class="rounded-3xl bg-white text-slate-900 p-6 md:p-7" enctype="multipart/form-data">
                 <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;" aria-hidden="true" />
+
+                <input type="hidden" id="utm_source" name="utm_source" />
+                <input type="hidden" id="utm_medium" name="utm_medium" />
+                <input type="hidden" id="utm_campaign" name="utm_campaign" />
+                <input type="hidden" id="utm_content" name="utm_content" />
+                <input type="hidden" id="utm_term" name="utm_term" />
+                <input type="hidden" id="gclid" name="gclid" />
+                <input type="hidden" id="fbclid" name="fbclid" />
+                <input type="hidden" id="msclkid" name="msclkid" />
+                <input type="hidden" id="yclid" name="yclid" />
+                <input type="hidden" id="landing_page" name="landing_page" />
+                <input type="hidden" id="referrer_host" name="referrer_host" />
 
                 <div class="text-lg font-semibold">Контакты</div>
                 <p class="mt-1 text-sm text-slate-600">Оставьте имя и любой контакт. Примеры документов — по желанию.</p>
@@ -847,9 +942,128 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
     </main>
 
     <div class="mobile-cta-bar md:hidden">
-      <a class="btn btn-primary w-full" href="#request">Проверить 5 документов</a>
+      <a
+        class="btn btn-primary w-full"
+        href="#request"
+        data-ga-event="cta_click"
+        data-ga-placement="mobile_bar"
+        data-ga-label="Проверить 5 документов"
+      >
+        Проверить 5 документов
+      </a>
     </div>
 
+    <script is:inline>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'msclkid', 'yclid'];
+        const current = window.dlReadAttribution?.() || {};
+        let changed = false;
+
+        keys.forEach((key) => {
+          const value = (params.get(key) || '').trim();
+          if (value && current[key] !== value) {
+            current[key] = value;
+            changed = true;
+          }
+        });
+
+        if (!current.landing_page) {
+          current.landing_page = window.location.pathname + window.location.search;
+          changed = true;
+        }
+
+        if (!current.referrer_host && document.referrer) {
+          try {
+            current.referrer_host = new URL(document.referrer).hostname;
+            changed = true;
+          } catch {}
+        }
+
+        if (changed) {
+          window.dlWriteAttribution?.(current);
+        }
+
+        const hiddenFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'msclkid', 'yclid', 'landing_page', 'referrer_host'];
+        hiddenFields.forEach((key) => {
+          const input = document.getElementById(key);
+          if (input) {
+            input.value = current[key] || '';
+          }
+        });
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        const resolvePlacement = (el) => {
+          return (
+            el.dataset.gaPlacement ||
+            el.closest('section[id]')?.id ||
+            el.closest('[id]')?.id ||
+            'unknown'
+          );
+        };
+
+        document.querySelectorAll('[data-ga-event]').forEach((el) => {
+          el.addEventListener('click', () => {
+            window.dlTrack?.(el.dataset.gaEvent, {
+              placement: resolvePlacement(el),
+              label: el.dataset.gaLabel || el.textContent?.trim() || ''
+            });
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a');
+          if (!link) return;
+          if (link.dataset.gaEvent) return;
+
+          const href = link.getAttribute('href') || '';
+          const placement = resolvePlacement(link);
+          const label = link.textContent?.trim() || href;
+
+          if (href.startsWith('mailto:')) {
+            window.dlTrack?.('email_click', {
+              placement,
+              label: href.replace('mailto:', '')
+            });
+            return;
+          }
+
+          if (href.startsWith('tel:')) {
+            window.dlTrack?.('phone_click', {
+              placement,
+              label: href.replace('tel:', '')
+            });
+            return;
+          }
+
+          if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(href)) {
+            window.dlTrack?.('whatsapp_click', {
+              placement,
+              label
+            });
+            return;
+          }
+
+          if (/t\.me\/|telegram\.me\//i.test(href)) {
+            window.dlTrack?.('telegram_click', {
+              placement,
+              label
+            });
+            return;
+          }
+
+          if (/\.(pdf|doc|docx|xls|xlsx|csv|zip)(\?|#|$)/i.test(href)) {
+            window.dlTrack?.('download_click', {
+              placement,
+              label: href
+            });
+          }
+        });
+      })();
+    </script>
 
     <script is:inline>
       (function () {
@@ -858,6 +1072,11 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
         if (!trigger || !iframe) return;
 
         trigger.addEventListener('click', () => {
+          window.dlTrack?.('hero_video_open', {
+            placement: 'hero',
+            video_id: 'D0UoSqo5kzo'
+          });
+
           const src = iframe.getAttribute('data-src');
           if (src && !iframe.getAttribute('src')) iframe.setAttribute('src', src);
           iframe.classList.remove('hidden');
@@ -906,6 +1125,82 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
     </script>
 
     <script is:inline>
+      (function () {
+        let tracked = false;
+
+        const ids = ['roi_docs', 'roi_minutes', 'roi_rate', 'roi_errors', 'roi_error_cost', 'roi_after'];
+        const els = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+        els.forEach((el) => {
+          el.addEventListener('input', () => {
+            if (tracked) return;
+            tracked = true;
+            window.dlTrack?.('roi_interaction', {
+              placement: 'roi_section'
+            });
+          }, { once: true });
+        });
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        document.querySelectorAll('#faq details').forEach((item) => {
+          item.addEventListener('toggle', () => {
+            if (!item.open) return;
+            const question = item.querySelector('summary span')?.textContent?.trim() || 'FAQ';
+            window.dlTrack?.('faq_open', {
+              faq_question: question
+            });
+          });
+        });
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        let sent = false;
+
+        const onScroll = () => {
+          if (sent) return;
+
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - window.innerHeight;
+          if (max <= 0) return;
+
+          const depth = ((window.scrollY || doc.scrollTop) / max) * 100;
+          if (depth >= 50) {
+            sent = true;
+            window.dlTrack?.('scroll_50', {
+              page_path: window.location.pathname
+            });
+            window.removeEventListener('scroll', onScroll);
+          }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        const form = document.getElementById('leadForm');
+        if (!form) return;
+
+        let started = false;
+        form.addEventListener('focusin', () => {
+          if (started) return;
+          started = true;
+          window.dlTrack?.('lead_form_start', {
+            form_id: 'leadForm',
+            placement: 'request_section'
+          });
+        });
+      })();
+    </script>
+
+    <script is:inline>
       const form = document.getElementById('leadForm');
       const msg = document.getElementById('formMsg');
       const submitBtn = document.getElementById('submitBtn');
@@ -918,6 +1213,11 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
         const phone = (document.getElementById('phone')?.value || '').trim();
 
         if (!email && !phone) {
+          window.dlTrack?.('lead_validation_error', {
+            form_id: 'leadForm',
+            reason: 'missing_contact'
+          });
+
           msg.textContent = 'Укажите email или телефон — любой контакт подходит.';
           msg.className = 'small mt-3 text-red-600';
           return;
@@ -931,6 +1231,40 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
 
         const fd = new FormData(form);
 
+        const redirectToThanks = () => {
+          window.location.href = '/thanks';
+        };
+
+        const sendLeadAndRedirect = () => {
+          const attribution = window.dlGetAttribution?.() || {};
+          sessionStorage.setItem('dl_lead_pending', '1');
+
+          if (typeof window.gtag !== 'function') {
+            redirectToThanks();
+            return;
+          }
+
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            redirectToThanks();
+          };
+
+          window.gtag('event', 'generate_lead', {
+            form_id: 'leadForm',
+            lead_type: 'demo_request',
+            utm_source: attribution.utm_source || '',
+            utm_medium: attribution.utm_medium || '',
+            utm_campaign: attribution.utm_campaign || '',
+            landing_page: attribution.landing_page || window.location.pathname,
+            referrer_host: attribution.referrer_host || '',
+            event_callback: finish
+          });
+
+          setTimeout(finish, 800);
+        };
+
         try {
           const res = await fetch('/api/lead', { method: 'POST', body: fd });
           if (!res.ok) throw new Error(await res.text());
@@ -943,19 +1277,31 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
           const criticalAllSkipped = criticalResults.length > 0 && criticalResults.every(r => r.skipped && !r.ok);
 
           if (criticalHasErrors) {
+            window.dlTrack?.('lead_notification_error', {
+              form_id: 'leadForm'
+            });
+
             msg.textContent = 'Запрос отправлен, но возникли ошибки при уведомлении. Проверьте логи сервера.';
             msg.className = 'small mt-3 text-yellow-600';
           } else if (criticalAllSkipped) {
+            window.dlTrack?.('lead_notification_skipped', {
+              form_id: 'leadForm'
+            });
+
             msg.textContent = 'Запрос отправлен. Уведомления не настроены.';
             msg.className = 'small mt-3 text-yellow-600';
           } else if (criticalHasSuccess) {
-            window.location.href = '/thanks/';
+            sendLeadAndRedirect();
             return;
           } else {
-            window.location.href = '/thanks/';
+            sendLeadAndRedirect();
             return;
           }
         } catch (err) {
+          window.dlTrack?.('lead_submit_error', {
+            form_id: 'leadForm'
+          });
+
           msg.textContent = 'Не удалось отправить. Проверьте соединение и попробуйте ещё раз.';
           msg.className = 'small mt-3 text-red-600';
           console.error('Ошибка отправки:', err);

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 const year = new Date().getFullYear();
 ---
+
 <!doctype html>
 <html lang="ru">
   <head>
@@ -10,7 +11,31 @@ const year = new Date().getFullYear();
     <title>Запрос получен — DocLogic</title>
     <meta name="description" content="Спасибо! Мы получили запрос и свяжемся с вами в ближайшее время." />
     <link rel="icon" href="/assets/favicon.svg" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ELPJTJDBJ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-2ELPJTJDBJ');
+
+      window.dlTrack = function (eventName, params = {}) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', eventName, params);
+        }
+      };
+
+      window.dlGetAttribution = function () {
+        try {
+          return JSON.parse(localStorage.getItem('dl_attribution_v1') || '{}') || {};
+        } catch {
+          return {};
+        }
+      };
+    </script>
   </head>
+
   <body class="min-h-screen bg-slate-50 text-slate-900">
     <div class="mx-auto max-w-3xl px-6 py-16">
       <a href="/" class="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900">
@@ -24,14 +49,140 @@ const year = new Date().getFullYear();
           Спасибо! Мы получили ваши данные и свяжемся по указанному контакту.
         </p>
 
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a href="/" class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-white font-semibold shadow-sm hover:bg-slate-800">
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-white font-semibold shadow-sm hover:bg-slate-800"
+            data-ga-event="thank_you_return_click"
+            data-ga-placement="thanks"
+            data-ga-label="Вернуться на сайт"
+          >
             Вернуться на сайт
+          </a>
+
+          <a
+            href="https://t.me/lyubimov_v"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold hover:bg-slate-50"
+            data-ga-event="telegram_click"
+            data-ga-placement="thanks"
+            data-ga-label="Написать в Telegram"
+          >
+            Написать в Telegram
+          </a>
+
+          <a
+            href="https://wa.me/421911705770"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold hover:bg-slate-50"
+            data-ga-event="whatsapp_click"
+            data-ga-placement="thanks"
+            data-ga-label="Написать в WhatsApp"
+          >
+            Написать в WhatsApp
+          </a>
+
+          <a
+            href="mailto:info@doclogic.eu"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold hover:bg-slate-50"
+          >
+            Написать на email
+          </a>
+
+          <a
+            href="tel:+421911705770"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold hover:bg-slate-50 sm:col-span-2"
+          >
+            Позвонить: +421 911 705 770
           </a>
         </div>
 
         <p class="mt-6 text-xs text-slate-500">© {year} DocLogic</p>
       </div>
     </div>
+
+    <script is:inline>
+      (function () {
+        const resolvePlacement = (el) => {
+          return (
+            el.dataset.gaPlacement ||
+            el.closest('section[id]')?.id ||
+            el.closest('[id]')?.id ||
+            'thanks'
+          );
+        };
+
+        document.querySelectorAll('[data-ga-event]').forEach((el) => {
+          el.addEventListener('click', () => {
+            window.dlTrack?.(el.dataset.gaEvent, {
+              placement: resolvePlacement(el),
+              label: el.dataset.gaLabel || el.textContent?.trim() || ''
+            });
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a');
+          if (!link) return;
+          if (link.dataset.gaEvent) return;
+
+          const href = link.getAttribute('href') || '';
+          const placement = resolvePlacement(link);
+          const label = link.textContent?.trim() || href;
+
+          if (href.startsWith('mailto:')) {
+            window.dlTrack?.('email_click', {
+              placement,
+              label: href.replace('mailto:', '')
+            });
+            return;
+          }
+
+          if (href.startsWith('tel:')) {
+            window.dlTrack?.('phone_click', {
+              placement,
+              label: href.replace('tel:', '')
+            });
+            return;
+          }
+
+          if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(href)) {
+            window.dlTrack?.('whatsapp_click', {
+              placement,
+              label
+            });
+            return;
+          }
+
+          if (/t\.me\/|telegram\.me\//i.test(href)) {
+            window.dlTrack?.('telegram_click', {
+              placement,
+              label
+            });
+          }
+        });
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        if (sessionStorage.getItem('dl_lead_pending') !== '1') return;
+
+        const attribution = window.dlGetAttribution?.() || {};
+
+        window.dlTrack?.('lead_thankyou_view', {
+          lead_type: 'demo_request',
+          utm_source: attribution.utm_source || '',
+          utm_medium: attribution.utm_medium || '',
+          utm_campaign: attribution.utm_campaign || '',
+          landing_page: attribution.landing_page || '',
+          referrer_host: attribution.referrer_host || ''
+        });
+
+        sessionStorage.removeItem('dl_lead_pending');
+      })();
+    </script>
   </body>
 </html>
