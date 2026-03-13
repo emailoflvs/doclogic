@@ -15,7 +15,7 @@ const paddingClasses = {
 };
 ---
 
-<section id={id} class={`${paddingClasses[padding]} ${className}`}>
+<section id={id} class={`${paddingClasses[padding]} ${className}${id ? ' scroll-mt-20' : ''}`}>
   <slot />
 </section>
 
