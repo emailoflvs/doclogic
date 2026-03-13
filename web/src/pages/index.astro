@@ -101,9 +101,9 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
           href="#request"
           data-ga-event="cta_click"
           data-ga-placement="header"
-          data-ga-label="Проверить 5 документов"
+          data-ga-label="Протестировать программу"
         >
-          Проверить 5 документов
+          Протестировать программу
         </a>
       </div>
     </header>
@@ -197,7 +197,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 </div>
                 <div class="rounded-2xl bg-slate-900 p-4 text-white shadow-soft">
                   <div class="text-xs font-semibold uppercase tracking-wide text-white/70">Потенциал выгоды</div>
-                  <div class="mt-1 text-2xl font-bold">~803 <span class="whitespace-nowrap">€ / мес</span></div>
+                  <div class="mt-1 text-2xl font-bold">~603 <span class="whitespace-nowrap">€ / мес</span></div>
                   </div>
               </div>
             </div>
@@ -362,13 +362,9 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                   <div class="mt-1 text-3xl font-bold">
                     <span id="roi_out_total">—</span><span class="text-xs font-normal text-white/70 whitespace-nowrap"> / мес</span>
                   </div>
-                </div>
-
-                <div class="roi-highlight">
-                  <div class="text-sm font-semibold uppercase tracking-wide text-emerald-800">
-                  Обычно окупается уже в первый месяц</div>
-                  <div id="roi_msg" class="mt-2 text-base font-medium text-slate-900">
-                  Расчёт обновится автоматически.</div>
+                  <p class="mt-2 text-sm text-white/70">
+                    <a href="#hidden-losses" class="underline hover:text-white">Потери, которых здесь не видно</a>
+                  </p>
                 </div>
               </div>
             </Card>
@@ -400,7 +396,6 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               const outLabor = $('roi_out_labor');
               const outErrors = $('roi_out_errors');
               const outTotal = $('roi_out_total');
-              const outMsg = $('roi_msg');
 
               const fmtEur = new Intl.NumberFormat('ru-RU', {
                 style: 'currency',
@@ -431,7 +426,6 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                   outLabor.textContent = '—';
                   outErrors.textContent = '—';
                   outTotal.textContent = '—';
-                  outMsg.textContent = 'Введите корректные цифры — и расчёт обновится автоматически.';
                   return;
                 }
 
@@ -442,20 +436,11 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 const totalEur = laborEur + errorsEur;
                 const monthlyCost = Number.isFinite(parse(elMonthlyCost?.value)) ? Math.max(0, parse(elMonthlyCost.value)) : 0;
                 const netEur = totalEur - monthlyCost;
-                const manualHours = (docs * minutesManual) / 60;
 
                 outHours.textContent = fmtNum.format(hoursSaved);
                 outLabor.textContent = fmtEur.format(laborEur);
                 outErrors.textContent = fmtEur.format(errorsEur);
                 outTotal.textContent = fmtEur.format(netEur);
-
-                if (manualHours < 15) {
-                  outMsg.textContent = 'Даже при умеренном потоке документов Вы снимаете часть рутины и уменьшаете число ошибок.';
-                } else if (manualHours < 40) {
-                  outMsg.textContent = 'При такой нагрузке DocLogic обычно окупается уже в первый месяц за счёт экономии времени и снижения ручной рутины.';
-                } else {
-                  outMsg.textContent = 'При такой нагрузке эффект обычно максимальный: освобождаются десятки часов в месяц и снижается нагрузка на команду.';
-                }
               };
 
               [elDocs, elMin, elRate, elAfter, elErr, elErrCost, elMonthlyCost].forEach((el) => el?.addEventListener('input', update));
@@ -964,9 +949,9 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
         href="#request"
         data-ga-event="cta_click"
         data-ga-placement="mobile_bar"
-        data-ga-label="Проверить 5 документов"
+        data-ga-label="Протестировать программу"
       >
-        Проверить 5 документов
+        Протестировать программу
       </a>
     </div>
 
