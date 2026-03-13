@@ -139,12 +139,12 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               <div class="mt-8 flex flex-wrap gap-3">
                 <a
                   class="btn btn-primary"
-                  href="#request"
+                  href="#roi"
                   data-ga-event="cta_click"
                   data-ga-placement="hero"
-                  data-ga-label="Проверить 5 документов"
+                  data-ga-label="Калькулятор расходов"
                 >
-                  Проверить 5 документов
+                  Калькулятор расходов
                 </a>
               </div>
             </div>
@@ -288,6 +288,12 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                   class="mt-2 w-full rounded-2xl border 
                   border-slate-200 bg-white px-4 py-3 text-sm" value="30" />
                 </div>
+
+                <div class="sm:col-span-2">
+                  <label class="text-sm font-medium" for="roi_monthly_cost">Стоимость DocLogic, €/мес</label>
+                  <input id="roi_monthly_cost" inputmode="numeric" 
+                  class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm" value="200" />
+                </div>
               </div>
 <!--
               <details class="mt-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4">
@@ -352,7 +358,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 </div>
 
                 <div class="rounded-2xl bg-slate-900 p-4 text-white">
-                  <div class="text-sm font-semibold text-white/70">Итого потенциальная выгода</div>
+                  <div class="text-sm font-semibold text-white/70">Чистая выгода</div>
                   <div class="mt-1 text-3xl font-bold">
                     <span id="roi_out_total">—</span><span class="text-xs font-normal text-white/70 whitespace-nowrap"> / мес</span>
                   </div>
@@ -376,7 +382,8 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 rate: '18',
                 after: '0.5',
                 errors: '6',
-                errorCost: '45'
+                errorCost: '45',
+                monthlyCost: '200'
               };
 
               const $ = (id) => document.getElementById(id);
@@ -386,6 +393,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               const elAfter = $('roi_after');
               const elErr = $('roi_errors');
               const elErrCost = $('roi_error_cost');
+              const elMonthlyCost = $('roi_monthly_cost');
               const btnReset = $('roi_reset');
 
               const outHours = $('roi_out_hours');
@@ -432,12 +440,14 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 const laborEur = hoursSaved * rate;
                 const errorsEur = Number.isFinite(errors) && Number.isFinite(errorCost) ? Math.max(0, errors) * Math.max(0, errorCost) : 0;
                 const totalEur = laborEur + errorsEur;
+                const monthlyCost = Number.isFinite(parse(elMonthlyCost?.value)) ? Math.max(0, parse(elMonthlyCost.value)) : 0;
+                const netEur = totalEur - monthlyCost;
                 const manualHours = (docs * minutesManual) / 60;
 
                 outHours.textContent = fmtNum.format(hoursSaved);
                 outLabor.textContent = fmtEur.format(laborEur);
                 outErrors.textContent = fmtEur.format(errorsEur);
-                outTotal.textContent = fmtEur.format(totalEur);
+                outTotal.textContent = fmtEur.format(netEur);
 
                 if (manualHours < 15) {
                   outMsg.textContent = 'Даже при умеренном потоке документов Вы снимаете часть рутины и уменьшаете число ошибок.';
@@ -448,7 +458,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 }
               };
 
-              [elDocs, elMin, elRate, elAfter, elErr, elErrCost].forEach((el) => el?.addEventListener('input', update));
+              [elDocs, elMin, elRate, elAfter, elErr, elErrCost, elMonthlyCost].forEach((el) => el?.addEventListener('input', update));
 
               btnReset?.addEventListener('click', () => {
                 elDocs.value = defaults.docs;
@@ -457,6 +467,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                 elAfter.value = defaults.after;
                 elErr.value = defaults.errors;
                 elErrCost.value = defaults.errorCost;
+                if (elMonthlyCost) elMonthlyCost.value = defaults.monthlyCost;
                 update();
               });
 
@@ -1134,7 +1145,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
       (function () {
         let tracked = false;
 
-        const ids = ['roi_docs', 'roi_minutes', 'roi_rate', 'roi_errors', 'roi_error_cost', 'roi_after'];
+        const ids = ['roi_docs', 'roi_minutes', 'roi_rate', 'roi_errors', 'roi_error_cost', 'roi_after', 'roi_monthly_cost'];
         const els = ids.map(id => document.getElementById(id)).filter(Boolean);
 
         els.forEach((el) => {
