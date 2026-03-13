@@ -366,11 +366,12 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
                     <span id="roi_out_total">
                     —</span><span class="text-xs 
                     font-normal text-white/70 
-                    whitespace-nowrap"> / мес</span>
+                    whitespace-nowrap"> / мес. </span>
                   </div>
-                  <p class="mt-2 text-sm text-white/70">
-                    <a href="#hidden-losses" class="underline text-white font-semibold hover:opacity-90">Потери, которых здесь не видно</a>
-                  </p>
+                  <span class="mt-2 text-sm text-white/70">
+                    <a href="#hidden-losses" class="underline text-white font-semibold hover:opacity-90">
+                    Потери, которых здесь не видно</a>
+                  </span>
                 </div>
               </div>
             </Card>
@@ -632,7 +633,7 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
 
       <Section id="about" padding="small">
         <Container>
-          <FlexGrid cols={2} gap="lg" items="start" class="lg:grid-cols-[0.28fr,0.72fr]">
+          <FlexGrid cols={2} gap="md" items="start" class="lg:grid-cols-[auto_1fr]">
             <div>
               <img src="/assets/founder-vladimir.png" 
               alt="Владимир Любимов, основатель проекта DocLogic" 
@@ -640,48 +641,46 @@ const fallbackYoutubeId = 'D0UoSqo5kzo';
               shadow-soft ring-1 ring-slate-200 bg-white" loading="lazy" />
             </div>
 
-            <div class="space-y-5">
-              <div>
-                <h2 class="h2">О нас</h2>
-                <p class="p mt-3 text-base">
-                  <b>Владимир Любимов</b> — основатель проекта DocLogic.
-                  <b> 20 лет опыта</b> в международной торговле, производстве и IT-бизнесе.
-                  Создатель нескольких CRM- и ERP-решений под реальные операционные процессы компаний.
-                </p>
-                <p class="p mt-3 text-base">
-                  DocLogic создан как практический инструмент для компаний, где ручной ввод входящих документов
-                  отнимает время, создаёт ошибки и тормозит операционку.
-                </p>
-              </div>
-
-              <Card>
-                <div class="text-lg font-semibold">Контакты</div>
-                <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm text-slate-700">
-                  <div><b>Локация</b>: Братислава, Словакия
-                  <br>
-                  <b>Работаем по всей Европе.</b>
-                  </div>
-                  <div>
-                    <b>Email</b>:<br />
-                    <a href="mailto:info@doclogic.eu" class="hover:text-slate-900 underline underline-offset-2">info@doclogic.eu</a>
-                  </div>
-                  <div>
-                    <b>Телефон и мессенджеры</b><br />
-                    <a href="tel:+421911705770" class="hover:text-slate-900 underline underline-offset-2">
-                    +421 911 705 770</a><br />
-                    <a href="tel:+380503612699" class="hover:text-slate-900 underline underline-offset-2">
-                    +380 50 361 26 99</a> (Telegram, WhatsApp, Viber)
-                  </div>
-                  <div>
-                    <b>Telegram</b><br />
-                    <a href="https://t.me/lyubimov_v" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 underline underline-offset-2">
-                      @lyubimov_v
-                    </a>
-                  </div>
-                </div>
-              </Card>
+            <div>
+              <h2 class="h2">О нас</h2>
+              <p class="p mt-3 text-base">
+                <b>Владимир Любимов</b> — основатель проекта DocLogic.
+                <b> 20 лет опыта</b> в международной торговле, производстве и IT-бизнесе.
+                Создатель нескольких CRM- и ERP-решений под реальные операционные процессы компаний.
+              </p>
+              <p class="p mt-3 text-base">
+                DocLogic создан как практический инструмент для компаний, где ручной ввод входящих документов
+                отнимает время, создаёт ошибки и тормозит операционку.
+              </p>
             </div>
           </FlexGrid>
+
+          <Card class="mt-6">
+            <div class="text-lg font-semibold">Контакты</div>
+            <div class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-sm text-slate-700">
+              <div><b>Локация</b>: Братислава, Словакия
+              <br>
+              <b>Работаем по всей Европе.</b>
+              </div>
+              <div>
+                <b>Email</b>:<br />
+                <a href="mailto:info@doclogic.eu" class="hover:text-slate-900 underline underline-offset-2">info@doclogic.eu</a>
+              </div>
+              <div>
+                <b>Телефон и мессенджеры</b><br />
+                <a href="tel:+421911705770" class="hover:text-slate-900 underline underline-offset-2">
+                +421 911 705 770</a><br />
+                <a href="tel:+380503612699" class="hover:text-slate-900 underline underline-offset-2">
+                +380 50 361 26 99</a> (Telegram, WhatsApp, Viber)
+              </div>
+              <div>
+                <b>Telegram</b><br />
+                <a href="https://t.me/lyubimov_v" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 underline underline-offset-2">
+                  @lyubimov_v
+                </a>
+              </div>
+            </div>
+          </Card>
         </Container>
       </Section>
 
