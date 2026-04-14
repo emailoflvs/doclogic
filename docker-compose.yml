@@ -6,11 +6,11 @@ services:
       args:
         YOUTUBE_VIDEO_ID: ${YOUTUBE_VIDEO_ID:-J7ey-rRqGoQ}
     ports:
-      - "8087:80"
+      - "8080:80"
     depends_on:
       - api
     restart: unless-stopped
-    container_name: doclogic_v7_web
+    container_name: doclogic
     networks:
       - doclogic_network
 
@@ -21,7 +21,7 @@ services:
     env_file:
       - ./api/.env
     restart: unless-stopped
-    container_name: doclogic_v7_api
+    container_name: doclogic_api
     networks:
       - doclogic_network
 
